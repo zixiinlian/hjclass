@@ -18,6 +18,7 @@ module.exports = {
 	},
 	output: {
 		path: './build',
+		publicPath: '/asset/',
 		filename: '[name].bundle.js'
 	},
 	module: {
@@ -26,7 +27,7 @@ module.exports = {
 	    	{test: /\.html$/,   loader: 'html'},
 		    // {test: require.resolve('jquery'), loader: 'expose?jQuery'},
       		{test: /\.scss$/, loader: 'style!css!autoprefixer!sass'},
-		    {test: /\.css$/, loader: 'style!css!autoprefixer' },
+		    {test: /\.css$/, loader: 'style!css' },
 		    {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'}
 	    ]
   	}
