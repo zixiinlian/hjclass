@@ -1,493 +1,37 @@
 /******/ (function(modules) { // webpackBootstrap
-/******/ 	var parentHotUpdateCallback = this["webpackHotUpdate"];
-/******/ 	this["webpackHotUpdate"] = 
-/******/ 	function webpackHotUpdateCallback(chunkId, moreModules) { // eslint-disable-line no-unused-vars
-/******/ 		hotAddUpdateChunk(chunkId, moreModules);
-/******/ 		if(parentHotUpdateCallback) parentHotUpdateCallback(chunkId, moreModules);
-/******/ 	}
-/******/ 	
-/******/ 	function hotDownloadUpdateChunk(chunkId) { // eslint-disable-line no-unused-vars
-/******/ 		var head = document.getElementsByTagName("head")[0];
-/******/ 		var script = document.createElement("script");
-/******/ 		script.type = "text/javascript";
-/******/ 		script.charset = "utf-8";
-/******/ 		script.src = __webpack_require__.p + "" + chunkId + "." + hotCurrentHash + ".hot-update.js";
-/******/ 		head.appendChild(script);
-/******/ 	}
-/******/ 	
-/******/ 	function hotDownloadManifest(callback) { // eslint-disable-line no-unused-vars
-/******/ 		if(typeof XMLHttpRequest === "undefined")
-/******/ 			return callback(new Error("No browser support"));
-/******/ 		try {
-/******/ 			var request = new XMLHttpRequest();
-/******/ 			var requestPath = __webpack_require__.p + "" + hotCurrentHash + ".hot-update.json";
-/******/ 			request.open("GET", requestPath, true);
-/******/ 			request.timeout = 10000;
-/******/ 			request.send(null);
-/******/ 		} catch(err) {
-/******/ 			return callback(err);
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	var parentJsonpFunction = window["webpackJsonp"];
+/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules) {
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, callbacks = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(installedChunks[chunkId])
+/******/ 				callbacks.push.apply(callbacks, installedChunks[chunkId]);
+/******/ 			installedChunks[chunkId] = 0;
 /******/ 		}
-/******/ 		request.onreadystatechange = function() {
-/******/ 			if(request.readyState !== 4) return;
-/******/ 			if(request.status === 0) {
-/******/ 				// timeout
-/******/ 				callback(new Error("Manifest request to " + requestPath + " timed out."));
-/******/ 			} else if(request.status === 404) {
-/******/ 				// no update available
-/******/ 				callback();
-/******/ 			} else if(request.status !== 200 && request.status !== 304) {
-/******/ 				// other failure
-/******/ 				callback(new Error("Manifest request to " + requestPath + " failed."));
-/******/ 			} else {
-/******/ 				// success
-/******/ 				try {
-/******/ 					var update = JSON.parse(request.responseText);
-/******/ 				} catch(e) {
-/******/ 					callback(e);
-/******/ 					return;
-/******/ 				}
-/******/ 				callback(null, update);
-/******/ 			}
-/******/ 		};
-/******/ 	}
-
-/******/ 	
-/******/ 	
-/******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "00a2a5eb9f8fec345e4f"; // eslint-disable-line no-unused-vars
-/******/ 	var hotCurrentModuleData = {};
-/******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
-/******/ 	
-/******/ 	function hotCreateRequire(moduleId) { // eslint-disable-line no-unused-vars
-/******/ 		var me = installedModules[moduleId];
-/******/ 		if(!me) return __webpack_require__;
-/******/ 		var fn = function(request) {
-/******/ 			if(me.hot.active) {
-/******/ 				if(installedModules[request]) {
-/******/ 					if(installedModules[request].parents.indexOf(moduleId) < 0)
-/******/ 						installedModules[request].parents.push(moduleId);
-/******/ 					if(me.children.indexOf(request) < 0)
-/******/ 						me.children.push(request);
-/******/ 				} else hotCurrentParents = [moduleId];
-/******/ 			} else {
-/******/ 				console.warn("[HMR] unexpected require(" + request + ") from disposed module " + moduleId);
-/******/ 				hotCurrentParents = [];
-/******/ 			}
-/******/ 			return __webpack_require__(request);
-/******/ 		};
-/******/ 		for(var name in __webpack_require__) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(__webpack_require__, name)) {
-/******/ 				fn[name] = __webpack_require__[name];
-/******/ 			}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			modules[moduleId] = moreModules[moduleId];
 /******/ 		}
-/******/ 		fn.e = function(chunkId, callback) {
-/******/ 			if(hotStatus === "ready")
-/******/ 				hotSetStatus("prepare");
-/******/ 			hotChunksLoading++;
-/******/ 			__webpack_require__.e(chunkId, function() {
-/******/ 				try {
-/******/ 					callback.call(null, fn);
-/******/ 				} finally {
-/******/ 					finishChunkLoading();
-/******/ 				}
-/******/ 				function finishChunkLoading() {
-/******/ 					hotChunksLoading--;
-/******/ 					if(hotStatus === "prepare") {
-/******/ 						if(!hotWaitingFilesMap[chunkId]) {
-/******/ 							hotEnsureUpdateChunk(chunkId);
-/******/ 						}
-/******/ 						if(hotChunksLoading === 0 && hotWaitingFiles === 0) {
-/******/ 							hotUpdateDownloaded();
-/******/ 						}
-/******/ 					}
-/******/ 				}
-/******/ 			});
-/******/ 		};
-/******/ 		return fn;
-/******/ 	}
-/******/ 	
-/******/ 	function hotCreateModule(moduleId) { // eslint-disable-line no-unused-vars
-/******/ 		var hot = {
-/******/ 			// private stuff
-/******/ 			_acceptedDependencies: {},
-/******/ 			_declinedDependencies: {},
-/******/ 			_selfAccepted: false,
-/******/ 			_selfDeclined: false,
-/******/ 			_disposeHandlers: [],
-/******/ 	
-/******/ 			// Module API
-/******/ 			active: true,
-/******/ 			accept: function(dep, callback) {
-/******/ 				if(typeof dep === "undefined")
-/******/ 					hot._selfAccepted = true;
-/******/ 				else if(typeof dep === "function")
-/******/ 					hot._selfAccepted = dep;
-/******/ 				else if(typeof dep === "object")
-/******/ 				for(var i = 0; i < dep.length; i++)
-/******/ 					hot._acceptedDependencies[dep[i]] = callback;
-/******/ 				else
-/******/ 					hot._acceptedDependencies[dep] = callback;
-/******/ 			},
-/******/ 			decline: function(dep) {
-/******/ 				if(typeof dep === "undefined")
-/******/ 					hot._selfDeclined = true;
-/******/ 				else if(typeof dep === "number")
-/******/ 					hot._declinedDependencies[dep] = true;
-/******/ 				else for(var i = 0; i < dep.length; i++)
-/******/ 					hot._declinedDependencies[dep[i]] = true;
-/******/ 			},
-/******/ 			dispose: function(callback) {
-/******/ 				hot._disposeHandlers.push(callback);
-/******/ 			},
-/******/ 			addDisposeHandler: function(callback) {
-/******/ 				hot._disposeHandlers.push(callback);
-/******/ 			},
-/******/ 			removeDisposeHandler: function(callback) {
-/******/ 				var idx = hot._disposeHandlers.indexOf(callback);
-/******/ 				if(idx >= 0) hot._disposeHandlers.splice(idx, 1);
-/******/ 			},
-/******/ 	
-/******/ 			// Management API
-/******/ 			check: hotCheck,
-/******/ 			apply: hotApply,
-/******/ 			status: function(l) {
-/******/ 				if(!l) return hotStatus;
-/******/ 				hotStatusHandlers.push(l);
-/******/ 			},
-/******/ 			addStatusHandler: function(l) {
-/******/ 				hotStatusHandlers.push(l);
-/******/ 			},
-/******/ 			removeStatusHandler: function(l) {
-/******/ 				var idx = hotStatusHandlers.indexOf(l);
-/******/ 				if(idx >= 0) hotStatusHandlers.splice(idx, 1);
-/******/ 			},
-/******/ 	
-/******/ 			//inherit from previous dispose call
-/******/ 			data: hotCurrentModuleData[moduleId]
-/******/ 		};
-/******/ 		return hot;
-/******/ 	}
-/******/ 	
-/******/ 	var hotStatusHandlers = [];
-/******/ 	var hotStatus = "idle";
-/******/ 	
-/******/ 	function hotSetStatus(newStatus) {
-/******/ 		hotStatus = newStatus;
-/******/ 		for(var i = 0; i < hotStatusHandlers.length; i++)
-/******/ 			hotStatusHandlers[i].call(null, newStatus);
-/******/ 	}
-/******/ 	
-/******/ 	// while downloading
-/******/ 	var hotWaitingFiles = 0;
-/******/ 	var hotChunksLoading = 0;
-/******/ 	var hotWaitingFilesMap = {};
-/******/ 	var hotRequestedFilesMap = {};
-/******/ 	var hotAvailibleFilesMap = {};
-/******/ 	var hotCallback;
-/******/ 	
-/******/ 	// The update info
-/******/ 	var hotUpdate, hotUpdateNewHash;
-/******/ 	
-/******/ 	function toModuleId(id) {
-/******/ 		return (+id) + "" === id ? +id : id;
-/******/ 	}
-/******/ 	
-/******/ 	function hotCheck(apply, callback) {
-/******/ 		if(hotStatus !== "idle") throw new Error("check() is only allowed in idle status");
-/******/ 		if(typeof apply === "function") {
-/******/ 			hotApplyOnUpdate = false;
-/******/ 			callback = apply;
-/******/ 		} else {
-/******/ 			hotApplyOnUpdate = apply;
-/******/ 			callback = callback || function(err) { if(err) throw err; };
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules);
+/******/ 		while(callbacks.length)
+/******/ 			callbacks.shift().call(null, __webpack_require__);
+/******/ 		if(moreModules[0]) {
+/******/ 			installedModules[0] = 0;
+/******/ 			return __webpack_require__(0);
 /******/ 		}
-/******/ 		hotSetStatus("check");
-/******/ 		hotDownloadManifest(function(err, update) {
-/******/ 			if(err) return callback(err);
-/******/ 			if(!update) {
-/******/ 				hotSetStatus("idle");
-/******/ 				callback(null, null);
-/******/ 				return;
-/******/ 			}
-/******/ 	
-/******/ 			hotRequestedFilesMap = {};
-/******/ 			hotAvailibleFilesMap = {};
-/******/ 			hotWaitingFilesMap = {};
-/******/ 			for(var i = 0; i < update.c.length; i++)
-/******/ 				hotAvailibleFilesMap[update.c[i]] = true;
-/******/ 			hotUpdateNewHash = update.h;
-/******/ 	
-/******/ 			hotSetStatus("prepare");
-/******/ 			hotCallback = callback;
-/******/ 			hotUpdate = {};
-/******/ 			var chunkId = 0; { // eslint-disable-line no-lone-blocks
-/******/ 				/*globals chunkId */
-/******/ 				hotEnsureUpdateChunk(chunkId);
-/******/ 			}
-/******/ 			if(hotStatus === "prepare" && hotChunksLoading === 0 && hotWaitingFiles === 0) {
-/******/ 				hotUpdateDownloaded();
-/******/ 			}
-/******/ 		});
-/******/ 	}
-/******/ 	
-/******/ 	function hotAddUpdateChunk(chunkId, moreModules) { // eslint-disable-line no-unused-vars
-/******/ 		if(!hotAvailibleFilesMap[chunkId] || !hotRequestedFilesMap[chunkId])
-/******/ 			return;
-/******/ 		hotRequestedFilesMap[chunkId] = false;
-/******/ 		for(var moduleId in moreModules) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-/******/ 				hotUpdate[moduleId] = moreModules[moduleId];
-/******/ 			}
-/******/ 		}
-/******/ 		if(--hotWaitingFiles === 0 && hotChunksLoading === 0) {
-/******/ 			hotUpdateDownloaded();
-/******/ 		}
-/******/ 	}
-/******/ 	
-/******/ 	function hotEnsureUpdateChunk(chunkId) {
-/******/ 		if(!hotAvailibleFilesMap[chunkId]) {
-/******/ 			hotWaitingFilesMap[chunkId] = true;
-/******/ 		} else {
-/******/ 			hotRequestedFilesMap[chunkId] = true;
-/******/ 			hotWaitingFiles++;
-/******/ 			hotDownloadUpdateChunk(chunkId);
-/******/ 		}
-/******/ 	}
-/******/ 	
-/******/ 	function hotUpdateDownloaded() {
-/******/ 		hotSetStatus("ready");
-/******/ 		var callback = hotCallback;
-/******/ 		hotCallback = null;
-/******/ 		if(!callback) return;
-/******/ 		if(hotApplyOnUpdate) {
-/******/ 			hotApply(hotApplyOnUpdate, callback);
-/******/ 		} else {
-/******/ 			var outdatedModules = [];
-/******/ 			for(var id in hotUpdate) {
-/******/ 				if(Object.prototype.hasOwnProperty.call(hotUpdate, id)) {
-/******/ 					outdatedModules.push(toModuleId(id));
-/******/ 				}
-/******/ 			}
-/******/ 			callback(null, outdatedModules);
-/******/ 		}
-/******/ 	}
-/******/ 	
-/******/ 	function hotApply(options, callback) {
-/******/ 		if(hotStatus !== "ready") throw new Error("apply() is only allowed in ready status");
-/******/ 		if(typeof options === "function") {
-/******/ 			callback = options;
-/******/ 			options = {};
-/******/ 		} else if(options && typeof options === "object") {
-/******/ 			callback = callback || function(err) { if(err) throw err; };
-/******/ 		} else {
-/******/ 			options = {};
-/******/ 			callback = callback || function(err) { if(err) throw err; };
-/******/ 		}
-/******/ 	
-/******/ 		function getAffectedStuff(module) {
-/******/ 			var outdatedModules = [module];
-/******/ 			var outdatedDependencies = {};
-/******/ 	
-/******/ 			var queue = outdatedModules.slice();
-/******/ 			while(queue.length > 0) {
-/******/ 				var moduleId = queue.pop();
-/******/ 				var module = installedModules[moduleId];
-/******/ 				if(!module || module.hot._selfAccepted)
-/******/ 					continue;
-/******/ 				if(module.hot._selfDeclined) {
-/******/ 					return new Error("Aborted because of self decline: " + moduleId);
-/******/ 				}
-/******/ 				if(moduleId === 0) {
-/******/ 					return;
-/******/ 				}
-/******/ 				for(var i = 0; i < module.parents.length; i++) {
-/******/ 					var parentId = module.parents[i];
-/******/ 					var parent = installedModules[parentId];
-/******/ 					if(parent.hot._declinedDependencies[moduleId]) {
-/******/ 						return new Error("Aborted because of declined dependency: " + moduleId + " in " + parentId);
-/******/ 					}
-/******/ 					if(outdatedModules.indexOf(parentId) >= 0) continue;
-/******/ 					if(parent.hot._acceptedDependencies[moduleId]) {
-/******/ 						if(!outdatedDependencies[parentId])
-/******/ 							outdatedDependencies[parentId] = [];
-/******/ 						addAllToSet(outdatedDependencies[parentId], [moduleId]);
-/******/ 						continue;
-/******/ 					}
-/******/ 					delete outdatedDependencies[parentId];
-/******/ 					outdatedModules.push(parentId);
-/******/ 					queue.push(parentId);
-/******/ 				}
-/******/ 			}
-/******/ 	
-/******/ 			return [outdatedModules, outdatedDependencies];
-/******/ 		}
-/******/ 		function addAllToSet(a, b) {
-/******/ 			for(var i = 0; i < b.length; i++) {
-/******/ 				var item = b[i];
-/******/ 				if(a.indexOf(item) < 0)
-/******/ 					a.push(item);
-/******/ 			}
-/******/ 		}
-/******/ 	
-/******/ 		// at begin all updates modules are outdated
-/******/ 		// the "outdated" status can propagate to parents if they don't accept the children
-/******/ 		var outdatedDependencies = {};
-/******/ 		var outdatedModules = [];
-/******/ 		var appliedUpdate = {};
-/******/ 		for(var id in hotUpdate) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(hotUpdate, id)) {
-/******/ 				var moduleId = toModuleId(id);
-/******/ 				var result = getAffectedStuff(moduleId);
-/******/ 				if(!result) {
-/******/ 					if(options.ignoreUnaccepted)
-/******/ 						continue;
-/******/ 					hotSetStatus("abort");
-/******/ 					return callback(new Error("Aborted because " + moduleId + " is not accepted"));
-/******/ 				}
-/******/ 				if(result instanceof Error) {
-/******/ 					hotSetStatus("abort");
-/******/ 					return callback(result);
-/******/ 				}
-/******/ 				appliedUpdate[moduleId] = hotUpdate[moduleId];
-/******/ 				addAllToSet(outdatedModules, result[0]);
-/******/ 				for(var moduleId in result[1]) {
-/******/ 					if(Object.prototype.hasOwnProperty.call(result[1], moduleId)) {
-/******/ 						if(!outdatedDependencies[moduleId])
-/******/ 							outdatedDependencies[moduleId] = [];
-/******/ 						addAllToSet(outdatedDependencies[moduleId], result[1][moduleId]);
-/******/ 					}
-/******/ 				}
-/******/ 			}
-/******/ 		}
-/******/ 	
-/******/ 		// Store self accepted outdated modules to require them later by the module system
-/******/ 		var outdatedSelfAcceptedModules = [];
-/******/ 		for(var i = 0; i < outdatedModules.length; i++) {
-/******/ 			var moduleId = outdatedModules[i];
-/******/ 			if(installedModules[moduleId] && installedModules[moduleId].hot._selfAccepted)
-/******/ 				outdatedSelfAcceptedModules.push({
-/******/ 					module: moduleId,
-/******/ 					errorHandler: installedModules[moduleId].hot._selfAccepted
-/******/ 				});
-/******/ 		}
-/******/ 	
-/******/ 		// Now in "dispose" phase
-/******/ 		hotSetStatus("dispose");
-/******/ 		var queue = outdatedModules.slice();
-/******/ 		while(queue.length > 0) {
-/******/ 			var moduleId = queue.pop();
-/******/ 			var module = installedModules[moduleId];
-/******/ 			if(!module) continue;
-/******/ 	
-/******/ 			var data = {};
-/******/ 	
-/******/ 			// Call dispose handlers
-/******/ 			var disposeHandlers = module.hot._disposeHandlers;
-/******/ 			for(var j = 0; j < disposeHandlers.length; j++) {
-/******/ 				var cb = disposeHandlers[j];
-/******/ 				cb(data);
-/******/ 			}
-/******/ 			hotCurrentModuleData[moduleId] = data;
-/******/ 	
-/******/ 			// disable module (this disables requires from this module)
-/******/ 			module.hot.active = false;
-/******/ 	
-/******/ 			// remove module from cache
-/******/ 			delete installedModules[moduleId];
-/******/ 	
-/******/ 			// remove "parents" references from all children
-/******/ 			for(var j = 0; j < module.children.length; j++) {
-/******/ 				var child = installedModules[module.children[j]];
-/******/ 				if(!child) continue;
-/******/ 				var idx = child.parents.indexOf(moduleId);
-/******/ 				if(idx >= 0) {
-/******/ 					child.parents.splice(idx, 1);
-/******/ 				}
-/******/ 			}
-/******/ 		}
-/******/ 	
-/******/ 		// remove outdated dependency from module children
-/******/ 		for(var moduleId in outdatedDependencies) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(outdatedDependencies, moduleId)) {
-/******/ 				var module = installedModules[moduleId];
-/******/ 				var moduleOutdatedDependencies = outdatedDependencies[moduleId];
-/******/ 				for(var j = 0; j < moduleOutdatedDependencies.length; j++) {
-/******/ 					var dependency = moduleOutdatedDependencies[j];
-/******/ 					var idx = module.children.indexOf(dependency);
-/******/ 					if(idx >= 0) module.children.splice(idx, 1);
-/******/ 				}
-/******/ 			}
-/******/ 		}
-/******/ 	
-/******/ 		// Not in "apply" phase
-/******/ 		hotSetStatus("apply");
-/******/ 	
-/******/ 		hotCurrentHash = hotUpdateNewHash;
-/******/ 	
-/******/ 		// insert new code
-/******/ 		for(var moduleId in appliedUpdate) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(appliedUpdate, moduleId)) {
-/******/ 				modules[moduleId] = appliedUpdate[moduleId];
-/******/ 			}
-/******/ 		}
-/******/ 	
-/******/ 		// call accept handlers
-/******/ 		var error = null;
-/******/ 		for(var moduleId in outdatedDependencies) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(outdatedDependencies, moduleId)) {
-/******/ 				var module = installedModules[moduleId];
-/******/ 				var moduleOutdatedDependencies = outdatedDependencies[moduleId];
-/******/ 				var callbacks = [];
-/******/ 				for(var i = 0; i < moduleOutdatedDependencies.length; i++) {
-/******/ 					var dependency = moduleOutdatedDependencies[i];
-/******/ 					var cb = module.hot._acceptedDependencies[dependency];
-/******/ 					if(callbacks.indexOf(cb) >= 0) continue;
-/******/ 					callbacks.push(cb);
-/******/ 				}
-/******/ 				for(var i = 0; i < callbacks.length; i++) {
-/******/ 					var cb = callbacks[i];
-/******/ 					try {
-/******/ 						cb(outdatedDependencies);
-/******/ 					} catch(err) {
-/******/ 						if(!error)
-/******/ 							error = err;
-/******/ 					}
-/******/ 				}
-/******/ 			}
-/******/ 		}
-/******/ 	
-/******/ 		// Load self accepted modules
-/******/ 		for(var i = 0; i < outdatedSelfAcceptedModules.length; i++) {
-/******/ 			var item = outdatedSelfAcceptedModules[i];
-/******/ 			var moduleId = item.module;
-/******/ 			hotCurrentParents = [moduleId];
-/******/ 			try {
-/******/ 				__webpack_require__(moduleId);
-/******/ 			} catch(err) {
-/******/ 				if(typeof item.errorHandler === "function") {
-/******/ 					try {
-/******/ 						item.errorHandler(err);
-/******/ 					} catch(err) {
-/******/ 						if(!error)
-/******/ 							error = err;
-/******/ 					}
-/******/ 				} else if(!error)
-/******/ 					error = err;
-/******/ 			}
-/******/ 		}
-/******/ 	
-/******/ 		// handle errors in accept handlers and self accepted module load
-/******/ 		if(error) {
-/******/ 			hotSetStatus("fail");
-/******/ 			return callback(error);
-/******/ 		}
-/******/ 	
-/******/ 		hotSetStatus("idle");
-/******/ 		callback(null, outdatedModules);
-/******/ 	}
+/******/ 	};
 
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// "0" means "already loaded"
+/******/ 	// Array means "loading", array contains callbacks
+/******/ 	var installedChunks = {
+/******/ 		2:0
+/******/ 	};
 
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -500,14 +44,11 @@
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
-/******/ 			loaded: false,
-/******/ 			hot: hotCreateModule(moduleId),
-/******/ 			parents: hotCurrentParents,
-/******/ 			children: []
+/******/ 			loaded: false
 /******/ 		};
 
 /******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, hotCreateRequire(moduleId));
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
@@ -516,6 +57,29 @@
 /******/ 		return module.exports;
 /******/ 	}
 
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId, callback) {
+/******/ 		// "0" is the signal for "already loaded"
+/******/ 		if(installedChunks[chunkId] === 0)
+/******/ 			return callback.call(null, __webpack_require__);
+
+/******/ 		// an array means "currently loading".
+/******/ 		if(installedChunks[chunkId] !== undefined) {
+/******/ 			installedChunks[chunkId].push(callback);
+/******/ 		} else {
+/******/ 			// start chunk loading
+/******/ 			installedChunks[chunkId] = [callback];
+/******/ 			var head = document.getElementsByTagName('head')[0];
+/******/ 			var script = document.createElement('script');
+/******/ 			script.type = 'text/javascript';
+/******/ 			script.charset = 'utf-8';
+/******/ 			script.async = true;
+
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"calendar","1":"main"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 			head.appendChild(script);
+/******/ 		}
+/******/ 	};
 
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -525,24 +89,10 @@
 
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/asset/";
-
-/******/ 	// __webpack_hash__
-/******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
-
-/******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(0)(0);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(1);
-	__webpack_require__(3);
-	module.exports = __webpack_require__(58);
-
-
-/***/ },
+/* 0 */,
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -551,10 +101,10 @@
 		Author Tobias Koppers @sokra
 	*/
 	/*globals window __webpack_hash__ */
-	if(true) {
+	if(false) {
 		var lastData;
 		var upToDate = function upToDate() {
-			return lastData.indexOf(__webpack_require__.h()) >= 0;
+			return lastData.indexOf(__webpack_hash__) >= 0;
 		};
 		var check = function check() {
 			module.hot.check(true, function(err, updatedModules) {
@@ -580,7 +130,7 @@
 					check();
 				}
 
-				__webpack_require__(2)(updatedModules, updatedModules);
+				require("./log-apply-result")(updatedModules, updatedModules);
 
 				if(upToDate()) {
 					console.log("[HMR] App is up to date.");
@@ -610,41 +160,10 @@
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	module.exports = function(updatedModules, renewedModules) {
-		var unacceptedModules = updatedModules.filter(function(moduleId) {
-			return renewedModules && renewedModules.indexOf(moduleId) < 0;
-		});
-
-		if(unacceptedModules.length > 0) {
-			console.warn("[HMR] The following modules couldn't be hot updated: (They would need a full reload!)");
-			unacceptedModules.forEach(function(moduleId) {
-				console.warn("[HMR]  - " + moduleId);
-			});
-		}
-
-		if(!renewedModules || renewedModules.length === 0) {
-			console.log("[HMR] Nothing hot updated.");
-		} else {
-			console.log("[HMR] Updated modules:");
-			renewedModules.forEach(function(moduleId) {
-				console.log("[HMR]  - " + moduleId);
-			});
-		}
-	};
-
-
-/***/ },
-/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(__resourceQuery) {var io = __webpack_require__(4);
-	var stripAnsi = __webpack_require__(56);
+	/* WEBPACK VAR INJECTION */(function(__resourceQuery) {var io = __webpack_require__(3);
+	var stripAnsi = __webpack_require__(55);
 	var scriptElements = document.getElementsByTagName("script");
 	io = io.connect(true ?
 		__resourceQuery.substr(1) :
@@ -718,15 +237,15 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, "?http://localhost:8080"))
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	module.exports = __webpack_require__(5);
+	module.exports = __webpack_require__(4);
 
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -734,10 +253,10 @@
 	 * Module dependencies.
 	 */
 
-	var url = __webpack_require__(7);
-	var parser = __webpack_require__(9);
-	var Manager = __webpack_require__(16);
-	var debug = __webpack_require__(6)('socket.io-client');
+	var url = __webpack_require__(6);
+	var parser = __webpack_require__(8);
+	var Manager = __webpack_require__(15);
+	var debug = __webpack_require__(5)('socket.io-client');
 
 	/**
 	 * Module exports.
@@ -814,12 +333,12 @@
 	 * @api public
 	 */
 
-	exports.Manager = __webpack_require__(16);
-	exports.Socket = __webpack_require__(48);
+	exports.Manager = __webpack_require__(15);
+	exports.Socket = __webpack_require__(47);
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	
@@ -962,7 +481,7 @@
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -970,8 +489,8 @@
 	 * Module dependencies.
 	 */
 
-	var parseuri = __webpack_require__(8);
-	var debug = __webpack_require__(6)('socket.io-client:url');
+	var parseuri = __webpack_require__(7);
+	var debug = __webpack_require__(5)('socket.io-client:url');
 
 	/**
 	 * Module exports.
@@ -1042,7 +561,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/**
@@ -1073,7 +592,7 @@
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -1081,12 +600,12 @@
 	 * Module dependencies.
 	 */
 
-	var debug = __webpack_require__(6)('socket.io-parser');
-	var json = __webpack_require__(11);
-	var isArray = __webpack_require__(13);
-	var Emitter = __webpack_require__(10);
-	var binary = __webpack_require__(14);
-	var isBuf = __webpack_require__(15);
+	var debug = __webpack_require__(5)('socket.io-parser');
+	var json = __webpack_require__(10);
+	var isArray = __webpack_require__(12);
+	var Emitter = __webpack_require__(9);
+	var binary = __webpack_require__(13);
+	var isBuf = __webpack_require__(14);
 
 	/**
 	 * Protocol version.
@@ -1479,7 +998,7 @@
 
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	
@@ -1649,7 +1168,7 @@
 
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.2.6 | http://bestiejs.github.io/json3 | Copyright 2012-2013, Kit Cambridge | http://kit.mit-license.org */
@@ -1659,7 +1178,7 @@
 
 	  // Detect the `define` function exposed by asynchronous module loaders. The
 	  // strict `define` check is necessary for compatibility with `r.js`.
-	  var isLoader = "function" === "function" && __webpack_require__(12);
+	  var isLoader = "function" === "function" && __webpack_require__(11);
 
 	  // Detect native implementations.
 	  var nativeJSON = typeof JSON == "object" && JSON;
@@ -2516,7 +2035,7 @@
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
@@ -2524,7 +2043,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -2533,7 +2052,7 @@
 
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -2542,8 +2061,8 @@
 	 * Module requirements
 	 */
 
-	var isArray = __webpack_require__(13);
-	var isBuf = __webpack_require__(15);
+	var isArray = __webpack_require__(12);
+	var isBuf = __webpack_require__(14);
 
 	/**
 	 * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -2681,7 +2200,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -2701,7 +2220,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -2709,17 +2228,17 @@
 	 * Module dependencies.
 	 */
 
-	var url = __webpack_require__(7);
-	var eio = __webpack_require__(17);
-	var Socket = __webpack_require__(48);
-	var Emitter = __webpack_require__(10);
-	var parser = __webpack_require__(9);
-	var on = __webpack_require__(50);
-	var bind = __webpack_require__(51);
-	var object = __webpack_require__(54);
-	var debug = __webpack_require__(6)('socket.io-client:manager');
-	var indexOf = __webpack_require__(45);
-	var Backoff = __webpack_require__(55);
+	var url = __webpack_require__(6);
+	var eio = __webpack_require__(16);
+	var Socket = __webpack_require__(47);
+	var Emitter = __webpack_require__(9);
+	var parser = __webpack_require__(8);
+	var on = __webpack_require__(49);
+	var bind = __webpack_require__(50);
+	var object = __webpack_require__(53);
+	var debug = __webpack_require__(5)('socket.io-client:manager');
+	var indexOf = __webpack_require__(44);
+	var Backoff = __webpack_require__(54);
 
 	/**
 	 * Module exports
@@ -3210,19 +2729,19 @@
 
 
 /***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports =  __webpack_require__(17);
+
+
+/***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	module.exports =  __webpack_require__(18);
-
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = __webpack_require__(19);
+	module.exports = __webpack_require__(18);
 
 	/**
 	 * Exports parser
@@ -3230,25 +2749,25 @@
 	 * @api public
 	 *
 	 */
-	module.exports.parser = __webpack_require__(28);
+	module.exports.parser = __webpack_require__(27);
 
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Module dependencies.
 	 */
 
-	var transports = __webpack_require__(20);
-	var Emitter = __webpack_require__(10);
-	var debug = __webpack_require__(39)('engine.io-client:socket');
-	var index = __webpack_require__(45);
-	var parser = __webpack_require__(28);
-	var parseuri = __webpack_require__(46);
-	var parsejson = __webpack_require__(47);
-	var parseqs = __webpack_require__(38);
+	var transports = __webpack_require__(19);
+	var Emitter = __webpack_require__(9);
+	var debug = __webpack_require__(38)('engine.io-client:socket');
+	var index = __webpack_require__(44);
+	var parser = __webpack_require__(27);
+	var parseuri = __webpack_require__(45);
+	var parsejson = __webpack_require__(46);
+	var parseqs = __webpack_require__(37);
 
 	/**
 	 * Module exports.
@@ -3363,9 +2882,9 @@
 	 */
 
 	Socket.Socket = Socket;
-	Socket.Transport = __webpack_require__(27);
-	Socket.transports = __webpack_require__(20);
-	Socket.parser = __webpack_require__(28);
+	Socket.Transport = __webpack_require__(26);
+	Socket.transports = __webpack_require__(19);
+	Socket.parser = __webpack_require__(27);
 
 	/**
 	 * Creates transport of the given type.
@@ -3946,17 +3465,17 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Module dependencies
 	 */
 
-	var XMLHttpRequest = __webpack_require__(21);
-	var XHR = __webpack_require__(24);
-	var JSONP = __webpack_require__(42);
-	var websocket = __webpack_require__(43);
+	var XMLHttpRequest = __webpack_require__(20);
+	var XHR = __webpack_require__(23);
+	var JSONP = __webpack_require__(41);
+	var websocket = __webpack_require__(42);
 
 	/**
 	 * Export transports.
@@ -4006,11 +3525,11 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// browser shim for xmlhttprequest module
-	var hasCORS = __webpack_require__(22);
+	var hasCORS = __webpack_require__(21);
 
 	module.exports = function(opts) {
 	  var xdomain = opts.xdomain;
@@ -4048,7 +3567,7 @@
 
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -4056,7 +3575,7 @@
 	 * Module dependencies.
 	 */
 
-	var global = __webpack_require__(23);
+	var global = __webpack_require__(22);
 
 	/**
 	 * Module exports.
@@ -4077,7 +3596,7 @@
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports) {
 
 	
@@ -4091,18 +3610,18 @@
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Module requirements.
 	 */
 
-	var XMLHttpRequest = __webpack_require__(21);
-	var Polling = __webpack_require__(25);
-	var Emitter = __webpack_require__(10);
-	var inherit = __webpack_require__(26);
-	var debug = __webpack_require__(39)('engine.io-client:polling-xhr');
+	var XMLHttpRequest = __webpack_require__(20);
+	var Polling = __webpack_require__(24);
+	var Emitter = __webpack_require__(9);
+	var inherit = __webpack_require__(25);
+	var debug = __webpack_require__(38)('engine.io-client:polling-xhr');
 
 	/**
 	 * Module exports.
@@ -4482,18 +4001,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var Transport = __webpack_require__(27);
-	var parseqs = __webpack_require__(38);
-	var parser = __webpack_require__(28);
-	var inherit = __webpack_require__(26);
-	var debug = __webpack_require__(39)('engine.io-client:polling');
+	var Transport = __webpack_require__(26);
+	var parseqs = __webpack_require__(37);
+	var parser = __webpack_require__(27);
+	var inherit = __webpack_require__(25);
+	var debug = __webpack_require__(38)('engine.io-client:polling');
 
 	/**
 	 * Module exports.
@@ -4506,7 +4025,7 @@
 	 */
 
 	var hasXHR2 = (function() {
-	  var XMLHttpRequest = __webpack_require__(21);
+	  var XMLHttpRequest = __webpack_require__(20);
 	  var xhr = new XMLHttpRequest({ xdomain: false });
 	  return null != xhr.responseType;
 	})();
@@ -4733,7 +4252,7 @@
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 	
@@ -4745,15 +4264,15 @@
 	};
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var parser = __webpack_require__(28);
-	var Emitter = __webpack_require__(10);
+	var parser = __webpack_require__(27);
+	var Emitter = __webpack_require__(9);
 
 	/**
 	 * Module exports.
@@ -4910,19 +4429,19 @@
 
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Module dependencies.
 	 */
 
-	var keys = __webpack_require__(29);
-	var hasBinary = __webpack_require__(30);
-	var sliceBuffer = __webpack_require__(32);
-	var base64encoder = __webpack_require__(33);
-	var after = __webpack_require__(34);
-	var utf8 = __webpack_require__(35);
+	var keys = __webpack_require__(28);
+	var hasBinary = __webpack_require__(29);
+	var sliceBuffer = __webpack_require__(31);
+	var base64encoder = __webpack_require__(32);
+	var after = __webpack_require__(33);
+	var utf8 = __webpack_require__(34);
 
 	/**
 	 * Check if we are running an android browser. That requires us to use
@@ -4979,7 +4498,7 @@
 	 * Create a blob api even for blob builder when vendor prefixes exist
 	 */
 
-	var Blob = __webpack_require__(37);
+	var Blob = __webpack_require__(36);
 
 	/**
 	 * Encodes a packet.
@@ -5511,7 +5030,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	
@@ -5536,7 +5055,7 @@
 
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -5544,7 +5063,7 @@
 	 * Module requirements.
 	 */
 
-	var isArray = __webpack_require__(31);
+	var isArray = __webpack_require__(30);
 
 	/**
 	 * Module exports.
@@ -5601,7 +5120,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -5610,7 +5129,7 @@
 
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports) {
 
 	/**
@@ -5645,7 +5164,7 @@
 
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports) {
 
 	/*
@@ -5710,7 +5229,7 @@
 
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = after
@@ -5744,7 +5263,7 @@
 
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! http://mths.be/utf8js v2.0.0 by @mathias */
@@ -5985,10 +5504,10 @@
 
 	}(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)(module), (function() { return this; }())))
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -6004,7 +5523,7 @@
 
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6060,7 +5579,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports) {
 
 	/**
@@ -6103,7 +5622,7 @@
 
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -6113,7 +5632,7 @@
 	 * Expose `debug()` as the module.
 	 */
 
-	exports = module.exports = __webpack_require__(40);
+	exports = module.exports = __webpack_require__(39);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -6256,7 +5775,7 @@
 
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -6272,7 +5791,7 @@
 	exports.disable = disable;
 	exports.enable = enable;
 	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(41);
+	exports.humanize = __webpack_require__(40);
 
 	/**
 	 * The currently active debug mode names, and names to skip.
@@ -6459,7 +5978,7 @@
 
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports) {
 
 	/**
@@ -6576,7 +6095,7 @@
 
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -6584,8 +6103,8 @@
 	 * Module requirements.
 	 */
 
-	var Polling = __webpack_require__(25);
-	var inherit = __webpack_require__(26);
+	var Polling = __webpack_require__(24);
+	var inherit = __webpack_require__(25);
 
 	/**
 	 * Module exports.
@@ -6816,18 +6335,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var Transport = __webpack_require__(27);
-	var parser = __webpack_require__(28);
-	var parseqs = __webpack_require__(38);
-	var inherit = __webpack_require__(26);
-	var debug = __webpack_require__(39)('engine.io-client:websocket');
+	var Transport = __webpack_require__(26);
+	var parser = __webpack_require__(27);
+	var parseqs = __webpack_require__(37);
+	var inherit = __webpack_require__(25);
+	var debug = __webpack_require__(38)('engine.io-client:websocket');
 
 	/**
 	 * `ws` exposes a WebSocket-compatible interface in
@@ -6835,7 +6354,7 @@
 	 * in the browser.
 	 */
 
-	var WebSocket = __webpack_require__(44);
+	var WebSocket = __webpack_require__(43);
 
 	/**
 	 * Module exports.
@@ -7060,7 +6579,7 @@
 
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports) {
 
 	
@@ -7109,7 +6628,7 @@
 
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports) {
 
 	
@@ -7124,7 +6643,7 @@
 	};
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports) {
 
 	/**
@@ -7169,7 +6688,7 @@
 
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -7207,7 +6726,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -7215,13 +6734,13 @@
 	 * Module dependencies.
 	 */
 
-	var parser = __webpack_require__(9);
-	var Emitter = __webpack_require__(10);
-	var toArray = __webpack_require__(49);
-	var on = __webpack_require__(50);
-	var bind = __webpack_require__(51);
-	var debug = __webpack_require__(6)('socket.io-client:socket');
-	var hasBin = __webpack_require__(52);
+	var parser = __webpack_require__(8);
+	var Emitter = __webpack_require__(9);
+	var toArray = __webpack_require__(48);
+	var on = __webpack_require__(49);
+	var bind = __webpack_require__(50);
+	var debug = __webpack_require__(5)('socket.io-client:socket');
+	var hasBin = __webpack_require__(51);
 
 	/**
 	 * Module exports.
@@ -7598,7 +7117,7 @@
 
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports) {
 
 	module.exports = toArray
@@ -7617,7 +7136,7 @@
 
 
 /***/ },
-/* 50 */
+/* 49 */
 /***/ function(module, exports) {
 
 	
@@ -7647,7 +7166,7 @@
 
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports) {
 
 	/**
@@ -7676,7 +7195,7 @@
 
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -7684,7 +7203,7 @@
 	 * Module requirements.
 	 */
 
-	var isArray = __webpack_require__(53);
+	var isArray = __webpack_require__(52);
 
 	/**
 	 * Module exports.
@@ -7741,7 +7260,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -7750,7 +7269,7 @@
 
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports) {
 
 	
@@ -7839,7 +7358,7 @@
 	};
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports) {
 
 	
@@ -7930,11 +7449,11 @@
 
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var ansiRegex = __webpack_require__(57)();
+	var ansiRegex = __webpack_require__(56)();
 
 	module.exports = function (str) {
 		return typeof str === 'string' ? str.replace(ansiRegex, '') : str;
@@ -7942,7 +7461,7 @@
 
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -7950,14 +7469,6 @@
 		return /(?:(?:\u001b\[)|\u009b)(?:(?:[0-9]{1,3})?(?:(?:;[0-9]{0,3})*)?[A-M|f-m])|\u001b[A-M]/g;
 	};
 
-
-/***/ },
-/* 58 */
-/***/ function(module, exports) {
-
-	// require('../css/app.css');
-
-	document.write("hello");
 
 /***/ }
 /******/ ]);
