@@ -1,3 +1,3 @@
-require('../css/app.css');
+// require('../css/app.css');
 
 document.write("hello");

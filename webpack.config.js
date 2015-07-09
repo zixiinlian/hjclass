@@ -17,6 +17,9 @@ module.exports = {
 		'./app/class/home/js/main.js'
 		]
 	},
+	// devServer: {
+	//     hot: true
+	// },
 	output: {
 		path: './build',
 		publicPath: '/asset/',
@@ -33,7 +36,8 @@ module.exports = {
 	    ]
   	},
   	plugins: [
-		new ExtractTextPlugin("[name].css")
+		new ExtractTextPlugin("[name].css"),
+		new webpack.HotModuleReplacementPlugin()
 	]
  //  	resolve: {
 	//     // root: [appRoot, nodeRoot, bowerRoot],
