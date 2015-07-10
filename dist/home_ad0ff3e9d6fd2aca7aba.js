@@ -13,7 +13,9 @@ webpackJsonp([0],{
 /***/ 57:
 /***/ function(module, exports) {
 
-	document.write("calendar");
+	// require('./app/class/home/css/app.css');
+
+	document.write("hello");
 
 /***/ }
 
