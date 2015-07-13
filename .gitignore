@@ -25,8 +25,8 @@ obj/
 _ReSharper*/
 .svn
 *.cache
-dist
-*.css
+/dist/*
+
 _baseconfiglog
 _conf
 *FileListAbsolute.txt
