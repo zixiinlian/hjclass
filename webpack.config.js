@@ -44,7 +44,7 @@ module.exports = {
 		path: path.join(__dirname, '/dist'),
 		publicPath: '/asset/[hash]',
 		filename: '[name]_[hash].js',
-		chunkFilename: '[id]_[hash].js',
+		chunkFilename: '[id]_[hash].js'
 	},
 	module: {
 		loaders: [{
@@ -75,11 +75,11 @@ module.exports = {
 			}
 		}),
 		new webpack.HotModuleReplacementPlugin()
-	],
+	]
 	//  	resolve: {
 	//     // root: [appRoot, nodeRoot, bowerRoot],
 	//     // modulesDirectories: [appModuleRoot],
 	//     extensions: ['', '.js', '.coffee', '.html', '.css', '.scss']
 	// },
-	plugins: [commonsPlugin]
+	// plugins: [commonsPlugin]
 }
