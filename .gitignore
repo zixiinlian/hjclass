@@ -31,3 +31,4 @@ _conf
 *FileListAbsolute.txt
 node_modules
 .sass-cache
+dist

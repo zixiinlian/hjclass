@@ -45,13 +45,9 @@ module.exports = {
 		this.entry = getEntry();
 	},
 	entry: getEntry(),
-	// entry: ['webpack/hot/dev-server','./app/class/home/js/main.js'],
-	
 	context: __dirname,
 	output: {
 		path: path.join(__dirname, '/dist'),
-		// publicPath: '/asset/[hash]',
-		// path : './dist',
 		publicPath: '/dist/',
 		filename: '[name]_[hash].js',
 		chunkFilename: '[id]_[hash].js'
