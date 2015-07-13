@@ -21,6 +21,7 @@
     "autoprefixer-loader": "^2.0.0",
     "css-loader": "^0.15.2",
     "extract-text-webpack-plugin": "^0.8.2",
+    "node-libs-browser": "^0.5.2",
     "glob": "^5.0.13",
     "style-loader": "^0.12.3",
     "url-loader": "^0.5.5",

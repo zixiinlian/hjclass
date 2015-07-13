@@ -35,14 +35,24 @@ function getEntry() {
 }
 
 module.exports = {
+	devServer: {
+        contentBase: "./",//server根目录;
+        noInfo: true, 
+        hot: true,
+        inline: true
+    },
 	refreshEntry: function() {
 		this.entry = getEntry();
 	},
 	entry: getEntry(),
+	// entry: ['webpack/hot/dev-server','./app/class/home/js/main.js'],
+	
 	context: __dirname,
 	output: {
 		path: path.join(__dirname, '/dist'),
-		publicPath: '/asset/[hash]',
+		// publicPath: '/asset/[hash]',
+		// path : './dist',
+		publicPath: '/dist/',
 		filename: '[name]_[hash].js',
 		chunkFilename: '[id]_[hash].js'
 	},
@@ -55,15 +65,11 @@ module.exports = {
 				loader: 'html'
 			},
 			// {test: require.resolve('jquery'), loader: 'expose?jQuery'},
+		    {test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!autoprefixer")},
+		    {test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!autoprefixer!sass")},
 			{
-				test: /\.scss$/,
-				loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!sass-loader?sourceMap')
-			}, {
-				test: /\.css$/,
-				loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader')
-			}, {
 				test: /\.(png|jpg)$/,
-				loader: 'url-loader'
+				loader: 'url-loader?limit=1000'
 			}
 		]
 	},
