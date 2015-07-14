@@ -5,13 +5,9 @@ var path = require('path'),
 	glob = require('glob'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
 	commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js'),
+	PathRewriterPlugin = require('webpack-path-rewriter'),
 	defauleCompilePath = __dirname + '/app/**/*.js',
 	compilePath = null;
-
-// var appRoot = path.join(__dirname, 'app');
-// var appModuleRoot = path.join(__dirname, 'app/components');
-// var bowerRoot = path.join(__dirname, 'bower_components');
-// var nodeRoot = path.join(__dirname, 'node_modules');
 
 function getEntry() {
 	var entry = {},
@@ -31,26 +27,35 @@ function getEntry() {
 			'.' + value
 		];
 	});
+
 	return entry;
 }
 
 module.exports = {
 	devServer: {
-        contentBase: "./",//server根目录;
-        noInfo: true, 
-        hot: true,
-        inline: true
-    },
-	refreshEntry: function() {
-		this.entry = getEntry();
+		contentBase: "./", //server根目录;
+		noInfo: true,
+		hot: true,
+		inline: true
 	},
-	entry: getEntry(),
+	// refreshEntry: function() {
+	// 	this.entry = getEntry();
+	// },
+	entry: {
+		class: ['webpack/hot/dev-server',
+			'webpack-dev-server/client?http://localho',
+			'./app/class/home/js/main.js'
+		],
+		mydeskmate: ['webpack/hot/dev-server',
+			'webpack-dev-server/client?http://localho',
+			'./app/class/mydeskmate/js/main.js'
+		]
+	},
 	context: __dirname,
 	output: {
 		path: path.join(__dirname, '/dist'),
 		publicPath: '/dist/',
-		filename: '[name]_[hash].js',
-		chunkFilename: '[id]_[hash].js'
+		filename: '[name]-[chunkhash].js'
 	},
 	module: {
 		loaders: [{
@@ -58,30 +63,32 @@ module.exports = {
 				loader: 'coffee'
 			}, {
 				test: /\.html$/,
-				loader: 'html'
+				loader: PathRewriterPlugin.rewriteAndEmit({
+					name: '[name].html'
+				})
 			},
 			// {test: require.resolve('jquery'), loader: 'expose?jQuery'},
-		    {test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!autoprefixer")},
-		    {test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!autoprefixer!sass")},
 			{
+				test: /\.css$/,
+				loader: ExtractTextPlugin.extract("style", "css!autoprefixer")
+			}, {
+				test: /\.scss$/,
+				loader: ExtractTextPlugin.extract("style", "css!autoprefixer!sass")
+			}, {
 				test: /\.(png|jpg)$/,
 				loader: 'url-loader?limit=1000'
 			}
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin('[name].css'),
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
-		}),
-		new webpack.HotModuleReplacementPlugin()
+		// new ExtractTextPlugin('[name]-[hash].css', {allChunks: true}),
+		// new webpack.optimize.UglifyJsPlugin({
+		// 	compress: {
+		// 		warnings: false
+		// 	}
+		// }),
+		// new webpack.HotModuleReplacementPlugin(),
+		// commonsPlugin,
+		// new PathRewriterPlugin()
 	]
-	//  	resolve: {
-	//     // root: [appRoot, nodeRoot, bowerRoot],
-	//     // modulesDirectories: [appModuleRoot],
-	//     extensions: ['', '.js', '.coffee', '.html', '.css', '.scss']
-	// },
-	// plugins: [commonsPlugin]
 }
