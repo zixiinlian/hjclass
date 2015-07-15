@@ -32,7 +32,7 @@ function getEntry() {
 
 module.exports = {
 	devServer: {
-		contentBase: "./", //server根目录;
+		contentBase: "./",
 		noInfo: true,
 		hot: true,
 		inline: true
@@ -43,9 +43,9 @@ module.exports = {
 	entry: getEntry(),
 	context: __dirname,
 	output: {
-		path: path.join(__dirname, '/dist/'),
+		path: path.join(__dirname, '/dist/app/'),
 		publicPath: '/dist/',
-		filename: 'app-[hash].js'
+		filename: '[name]/app-[hash].js'
 	},
 	module: {
 		loaders: [
@@ -66,22 +66,7 @@ module.exports = {
 			},
 			{
 				test: /[.]css$/,
-				loaders: [
-				ExtractTextPlugin.extract("style", "css!autoprefixer"),
-				'file?name=[path][name]-[hash].[ext]'
-				]
-			},
-			 {
-				test: /[.]js$/,
-				exclude: [/app.js/,/node_modules/],
-				loader: 'file?name=[path][name]-[hash].[ext]'
-			}
-			,
-			 {
-				test: /[.]aspx$/,
-				loader: PathRewriterPlugin.rewriteAndEmit({
-					name: '[name].aspx'
-				})
+				loader: ExtractTextPlugin.extract("style", "css!autoprefixer")
 			}
 		]
 	},
@@ -95,7 +80,6 @@ module.exports = {
 		commonsPlugin,
 		new ExtractTextPlugin('[name]/app-[hash].css', {
 			allChunks: true
-		}),
-		new PathRewriterPlugin()
+		})
 	]
 }
