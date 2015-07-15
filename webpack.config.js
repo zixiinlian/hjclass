@@ -15,7 +15,7 @@ function getEntry() {
 
 	glob.sync(file).forEach(function(name) {
 		var value = name.match(/\/app\/[^\s]*\.js/),
-			key = name.match(/([^/]+?)\/js\/main\.js/);
+			key = name.match(/([^/]+?)\/app\.js/);
 
 		if (!key) {
 			return;
@@ -27,7 +27,6 @@ function getEntry() {
 			'.' + value
 		];
 	});
-
 	return entry;
 }
 
@@ -38,57 +37,65 @@ module.exports = {
 		hot: true,
 		inline: true
 	},
-	// refreshEntry: function() {
-	// 	this.entry = getEntry();
-	// },
-	entry: {
-		class: ['webpack/hot/dev-server',
-			'webpack-dev-server/client?http://localho',
-			'./app/class/home/js/main.js'
-		],
-		mydeskmate: ['webpack/hot/dev-server',
-			'webpack-dev-server/client?http://localho',
-			'./app/class/mydeskmate/js/main.js'
-		]
+	refreshEntry: function() {
+		this.entry = getEntry();
 	},
+	entry: getEntry(),
 	context: __dirname,
 	output: {
-		path: path.join(__dirname, '/dist'),
+		path: path.join(__dirname, '/dist/'),
 		publicPath: '/dist/',
-		filename: '[name]-[chunkhash].js'
+		filename: 'app-[hash].js'
 	},
 	module: {
-		loaders: [{
+		loaders: [
+			{
 				test: /\.coffee$/,
 				loader: 'coffee'
-			}, {
-				test: /\.html$/,
-				loader: PathRewriterPlugin.rewriteAndEmit({
-					name: '[name].html'
-				})
 			},
-			// {test: require.resolve('jquery'), loader: 'expose?jQuery'},
 			{
-				test: /\.css$/,
-				loader: ExtractTextPlugin.extract("style", "css!autoprefixer")
-			}, {
 				test: /\.scss$/,
 				loader: ExtractTextPlugin.extract("style", "css!autoprefixer!sass")
 			}, {
 				test: /\.(png|jpg)$/,
 				loader: 'url-loader?limit=1000'
+			}, 
+			{
+				test: /[/]images[/]/,
+				loader: 'file?name=[path][name]-[hash].[ext]'
+			},
+			{
+				test: /[.]css$/,
+				loaders: [
+				ExtractTextPlugin.extract("style", "css!autoprefixer"),
+				'file?name=[path][name]-[hash].[ext]'
+				]
+			},
+			 {
+				test: /[.]js$/,
+				exclude: [/app.js/,/node_modules/],
+				loader: 'file?name=[path][name]-[hash].[ext]'
+			}
+			,
+			 {
+				test: /[.]aspx$/,
+				loader: PathRewriterPlugin.rewriteAndEmit({
+					name: '[name].aspx'
+				})
 			}
 		]
 	},
 	plugins: [
-		// new ExtractTextPlugin('[name]-[hash].css', {allChunks: true}),
-		// new webpack.optimize.UglifyJsPlugin({
-		// 	compress: {
-		// 		warnings: false
-		// 	}
-		// }),
-		// new webpack.HotModuleReplacementPlugin(),
-		// commonsPlugin,
-		// new PathRewriterPlugin()
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			}
+		}),
+		new webpack.HotModuleReplacementPlugin(),
+		commonsPlugin,
+		new ExtractTextPlugin('[name]/app-[hash].css', {
+			allChunks: true
+		}),
+		new PathRewriterPlugin()
 	]
 }
