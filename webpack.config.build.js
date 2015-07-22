@@ -6,7 +6,6 @@ var path = require('path'),
 	args = process.argv,
 	debug = args.indexOf("--debug") > -1,
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
-	commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js'),
 	PathRewriterPlugin = require('webpack-path-rewriter'),
 	AssetsPlugin = require('assets-webpack-plugin'),
 	defauleCompilePath = __dirname + '/app/**/*.js',
@@ -65,9 +64,6 @@ module.exports = {
 			test: /\.coffee$/,
 			loader: 'coffee'
 		}, {
-			test: /\.scss$/,
-			loader: ExtractTextPlugin.extract("style", "css!autoprefixer!sass")
-		}, {
 			test: /\.(png|jpg)$/,
 			loader: 'url-loader?limit=1000'
 		}, {
@@ -88,7 +84,6 @@ module.exports = {
 			}
 		}),
 		new webpack.HotModuleReplacementPlugin(),
-		commonsPlugin,
 		new ExtractTextPlugin('[name]/app-[hash].css', {
 			allChunks: true
 		}),
