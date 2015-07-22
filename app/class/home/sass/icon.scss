@@ -1,0 +1,9 @@
+﻿@import "iconSprite";
+
+.icon-add{
+	@include iconSprite(add);
+}
+
+.icon-apple{
+	@include iconSprite(apple);
+}
