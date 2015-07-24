@@ -39,18 +39,18 @@ module.exports = {
 	devServer: {
 		contentBase: "./",
 		noInfo: true,
-		hot: true,
 		inline: true
 	},
 	refreshEntry: function() {
 		this.entry = getEntry();
 	},
+	watch: true,
 	entry: getEntry(),
-	context: __dirname,
+	// context: __dirname,
 	output: {
 		path: path.join(__dirname, '/dist'),
-		publicPath: '/assets/',
-		filename: '[name]app_dev.js'
+		publicPath: 'assets/',
+		filename: '[name]app.js'
 	},
 	devtool: 'source-map',
 	resolve: {
@@ -66,10 +66,8 @@ module.exports = {
 			loader: 'coffee'
 		}, {
 			test: /\.(png|jpg)$/,
-			loader: 'url-loader?limit=1000'
-		}, {
-			test: /[/]images[/]/,
-			loader: 'file?name=[path][name]-[hash].[ext]'
+			// loader: 'file?name=[path][name]-[hash].[ext]'
+			loader: 'url-loader'
 		}, {
 			test: /[.]css$/,
 			loader: ExtractTextPlugin.extract("style", "css!autoprefixer")
@@ -79,8 +77,8 @@ module.exports = {
 		new webpack.DefinePlugin({
 			__DEBUG__: debug,
 		}),
-		new webpack.HotModuleReplacementPlugin(),
-		new ExtractTextPlugin('[name]/app_dev.css', {
+		// new webpack.HotModuleReplacementPlugin(),
+		new ExtractTextPlugin('[name]app.css', {
 			allChunks: true
 		}),
 		new AssetsPlugin(),

@@ -32,3 +32,4 @@ _conf
 node_modules
 .sass-cache
 dist
+.temp
