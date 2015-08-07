@@ -10,23 +10,30 @@ var gulp = require('gulp'),
   webpackConfig = require('./webpack.config.dev.js'),
   compilePath = 'app/class/home/';
 
+gulp.task('webpack', ['compass'], function() {
+  webpack(webpackConfig, (function(err, stats) {
+    if (err) throw new gutil.PluginError('webpack', err);
+    gutil.log("[webpack]", stats.toString({
+      colors: true
+    }));
+  }));
+});
+
 gulp.task('compass', function() {
   var distPath = 'dist/' + compilePath;
 
-  gulp.src(compilePath + 'sass/*.scss')
+  return gulp.src(compilePath + 'sass/*.scss')
     .pipe(compass({
       image: path.join(__dirname, compilePath, 'images'),
       css: '.temp/css',
+      // css: path.join(__dirname, compilePath, 'css'),
       sass: path.join(__dirname, compilePath, 'sass'),
       generated_images_path: path.join(__dirname, distPath, 'images'),
     }));
 });
 
-gulp.task('webpackServer', function(callback) {
+gulp.task('webpackServer', ['watch'], function(callback) {
   new WebpackDevServer(webpack(webpackConfig), {
-    contentBase: './',
-    publicPath: '/' + webpackConfig.output.publicPath,
-    progress: true,
     stats: {
       colors: true
     },
@@ -38,7 +45,7 @@ gulp.task('webpackServer', function(callback) {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['app/**/*.scss'], ['compass']);
+  return gulp.watch(['app/**/*.scss'], ['compass']);
 });
 
 gulp.task('clean', function() {
@@ -50,4 +57,4 @@ gulp.task('clean', function() {
 
 gulp.task('build', ['compass', 'webpack']);
 
-gulp.task('dev', ['compass', 'watch', 'webpackServer']);
+gulp.task('dev', ['webpack', 'webpackServer']);

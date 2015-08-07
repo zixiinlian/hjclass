@@ -7,8 +7,8 @@ var path = require('path'),
 	debug = args.indexOf("--debug") > -1,
 	_commonStaicPath = 'http://class.hujiang.com';
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
-	PathRewriterPlugin = require('webpack-path-rewriter'),
-	AssetsPlugin = require('assets-webpack-plugin'),
+	// PathRewriterPlugin = require('webpack-path-rewriter'),
+	// AssetsPlugin = require('assets-webpack-plugin'),
 	defauleCompilePath = __dirname + '/app/**/*.js',
 	compilePath = null;
 
@@ -31,22 +31,15 @@ function getEntry() {
 			'.' + value
 		];
 	});
-
 	return entry;
 }
 
 module.exports = {
-	devServer: {
-		contentBase: "./",
-		noInfo: true,
-		inline: true
-	},
 	refreshEntry: function() {
 		this.entry = getEntry();
 	},
-	watch: true,
+	context: __dirname,
 	entry: getEntry(),
-	// context: __dirname,
 	output: {
 		path: path.join(__dirname, '/dist'),
 		publicPath: 'assets/',
@@ -66,7 +59,6 @@ module.exports = {
 			loader: 'coffee'
 		}, {
 			test: /\.(png|jpg)$/,
-			// loader: 'file?name=[path][name]-[hash].[ext]'
 			loader: 'url-loader'
 		}, {
 			test: /[.]css$/,
@@ -77,11 +69,11 @@ module.exports = {
 		new webpack.DefinePlugin({
 			__DEBUG__: debug,
 		}),
-		// new webpack.HotModuleReplacementPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
 		new ExtractTextPlugin('[name]app.css', {
 			allChunks: true
 		}),
-		new AssetsPlugin(),
+		// new AssetsPlugin(),
 		new webpack.ProvidePlugin({
 			$: path.join(__dirname,'/vendor/jquery-1.8.3.min.js')
 		})
