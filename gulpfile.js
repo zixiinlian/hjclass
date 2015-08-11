@@ -57,4 +57,4 @@ gulp.task('clean', function() {
 
 gulp.task('build', ['compass', 'webpack']);
 
-gulp.task('dev', ['webpack', 'webpackServer']);
+gulp.task('dev', ['webpack', 'webpackServer']); 

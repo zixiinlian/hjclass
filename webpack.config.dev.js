@@ -46,7 +46,7 @@ module.exports = {
 		filename: '[name]app.js'
 	},
 	devtool: 'source-map',
-	resolve: {
+	resolve: { 
 		root: path.join(__dirname, '/app/'),
 		extensions: ['', '.js', '.json', '.coffee'],
 		alias: {
