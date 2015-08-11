@@ -1,9 +1,19 @@
-﻿@import "iconSprite";
-
-.icon-add{
-	@include iconSprite(add);
+@import "iconSprite";
+.icon-mal {
+    @include iconSprite(mal);
 }
-
-.icon-apple{
-	@include iconSprite(apple);
+.icon-mar {
+    @include iconSprite(mar);
+}
+.icon-mawl {
+    @include iconSprite(mawl);
+}
+.icon-mawr {
+    @include iconSprite(mawr);
+}
+.icon-mawlh {
+    @include iconSprite(mawlh);
+}
+.icon-mawrh {
+    @include iconSprite(mawrh);
 }
