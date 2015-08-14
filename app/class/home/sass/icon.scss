@@ -1,4 +1,5 @@
 @import "iconSprite";
+//classinfo
 .icon-mal {
     @include iconSprite(mal);
 }
@@ -16,4 +17,154 @@
 }
 .icon-mawrh {
     @include iconSprite(mawrh);
+}
+//nav;
+.icon-home {
+    @include iconSprite(home);
+    .item:hover & {
+        @include iconSprite(homeH);
+    }
+}
+.icon-couseList {
+    @include iconSprite(couseList);
+    .item:hover & {
+        @include iconSprite(couseListH);
+    }
+}
+.icon-note {
+    @include iconSprite(note);
+    .item:hover & {
+        @include iconSprite(noteH);
+    }
+}
+.icon-anque {
+    @include iconSprite(anque);
+    .item:hover & {
+        @include iconSprite(anqueH);
+    }
+}
+.icon-homework {
+    @include iconSprite(homework);
+    .item:hover & {
+        @include iconSprite(homeworkH);
+    }
+}
+.icon-ci {
+    @include iconSprite(ci);
+    .item:hover & {
+        @include iconSprite(ciH);
+    }
+}
+.icon-talk {
+    @include iconSprite(talk);
+    .item:hover & {
+        @include iconSprite(talkH);
+    }
+}
+.icon-data {
+    @include iconSprite(data);
+    .item:hover & {
+        @include iconSprite(dataH);
+    }
+}
+.icon-classMate {
+    @include iconSprite(classMate);
+    .item:hover & {
+        @include iconSprite(classMateH);
+    }
+}
+.icon-speak {
+    @include iconSprite(speak);
+    .item:hover & {
+        @include iconSprite(speakH);
+    }
+}
+.icon-calendar {
+    @include iconSprite(calendar);
+    &:hover {
+        @include iconSprite(calendarH);
+    }
+}
+//.icon-calendarH {//    @include iconSprite(calendarH);
+//}
+.icon-open {
+    @include iconSprite(open);
+}
+.icon-openH {
+    @include iconSprite(openH);
+}
+.icon-plus {
+    @include iconSprite(plus);
+    .more:hover & {
+        @include iconSprite(plusH);
+    }
+}
+//.icon-plusH {
+//    @include iconSprite(plusH);
+//}
+.icon-processMe {
+    @include iconSprite(processMe);
+}
+.icon-processNone {
+    @include iconSprite(processNone);
+}
+.icon-processOther {
+    @include iconSprite(processOther);
+}
+.icon-processOtherRotate {
+    @include iconSprite(processOtherRotate);
+}
+.icon-shrink {
+    @include iconSprite(shrink);
+}
+.icon-shrinkH {
+    @include iconSprite(shrinkH);
+}
+.icon-learning {
+    @include iconSprite(learning);
+}
+.icon-locked {
+    @include iconSprite(locked);
+}
+.icon-canLearn {
+    @include iconSprite(canLearn);
+}
+.icon-canOrder {
+    @include iconSprite(canOrder);
+}
+.icon-completed {
+    @include iconSprite(completed);
+}
+.icon-praise {
+    @include iconSprite(praise);
+}
+.icon-emptyTalk {
+    @include iconSprite(emptyTalk);
+}
+.icon-emptyHomework {
+    @include iconSprite(emptyHomework);
+}
+.icon-faq {
+    @include iconSprite(faq);
+}
+.icon-fci {
+    @include iconSprite(fci);
+}
+.icon-fcommit {
+    @include iconSprite(fcommit);
+}
+.icon-fdownload {
+    @include iconSprite(fdownload);
+}
+.icon-fhomework {
+    @include iconSprite(fhomework);
+}
+.icon-fnote {
+    @include iconSprite(fnote);
+}
+.icon-clock {
+    @include iconSprite(clock);
+}
+.icon-ctlogo {
+    @include iconSprite(ctlogo);
 }
