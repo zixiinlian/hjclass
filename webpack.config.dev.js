@@ -27,6 +27,7 @@ function getEntry() {
         }
         entry[key] = [
 			'webpack/hot/dev-server',
+            'webpack-dev-server/client?http://localhost:8080',
 			'.' + value
 		];
     });
@@ -34,13 +35,13 @@ function getEntry() {
 }
 
 module.exports = {
-    //    devServer: {
-    //        host: "172.16.13.102",
-    //        contentBase: "./",
-    //        noInfo: true,
-    //        hot: true,
-    //        inline: true
-    //    },
+//    devServer: {
+        //        //        host: "172.16.13.102",
+        //        contentBase: "./",
+        //        noInfo: true,
+        //        hot: true,
+        //        inline: true
+        //    },
     refreshEntry: function () {
         this.entry = getEntry();
     },

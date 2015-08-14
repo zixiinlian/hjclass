@@ -8,9 +8,15 @@
 }
 .icon-mawl {
     @include iconSprite(mawl);
+    .arrow:hover & {
+        @include iconSprite(mawlH);
+    }
 }
 .icon-mawr {
     @include iconSprite(mawr);
+    .arrow:hover & {
+        @include iconSprite(mawrH);
+    }
 }
 .icon-mawlh {
     @include iconSprite(mawlh);
