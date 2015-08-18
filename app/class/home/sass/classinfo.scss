@@ -94,6 +94,7 @@
             height: 28px;
             margin-top: 7px;
             z-index: 1;
+            -webkit-user-select: none;
             //            background: center center;
             &.left {
                 left: 0;

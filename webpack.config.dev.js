@@ -35,13 +35,13 @@ function getEntry() {
 }
 
 module.exports = {
-//    devServer: {
-        //        //        host: "172.16.13.102",
-        //        contentBase: "./",
-        //        noInfo: true,
-        //        hot: true,
-        //        inline: true
-        //    },
+    //    devServer: {
+    //        //        host: "172.16.13.102",
+    //        contentBase: "./",
+    //        noInfo: true,
+    //        hot: true,
+    //        inline: true
+    //    },
     refreshEntry: function () {
         this.entry = getEntry();
     },
@@ -57,7 +57,9 @@ module.exports = {
         root: path.join(__dirname, '/app/'),
         extensions: ['', '.js', '.json', '.coffee'],
         alias: {
-            jquery: './vendor/jquery-1.8.3.min.js'
+            //            jquery: './vendor/jquery-1.8.3.min.js'
+            //            mmAnimate: '../../../../vendor/mmAnimate.js'
+            //            avalon: './vendor/avalon.js'
         }
     },
     module: {
@@ -85,7 +87,8 @@ module.exports = {
 		// new AssetsPlugin(),
 		new webpack.ProvidePlugin({
             //            $: path.join(__dirname, '/vendor/jquery-1.8.3.min.js'),
-            $: 'jQuery'
+            //            $: 'jQuery',
+            avalon: path.join(__dirname, '/vendor/avalon.min.js')
         })
 	]
 }
