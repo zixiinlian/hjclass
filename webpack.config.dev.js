@@ -12,7 +12,6 @@ ExtractTextPlugin = require('extract-text-webpack-plugin'),
     defauleCompilePath = __dirname + '/app/**/*.js',
     compilePath = null;
 
-
 function getEntry() {
     var entry = {},
         file = compilePath ? compilePath : defauleCompilePath;
@@ -26,6 +25,7 @@ function getEntry() {
             return;
         }
         entry[key] = [
+            './vendor/jquery-1.8.3.min.js',
 			'webpack/hot/dev-server',
             'webpack-dev-server/client?http://localhost:8080',
 			'.' + value
@@ -42,9 +42,9 @@ module.exports = {
     //        hot: true,
     //        inline: true
     //    },
-    refreshEntry: function () {
-        this.entry = getEntry();
-    },
+    //    refreshEntry: function () {
+    //        this.entry = getEntry();
+    //    },
     context: __dirname,
     entry: getEntry(),
     output: {
@@ -58,8 +58,6 @@ module.exports = {
         extensions: ['', '.js', '.json', '.coffee'],
         alias: {
             //            jquery: './vendor/jquery-1.8.3.min.js'
-            //            mmAnimate: '../../../../vendor/mmAnimate.js'
-            //            avalon: './vendor/avalon.js'
         }
     },
     module: {
@@ -74,7 +72,12 @@ module.exports = {
             {
                 test: /[.]css$/,
                 loader: ExtractTextPlugin.extract("style", "css!autoprefixer")
-		}]
+		}
+//                  , {
+     //                test: path.resolve(path.join(__dirname, 'vendor'), 'jquery-1.8.3.min.js'),
+     //                loader: 'expose?jQuery'
+     //            }
+                 ]
     },
     plugins: [
 		new webpack.DefinePlugin({
@@ -86,9 +89,8 @@ module.exports = {
         }),
 		// new AssetsPlugin(),
 		new webpack.ProvidePlugin({
-            //            $: path.join(__dirname, '/vendor/jquery-1.8.3.min.js'),
-            //            $: 'jQuery',
-            avalon: path.join(__dirname, '/vendor/avalon.min.js')
+            //            $: path.join(__dirname, './vendor/jquery-1.8.3.min.js'),
+            //            $: './vendor/jquery-1.8.3.min.js'
         })
 	]
 }

@@ -17,19 +17,18 @@
     <div class="classInfo">
         <div class="wrap">
             <div class="fl">
-                <h1 ms-controller="className"><span class="className">{{className}}</span><a ms-if="classmatesMeet" class="classmatesMeet" ms-href={{classmatesMeet}} target="_blank">去同学会<div class="tips">学长学姐带你飞，立即进入同学会</div></a></h1>
+                <h1><span class="className">班级名称</span><a class="classmatesMeet"  target="_blank">去同学会<div class="tips">学长学姐带你飞，立即进入同学会</div></a></h1>
                 
-                <div class="managers" ms-controller="managers">
-                    <div ms-click="moveL" class="arrow left" ms-if="len()>4"><i class="icon-mal icon" ms-class="icon-mawl:count>0"></i></div>
-                    <div ms-click="moveR" class="arrow right" ms-if="len()>4"><i class="icon-mar icon" ms-class="icon-mawr:count<len()-4"></i></div>
-                    <ul class="list" id="managers-list" ms-css-width="{{list.length*66}}">
-                        <li class="item" ms-repeat="list">
+                <div class="managers" >
+                    <div class="arrow left"><i class="icon-mal icon"></i></div>
+                    <div class="arrow right"><i class="icon-mar icon"></i></div>
+                    <ul class="list" id="managers-list">
+                        <li class="item">
                             <a href="" target="_blank">
                                 <img class="pic" src="images/1.jpg" width="42" height="42" alt="">
                                 <div class="title">班主任</div>
                             </a>
                         </li>
-<!--
                         <li class="item">
                             <a href="" target="_blank">
                                 <img class="pic" src="images/1.jpg" width="42" height="42" alt="">
@@ -72,23 +71,22 @@
                                 <div class="title">班主任</div>
                             </a>
                         </li>
--->
                        
                     </ul>
                 </div>
             </div>
-            <div class="fr myInfo" ms-controller="myInfo">
+            <div class="fr myInfo">
                 <div class="pic fl">
-                    <img ms-src="me.pic" alt="" width="54" height="54" />
+                    <img alt="" width="54" height="54" />
                 </div>
                 <div class="gain fl">
-                    <p>
-                        <label>学&#12288;&#12288;币</label> <span class="text">{{me.xuebi}}</span></p>
-                    <p>
-                        <label>已获学分</label><span class="text">{{me.xuefen}}</span></p>
+                    <p class="xuebi">
+                        <label>学&#12288;&#12288;币</label> <span class="text">36</span></p>
+                    <p class="xuefen">
+                        <label>已获学分</label><span class="text">100</span></p>
                 </div>
-                <a class="punchIn fl" ms-css-cursor="cursor"  ms-class="punchIned:!me.canPunchIn" ms-click="punchIn">{{text}}
-                <div class="tips" ms-if="!me.canPunchIn" >童鞋，您今日已在5个班级打过卡啦，明天再来吧～</div>
+                <a class="punchIn fl"><span class="text">班级打卡</span>
+                <div class="tips">童鞋，您今日已在5个班级打过卡啦，明天再来吧～</div>
                 </a>
             </div>
         </div>

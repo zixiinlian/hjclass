@@ -19,6 +19,7 @@
   "author": "lijia@hujiang.com",
   "license": "MIT",
   "dependencies": {
+    "dot": "^1.0.3",
     "jquery": "^2.1.4"
   },
   "devDependencies": {
@@ -28,8 +29,10 @@
     "babel-loader": "^5.0.0",
     "compass-loader": "0.0.4",
     "css-loader": "^0.15.2",
+    "expose-loader": "^0.7.0",
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
+    "fs": "0.0.2",
     "glob": "^5.0.13",
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",
