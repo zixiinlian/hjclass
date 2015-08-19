@@ -1,17 +1,37 @@
+var handle = require('./handle.js');
+var ajaxHandle = handle.ajaxHandle;
+var renderHandle = handle.renderHandle;
+
 var ManagerTab = function () {
     this.elem = $('.managers');
 }
 ManagerTab.prototype = {
     init: function () {
-        this.initWidth();
+        this.getData();
         this.clickFn();
     },
-    initWidth: function () {
-        var list = this.elem.find('.list');
-        var item = list.find('>.item');
-        var num = item.length;
-        list.width(66 * num);
-
+    getData: function () {
+        ajaxHandle();
+        var data = [{
+            title: '班主任',
+            pic: '/app/class/home/images/1.jpg'
+        }, {
+            title: '班主任',
+            pic: '/app/class/home/images/1.jpg'
+        }, {
+            title: '班主任',
+            pic: '/app/class/home/images/1.jpg'
+        }, {
+            title: '班主任',
+            pic: '/app/class/home/images/1.jpg'
+        }, {
+            title: '班主任',
+            pic: '/app/class/home/images/1.jpg'
+        }, {
+            title: '校长',
+            pic: '/app/class/home/images/1.jpg'
+        }];
+        renderHandle($('#managers'), $('#managers-T'), data);
     },
     clickFn: function () {
         var me = this;
@@ -21,11 +41,6 @@ ManagerTab.prototype = {
         var rBtn = this.elem.find('.arrow.right');
         var lBtn = this.elem.find('.arrow.left');
         var count = 0;
-        if (num && num <= 4) {
-            btn.css('display', 'none');
-        } else {
-            rBtn.find('.icon').addClass('icon-mawr');
-        }
         btn.click(function () {
             if (!list.is(':animated')) {
 
@@ -77,37 +92,49 @@ var MyInfo = function () {
 
 MyInfo.prototype = {
     init: function () {
-        this.handle();
+        this.getData();
     },
     getData: function () {
         var me = this;
-        $.ajax({
-            url: '',
-            data: ''
-        }).done(function (data) {
-            data = $.type(data) == 'string' ? $.parseJSON(data) : data;
-            data = data.AjaxResponse;
-            if (data) {
-                me.text.text('今日已打卡');
-                me.xuebi.text();
-                me.xuefen.text();
-                //...
-            }
-        })
+        ajaxHandle();
+
+        //test;
+        var data = {
+            xuebi: 100,
+            xuefen: 200,
+            pundInState: 3, //1本版无打卡;2今日已打卡;3已打满五个班;4可以打卡;
+            pic: '/app/class/home/images/1.jpg'
+        }
+        renderHandle($('#myInfo'), $('#myInfo-T'), data);
+    }
+}
+
+
+//className
+var ClassName = function () {
+
+}
+ClassName.prototype = {
+    init: function () {
+        this.getData();
     },
-    handle: function () {
-        var me = this;
-        me.btn.click(function () {
-            me.text.text('打卡中...');
-            me.getData()
-        })
+    getData: function () {
+        ajaxHandle();
+
+        //test;
+        data = {
+            className: '阿里肯定会 i 了无比纹路部分 i 礼物饿吧',
+            hasClassMate: true
+        };
+        renderHandle($('#className'), $('#className-T'), data)
+            //test
+
     }
 }
 
 
 
-exports.ManagerTab = ManagerTab;
-//exports.MyInfo = MyInfo;
 
-//exports.className = className;
-//module.exports = ManagerTab;
+exports.ManagerTab = ManagerTab;
+exports.MyInfo = MyInfo;
+exports.ClassName = ClassName;
