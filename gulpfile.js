@@ -5,10 +5,23 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     gutil = require('gulp-util'),
     clean = require('gulp-clean'),
+    connect = require('gulp-connect'),
     compass = require('gulp-compass'),
-    WebpackDevServer = require('webpack-dev-server'),
     webpackConfig = require('./webpack.config.dev.js'),
+    webpackBuildConfig = require('./webpack.config.build.js'),
     compilePath = 'app/class/home/';
+
+gulp.task('compass', function () {
+    var distPath = 'dist/' + compilePath;
+
+    return gulp.src(compilePath + 'sass/app.scss')
+        .pipe(compass({
+            image: path.join(__dirname, compilePath, 'images'),
+            css: path.join(__dirname, distPath),
+            sass: path.join(__dirname, compilePath, 'sass'),
+            generated_images_path: path.join(__dirname, distPath, 'images'),
+        }));
+});
 
 gulp.task('webpack', ['compass'], function () {
     webpack(webpackConfig, (function (err, stats) {
@@ -19,43 +32,34 @@ gulp.task('webpack', ['compass'], function () {
     }));
 });
 
-gulp.task('compass', function () {
-    var distPath = 'dist/' + compilePath;
-
-    return gulp.src(compilePath + 'sass/*.scss')
-        .pipe(compass({
-            image: path.join(__dirname, compilePath, 'images'),
-            css: '.temp/css',
-            // css: path.join(__dirname, compilePath, 'css'),
-            sass: path.join(__dirname, compilePath, 'sass'),
-            generated_images_path: path.join(__dirname, distPath, 'images'),
+gulp.task('webpackBuild', function () {
+    webpack(webpackBuildConfig, (function (err, stats) {
+        if (err) throw new gutil.PluginError('webpack', err);
+        gutil.log("[webpack]", stats.toString({
+            colors: true
         }));
+    }));
 });
 
-gulp.task('webpackServer', ['watch'], function (callback) {
-    new WebpackDevServer(webpack(webpackConfig), {
-        stats: {
-            colors: true
-        },
-        hot: true
-            //        host: '172.16.13.102'
-    }).listen(8080, 'localhost', function (err, result) {
-        if (err) throw new gutil.PluginError('webpack-dev-server', err);
-        gutil.log('[webpack-dev-server]', 'http://localhost:8080');
-    });
+gulp.task('connect', function() {
+  connect.server({
+    port: 8080,
+    livereload: true
+  });
 });
 
 gulp.task('watch', function () {
-    return gulp.watch(['app/**/*.scss'], ['compass']);
+    gulp.watch('app/**/*.scss', ['compass']);
+    gulp.watch('app/**/*.js', ['webpack']);
 });
 
 gulp.task('clean', function () {
-    return gulp.src(['.temp', 'dist'], {
+    return gulp.src(['.temp'], {
             read: false
         })
         .pipe(clean());
 });
 
-gulp.task('build', ['compass', 'webpack']);
+gulp.task('build', ['clean', 'webpackBuild']);
 
-gulp.task('dev', ['webpack', 'webpackServer']);
+gulp.task('dev', ['connect', 'webpack', 'watch']);

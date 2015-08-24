@@ -5,8 +5,8 @@ var path = require('path'),
     glob = require('glob'),
     args = process.argv,
     debug = args.indexOf("--debug") > -1,
-    _commonStaicPath = 'http://class.hujiang.com';
-ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    _commonStaicPath = 'http://class.hujiang.com',
+    ExtractTextPlugin = require('extract-text-webpack-plugin'),
     // PathRewriterPlugin = require('webpack-path-rewriter'),
     // AssetsPlugin = require('assets-webpack-plugin'),
     defauleCompilePath = __dirname + '/app/**/*.js',
@@ -26,8 +26,6 @@ function getEntry() {
         }
         entry[key] = [
             './vendor/jquery-1.8.3.min.js',
-			'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://localhost:8080',
 			'.' + value
 		];
     });
@@ -61,24 +59,15 @@ module.exports = {
         }
     },
     module: {
-        loaders: [{
-                test: /\.coffee$/,
-                loader: 'coffee'
-		},
-//                  {
-    //			test: /\.(png|jpg)$/,
-    //			loader: 'url-loader'
-    //		},
-            {
-                test: /[.]css$/,
-                loader: ExtractTextPlugin.extract("style", "css!autoprefixer")
-		}
+        loaders: [
+        { test: /\.coffee$/, loader: 'coffee'},
+        { test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: 'babel-loader'},
+        { test: /[.]css$/, loader: ExtractTextPlugin.extract("style", "css!autoprefixer") }
 //                  , {
-     //                test: path.resolve(path.join(__dirname, 'vendor'), 'jquery-1.8.3.min.js'),
-     //                loader: 'expose?jQuery'
-     //            }
-                 ]
-    },
+//                test: path.resolve(path.join(__dirname, 'vendor'), 'jquery-1.8.3.min.js'),
+//                loader: 'expose?jQuery'
+//            }
+    ]},
     plugins: [
 		new webpack.DefinePlugin({
             __DEBUG__: debug,
