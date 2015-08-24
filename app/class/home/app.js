@@ -1,7 +1,5 @@
 // require('./index.aspx');
 //require('./js/calendar.js');
-//require('../../../.temp/css/app.css');
-// require('../sass/test.scss');
 //var $ = require('../../../vendor/jquery-1.8.3.min.js');
 require("./js/person.js");
 //require('../../../avalon.min.js');
