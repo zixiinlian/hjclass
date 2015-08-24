@@ -8,7 +8,7 @@
     <!--    <link rel="stylesheet" href="/dist/app/class/home/app.css">-->
     <!--script src="/dist/app/common.js"></script-->
     <!--    <link rel="stylesheet" href="/.temp/css/app.css">-->
-<!--    <script src="/vendor/avalon.min.js"></script>-->
+    <!--    <script src="/vendor/avalon.min.js"></script>-->
     <script src="/dist/app/class/home/app.js"></script>
     <link rel="stylesheet" href="/.temp/css/app.css">
 </head>
@@ -21,61 +21,53 @@
                 <script type="text/template" charset="utf-8" id="className-T">
                 {{if(it){}}
                 <span class="className">{{=it.className}}</span>
-                {{?it.hasClassMate}}
-                <a class="classmatesMeet"  target="_blank">去同学会<div class="tips">学长学姐带你飞，立即进入同学会</div></a>
+                {{?it.hasSheTuan}}
+                <a class="classmatesMeet" href="http://st.hujiang.com/{{=it.sheTuanId}}/"  target="_blank">去同学会<div class="tips">学长学姐带你飞，立即进入同学会</div></a>
                 {{?}}
                 {{}}}
                 
                 </script>
                     </h1>
-                
-                
-                <div class="managers"  id="managers">
-                   <script type="text/template" charset="utf-8" id="managers-T">
-                   {{if(it && it.length>0){}}
-                   
-                   {{?it.length>4}}
-                   <div class="arrow left"><i class="icon-mal icon"></i></div>
-                    <div class="arrow right"><i class="icon-mar icon icon-mawr"></i></div>
-                    {{?}}
-                    
-                    <ul class="list" id="managers-list" style="width:{{=it.length*66+'px'}};">
-                        {{for(var i=0;i<it.length;i++){}}
-                        <li class="item">
-                            <a href="" target="_blank">
-                                <img class="pic" src="{{=it[i].pic}}" width="42" height="42" alt="">
-                                <div class="title">{{=it[i].title}}</div>
-                            </a>
-                        </li>
+
+
+                <div class="managers" id="managers">
+                    <script type="text/template" charset="utf-8" id="managers-T">
+                        {{if(it && it.length>0){}} {{?it.length>4}}
+                        <div class="arrow left"><i class="icon-mal icon"></i></div>
+                        <div class="arrow right"><i class="icon-mar icon icon-mawr"></i></div>
+                        {{?}}
+
+                        <ul class="list" id="managers-list" style="width:{{=it.length*66+'px'}};">
+                            {{for(var i=0;i
+                            <it.length;i++){}} <li class="item">
+                                <a href="" target="_blank">
+                                    <img class="pic" src="{{=it[i].pic}}" width="42" height="42" alt="">
+                                    <div class="title">{{=it[i].title}}</div>
+                                </a>
+                                </li>
+                                {{}}}
+                        </ul>
                         {{}}}
-                        
-                    </ul>
-                    
-                   {{}}}
-                    
+
                     </script>
                 </div>
             </div>
             <div class="fr myInfo" id="myInfo">
-               <script type="text/template" charset="utf-8" id="myInfo-T">
-                {{if(it){}}
-                
+                <script type="text/template" charset="utf-8" id="myInfo-T">
+                    {{if(it){}}
                     <div class="pic fl">
-                    <img src="{{=it.pic}}" alt="" width="54" height="54" />
-                </div>
-                <div class="gain fl">
-                    <p class="xuebi">
-                        <label>学&#12288;&#12288;币</label><span class="text">{{=it.xuebi}}</span></p>
-                    <p class="xuefen">
-                        <label>已获学分</label><span class="text">{{=it.xuefen}}</span></p>
-                </div>
-                <a class="punchIn fl {{?it.pundInState==1 || it.pundInState==2 || it.pundInState==3}}punchIned{{?}}"><span class="text">{{?it.pundInState==1}}本班无打卡{{??it.pundInState==2}}今日已打卡{{??}}班级打卡{{?}}</span>
+                        <img src="{{=it.pic}}" alt="" width="54" height="54" />
+                    </div>
+                    <div class="gain fl">
+                        <p class="xuebi">
+                            <label>学&#12288;&#12288;币</label><span class="text">{{=it.xuebi}}</span></p>
+                        <p class="xuefen">
+                            <label>已获学分</label><span class="text">{{=it.myMark}}</span></p>
+                    </div>
+                    <a class="punchIn fl {{?it.pundInState==1 || it.pundInState==2 || it.pundInState==3}}punchIned{{?}}"><span class="text">{{?it.checkInSupport}}本班无打卡{{??it.pundInState==2}}今日已打卡{{??}}班级打卡{{?}}</span>
                 {{?it.pundInState==3}}<div class="tips">童鞋，您今日已在5个班级打过卡啦，明天再来吧～</div>{{?}}
-                </a>
-                
-                {{}}}
+                </a> {{}}}
                 </script>
-                
             </div>
         </div>
     </div>
@@ -98,20 +90,19 @@
         </div>
         <div class="fr main">
             <div class="section">
-             
-             <!---纯直播课---->
-             <div class="left liveClass hide">
-                 <div class="fl">
-                     <i class="icon icon-ctlogo"></i>
-                 </div>
-                 <div class="text">本班全部课程需要使用<a class="inlineText">CCTalk</a>在线直播，请提前下载安装哦！</div>
-                 <a href="" class="btn">打开</a>
-                 <a href="" class="btn">下载</a>
-             </div>
-             
-             
-             <!----直播课---->
-             <div class="left task hide">
+                {{? it.classType == 'reservation'}}
+                <!---纯直播课未下载ct---->
+                <div class="left liveClass">
+                    <div class="fl">
+                        <i class="icon icon-ctlogo"></i>
+                    </div>
+                    <div class="text">本班全部课程需要使用<a class="inlineText">CCTalk</a>在线直播，请提前下载安装哦！</div>
+                    <a href="" class="btn">打开</a>
+                    <a href="" class="btn">下载</a>
+                </div>
+                <!----直播课---->
+                {{??it.classType == 'reservation'}}
+                <div class="left task">
                     <div class="titleBar">
                         <div class="fl">学习任务</div>
                         <div class="fr">
@@ -128,7 +119,7 @@
                                     <a class="btn-Classroom" href="">进教室</a>
                                 </div>
                             </li>
-                            <li class="item">
+                            <li class="i tem">
                                 <div class="fl info"><i class="icon icon-canOrder"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
                                 <div class="fr">
                                     <a class="btn-order" href="">我要预约</a>
@@ -137,93 +128,133 @@
                         </ul>
                     </div>
                 </div>
-             <!-----开班前--->
-             
-             <div class="left beforeStart hide">
-                 <div class="fl">
-                     <i class="icon icon-clock"></i>
-                     
-                 </div>
-                 <div class="text">亲爱的ajsdja，距离开课还有<span class="inlineText">10</span>天</div>
-                     <p class="subText">在上课之前，先认识一下班级的同学们吧～</p>
-                     <div>
-                         <a class="btn" href="">找同学</a>
-                         <a class="btn" href="">找同桌</a>
-                     </div>
-             </div>
-             
-              <!---结束--->
-               <div class="left finshInfo hide">
-<!--                   <div class="">-->
-                       <div class="fl">
-                           <div class="tips">亲爱的ydalida，本班课程已结束啦～</div>
-                           <a class="btn" href="">领取毕业证书</a>
-                       </div>
-                       <div class="fl me">
-                          <div class="fl"><img src="images/1.jpg" alt=""></div>
-                           <p><label>完成率</label><span class="text">100%</span></p>
-                           <p><label>已获学分</label><span class="text">132</span></p>
-                           <p><label>累计打卡</label><span class="text">2905</span></p>
-                       </div>
-                       <div class="fl deskmate">
-                          <div class="fl"><img src="images/1.jpg" alt=""></div>
-                           <p><label>完成率</label><span class="text">100%</span></p>
-                           <p><label>已获学分</label><span class="text">132</span></p>
-                           <p><label>累计打卡</label><span class="text">2905</span></p>
-                           
-                       </div>
-<!--                   </div>-->
-               </div>
-               <!---结束--->
+                {{?}}
+                <!-----开班前--->
+
+                {{? it.classType == 'mixed'}} {{?it.classStatus == 'notStart'}}
+                <div class="left beforeStart hide">
+                    <div class="fl">
+                        <i class="icon icon-clock"></i>
+
+                    </div>
+                    <div class="text">亲爱的ajsdja，距离开课还有<span class="inlineText">10</span>天</div>
+                    <p class="subText">在上课之前，先认识一下班级的同学们吧～</p>
+                    <div>
+                        <a class="btn" href="">找同学</a>
+                        <a class="btn" href="">找同桌</a>
+                    </div>
+                </div>
+                {{?? it.classStatus == 'closed'}}
+                <!---结束--->
+                <div class="left finshInfo hide">
+                    <!--                   <div class="">-->
+                    <div class="fl">
+                        <div class="tips">亲爱的ydalida，本班课程已结束啦～</div>
+                        <a class="btn" href="">领取毕业证书</a>
+                    </div>
+                    <div class="fl me">
+                        <div class="fl"><img src="images/1.jpg" alt=""></div>
+                        <p>
+                            <label>完成率</label><span class="text">100%</span></p>
+                        <p>
+                            <label>已获学分</label><span class="text">132</span></p>
+                        <p>
+                            <label>累计打卡</label><span class="text">2905</span></p>
+                    </div>
+                    <div class="fl deskmate">
+                        <div class="fl"><img src="images/1.jpg" alt=""></div>
+                        <p>
+                            <label>完成率</label><span class="text">100%</span></p>
+                        <p>
+                            <label>已获学分</label><span class="text">132</span></p>
+                        <p>
+                            <label>累计打卡</label><span class="text">2905</span></p>
+
+                    </div>
+                    <!--                   </div>-->
+                </div>
+                <!---结束--->
+                {{?? it.classStatus == 'active'}}
                 <div class="left learningProcess" id="learningProcess">
-                   <script type="text/template" charset="utf-8" id="learningProcess-T">
-                   {{if(it){}}
-                    <div class="titleBar">学习进度<span class="small">{{=it.curr}}/{{=it.total}}</span></div>
-                    
+                    <!--<script type="text/template" charset="utf-8" id="learningProcess-T">-->
+                    {{if(it){}}
+                    <div class="titleBar">学习进度<span class="small">{{=it.myLearnCount}}/{{=it.totalLessonCount}}</span></div>
+
                     {{if(it.rank){}}
                     <div class="learningStar">
                         <label class="fl">每日学霸</label>
                         <ul class="list">
-                        {{for(var j=0;j<it.rank.length;j++){}}
-                        <li class="item">
+                            {{for(var j=0;j
+                            <it.rank.length;j++){}} <li class="item">
                                 <a href=""><img src="{{=it.rank[j].pic}}" alt=""></a>
                                 <span class="rank {{?it.rank[j].num==1}}first{{??it.rank[j].num==2}}second{{??it.rank[j].num==3}}third{{?}}">{{=it.rank[j].num}}</span>
-                            </li>
-                    {{}}}
+                                </li>
+                                {{}}}
                         </ul>
                     </div>
                     {{}}}
-                    
+
 
                     <div class="clearfix">
                         <div class="processInfo">
-                        <div class="processBar">
-                                <div class="me" style="width:{{=it.me}};{{?parseInt(it.me)<=parseInt(it.classMate)}}z-index:1;{{?}}">
+                            <div class="processBar">
+                                <div class="plan" style="width:{{=it.planLessonLearnRate*100+'%'}};">
                                     <div class="node"></div>
-                                    <div class="pic"><img src="images/1.jpg" alt=""></div>
+                                    <div class="tips" style="{{?it.get.rSurplus()<83}}right:-{{=it.get.rSurplus()}}px;{{?}}{{?it.get.lSurplus()<83}}left:0;right:initial;{{?}}">计划进度{{=it.planLessonLearnRate*100+'%'}},{{=it.get.compare()}}计划进度{{=it.get.calcLessons()}}课{{?}}</div>
                                 </div>
-                                <div class="deskmate"  style="width:{{=it.classMate}};{{?parseInt(it.me)>parseInt(it.classMate)}}z-index:1;{{?}}">
+
+                                <div class="me" style="width:{{=it.myLessonLearnRate*100+'%'}};{{? it.myLessonLearnRate<=it.deskmateLessonLearnRate}}z-index:1;{{?}}">
                                     <div class="node"></div>
-                                    <div class="pic"><img src="images/1.jpg" alt=""></div>
+                                    <div class="pic"><img src="{{=it.avatar}}" alt=""></div>
                                 </div>
+
+                                <div class="deskmate" style="width:{{=it.deskmateLessonLearnRate*100+'%'}};{{? it.myLessonLearnRate<=it.deskmateLessonLearnRate}}z-index:1;{{?}}">
+                                    <div class="node"></div>
+                                    {{?it.myLessonLearnRate==it.deskmateLessonLearnRate && it.myLessonLearnRate != 0}}
+                                    <style>
+                                        .learningProcess .processInfo .processBar .deskmate .pic {
+                                            width: 38px;
+                                            height: 38px;
+                                            background-position: 0 -1523px;
+                                            right: 0
+                                        }
+                                        
+                                        .deskmate:hover {
+                                            z-index: 2;
+                                        }
+
+                                    </style>
+                                    {{?}}
+                                    <div class="pic 
+                                        {{?!it.hasDeskmate}}
+                                        {{?myLessonLearnRate==0}}
+                                        icon-processNoneRotate
+                                        {{??}}
+                                        icon-processNone
+                                        {{?}}
+                                        {{?}}"><img src="{{=it.deskmateAvatar}}" alt=""></div>
+                                </div>
+
                             </div>
                             <div class="clearfix">
-                                <div class="fl">{{=it.start}}</div>
+                                <div class="fl">{{=it.beginDate}}</div>
                                 <div class="fr">{{=it.end}}</div>
                             </div>
-                    </div>
-                    <div class="classHandle">
-                            <a class="btn">{{?it.hasBegin==true}}继续学习{{??}}开始学习{{?}}</a>
+                        </div>
+                        <div class="classHandle">
+                            <a class="btn" href="{{=it.learningUrl}}">{{?it.hasBegin==true}}继续学习{{??}}开始学习{{?}}</a>
                             <p><a href="">我要请假</a>&nbsp;/&nbsp;<a href="">我要延期</a></p>
                         </div>
                     </div>
                     {{}}}
-                    </script>
+                    <!--</script>-->
                 </div>
+                {{?}} {{?}}
+
                 <div class="right notice">
                     <div class="titleBar clearfix">
                         <div class="fl">公告板</div>
-                        <div class="fr small"><a href="">查看协议</a>&nbsp;/&nbsp;<a href="">领取证书</a></div>
+                        <div class="fr small">{{it.isEnsurePass && it.signedPassAgreement}}<a href="{{=it.agreementUrl}}">查看协议</a>{{?}}{{?it.hasBook}}&nbsp;/&nbsp;<a href="{{=it.bookUrl}}">领取赠书{{? it.bookUrlClicked}}<span>1</span>{{?}}</a>{{?}}</div>
                     </div>
                     <ul class="list">
                         <li class="item"><a href="">新生报到</a></li>
@@ -233,9 +264,10 @@
                     </ul>
                 </div>
             </div>
-            
-            
+
+
             <!---finsh--->
+            {{? it.classStatus == 'closed'}}
             <div class="section hide">
                 <div class="left finshHandle ">
                     <div class="titleBar">在这个班级，你还可以：</div>
@@ -297,68 +329,72 @@
                     </div>
                 </div>
                 <div class="right classMateList">
-                    <div class="titleBar"><div class="fl">同学录</div><span class="fr small">换一批</span></div>
+                    <div class="titleBar">
+                        <div class="fl">同学录</div><span class="fr small">换一批</span></div>
                     <div class="inner">
                         <ul class="list">
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
+                            {{for(var i=0;i
+                            <it.length;i++){}} <li class="item">
+                                <a href="{{=it.classmateId}}">
+                                    <img src="{{=it.avatorUrl}}" alt="">
+                                    <div class="name">{{=it.userName}}</div>
                                 </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <img src="images/1.jpg" alt="">
-                                    <div class="name">南瓜灯</div>
-                                </a>
-                            </li>
+                                </li>
+                                {{}}}
+
+                                <li class="item">
+                                    <a href="">
+                                        <img src="images/1.jpg" alt="">
+                                        <div class="name">南瓜灯</div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="">
+                                        <img src="images/1.jpg" alt="">
+                                        <div class="name">南瓜灯</div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="">
+                                        <img src="images/1.jpg" alt="">
+                                        <div class="name">南瓜灯</div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="">
+                                        <img src="images/1.jpg" alt="">
+                                        <div class="name">南瓜灯</div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="">
+                                        <img src="images/1.jpg" alt="">
+                                        <div class="name">南瓜灯</div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="">
+                                        <img src="images/1.jpg" alt="">
+                                        <div class="name">南瓜灯</div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="">
+                                        <img src="images/1.jpg" alt="">
+                                        <div class="name">南瓜灯</div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="">
+                                        <img src="images/1.jpg" alt="">
+                                        <div class="name">南瓜灯</div>
+                                    </a>
+                                </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            
+            {{?}}
             <!---finsh--->
             <div class="section">
                 <div class="left task">

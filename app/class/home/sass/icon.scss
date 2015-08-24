@@ -114,6 +114,9 @@
 .icon-processNone {
     @include iconSprite(processNone);
 }
+.icon-processNoneRotate {
+    @include iconSprite(processNoneRotate);
+}
 .icon-processOther {
     @include iconSprite(processOther);
 }

@@ -61,6 +61,11 @@
             }
         }
         .processBar {
+            &:hover {
+                .plan {
+                    display: block;
+                }
+            }
             position: relative;
             height: 8px;
             border-radius: 4px;
@@ -71,26 +76,54 @@
                 border-radius: 4px;
                 position: absolute;
                 height: 100%;
-                //                width: 50%;
                 background: #74cd55;
                 .node {
                     border-color: #91d879;
                 }
                 .pic {
                     @extend .icon-processMe;
+                    &:hover {
+                        z-index: 2;
+                    }
+                }
+            }
+            .plan {
+                display: none;
+                border-radius: 4px;
+                position: absolute;
+                height: 100%;
+                background: #ffe6c5;
+                .node {
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    line-height: 0;
+                    border: solid 6px;
+                    border-color: transparent transparent #ff992b transparent;
+                    top: 9px;
+                    border-radius: initial;
+                    background: none;
+                    right: -4px;
+                }
+                .tips {
+                    position: absolute;
+                    top: 20px;
+                    right: -80px;
+                    width: 167px;
                 }
             }
             .deskmate {
                 border-radius: 4px;
-                //                width: 30%;
                 position: absolute;
                 height: 100%;
-                background: #ffe6c5;
                 .node {
                     border-color: #ffaf58;
                 }
                 .pic {
                     @extend .icon-processOther;
+                    &:hover {
+                        z-index: 2;
+                    }
                 }
             }
             .node {

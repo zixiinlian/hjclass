@@ -18,33 +18,37 @@ Process.prototype = {
 
 
         //test;
-        data = {
-            start: '2010',
-            end: '2015',
-            me: '60%',
-            classMate: '60%',
-            total: 136,
-            curr: 225,
-            hasBegin: true,
-            rank: [{
-                pic: '/app/class/home/images/1.jpg',
-                num: 1
-            }, {
-                pic: '/app/class/home/images/1.jpg',
-                num: 2
-            }, {
-                pic: '/app/class/home/images/1.jpg',
-                num: 3
-            }]
+        var data = {
+            get: {
+                rSurplus: function () {
+                    return (1 - data.planLessonLearnRate) * 497;
+                },
+                lSurplus: function () {
+                    return data.planLessonLearnRate * 497;
+                },
+                compare: function () {
+                    var text = data.planLessonCount - data.myLearnedCount > 0 ? '落后' : '领先';
+                    return text;
+                },
+                calcLessons: function () {
+                    return Math.abs(data.planLessonCount - data.myLearnedCount);
+                }
+            }
         };
+        //        if (data.me == data.classMate) {
+        //            me.classMatePro.find('.pic').addClass('icon-processOtherRotate').css({
+        //                'right': 0
+        //            }).hover(function () {
+        //                $(this).css('zIndex', 1);
+        //            }, function () {
+        //                $(this).css('zIndex', 0);
+        //            });
+        //        }
 
         renderHandle($('#learningProcess'), $('#learningProcess-T'), data);
 
-        $(document).click(function () {
-                data.me = '100%';
-                con.html(dot.template(template)(data));
-            })
-            //test;
+
+        //test;
     }
 
 }
