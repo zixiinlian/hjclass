@@ -5,19 +5,10 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     gutil = require('gulp-util'),
     clean = require('gulp-clean'),
+    connect = require('gulp-connect'),
     compass = require('gulp-compass'),
-    WebpackDevServer = require('webpack-dev-server'),
     webpackConfig = require('./webpack.config.dev.js'),
     compilePath = 'app/class/home/';
-
-gulp.task('webpack', ['compass'], function () {
-    webpack(webpackConfig, (function (err, stats) {
-        if (err) throw new gutil.PluginError('webpack', err);
-        gutil.log("[webpack]", stats.toString({
-            colors: true
-        }));
-    }));
-});
 
 gulp.task('compass', function () {
     var distPath = 'dist/' + compilePath;
@@ -32,21 +23,26 @@ gulp.task('compass', function () {
         }));
 });
 
-gulp.task('webpackServer', ['watch'], function (callback) {
-    new WebpackDevServer(webpack(webpackConfig), {
-        stats: {
+gulp.task('webpack', ['compass'], function () {
+    webpack(webpackConfig, (function (err, stats) {
+        if (err) throw new gutil.PluginError('webpack', err);
+        gutil.log("[webpack]", stats.toString({
             colors: true
-        },
-        hot: true
-            //        host: '172.16.13.102'
-    }).listen(8080, 'localhost', function (err, result) {
-        if (err) throw new gutil.PluginError('webpack-dev-server', err);
-        gutil.log('[webpack-dev-server]', 'http://localhost:8080');
-    });
+        }));
+    }));
+});
+
+gulp.task('connect', function() {
+  connect.server({
+    root: 'app',
+    port: 8080,
+    livereload: true
+  });
 });
 
 gulp.task('watch', function () {
-    return gulp.watch(['app/**/*.scss'], ['compass']);
+    gulp.watch(['app/**/*.scss'], ['compass']);
+    gulp.watch(['app/**/*.js'], ['webpack']);
 });
 
 gulp.task('clean', function () {
@@ -58,4 +54,4 @@ gulp.task('clean', function () {
 
 gulp.task('build', ['compass', 'webpack']);
 
-gulp.task('dev', ['webpack', 'webpackServer']);
+gulp.task('dev', ['connect', 'webpack', 'watch']);

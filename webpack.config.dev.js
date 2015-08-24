@@ -5,8 +5,8 @@ var path = require('path'),
     glob = require('glob'),
     args = process.argv,
     debug = args.indexOf("--debug") > -1,
-    _commonStaicPath = 'http://class.hujiang.com';
-ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    _commonStaicPath = 'http://class.hujiang.com',
+    ExtractTextPlugin = require('extract-text-webpack-plugin'),
     // PathRewriterPlugin = require('webpack-path-rewriter'),
     // AssetsPlugin = require('assets-webpack-plugin'),
     defauleCompilePath = __dirname + '/app/**/*.js',
@@ -64,7 +64,12 @@ module.exports = {
         loaders: [{
                 test: /\.coffee$/,
                 loader: 'coffee'
-		},
+        },
+        {
+            test: /\.js$/,
+            exclude: /(node_modules|bower_components)/,
+            loader: 'babel-loader'
+        },
 //                  {
     //			test: /\.(png|jpg)$/,
     //			loader: 'url-loader'
