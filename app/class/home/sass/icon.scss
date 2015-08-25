@@ -95,9 +95,13 @@
 //}
 .icon-open {
     @include iconSprite(open);
+    &:hover{
+        @include iconSprite(openH);
+    }
 }
 .icon-openH {
     @include iconSprite(openH);
+
 }
 .icon-plus {
     @include iconSprite(plus);
@@ -125,6 +129,9 @@
 }
 .icon-shrink {
     @include iconSprite(shrink);
+    &:hover{
+       @include iconSprite(shrinkH); 
+    }
 }
 .icon-shrinkH {
     @include iconSprite(shrinkH);

@@ -19,13 +19,12 @@
             <div class="fl">
                 <h1 id="className">
                 <script type="text/template" charset="utf-8" id="className-T">
-                {{if(it){}}
+                {{?it}}
                 <span class="className">{{=it.className}}</span>
                 {{?it.hasSheTuan}}
                 <a class="classmatesMeet" href="http://st.hujiang.com/{{=it.sheTuanId}}/"  target="_blank">去同学会<div class="tips">学长学姐带你飞，立即进入同学会</div></a>
                 {{?}}
-                {{}}}
-                
+                {{?}}
                 </script>
                     </h1>
 
@@ -48,25 +47,23 @@
                                 {{}}}
                         </ul>
                         {{}}}
-
                     </script>
                 </div>
             </div>
             <div class="fr myInfo" id="myInfo">
                 <script type="text/template" charset="utf-8" id="myInfo-T">
-                    {{if(it){}}
                     <div class="pic fl">
-                        <img src="{{=it.pic}}" alt="" width="54" height="54" />
+                        <img src="{{=it.avatar}}" alt="" width="54" height="54" />
                     </div>
                     <div class="gain fl">
                         <p class="xuebi">
-                            <label>学&#12288;&#12288;币</label><span class="text">{{=it.xuebi}}</span></p>
+                            <label>学&#12288;&#12288;币</label><span class="text">{{=it.xueBi}}</span></p>
                         <p class="xuefen">
-                            <label>已获学分</label><span class="text">{{=it.myMark}}</span></p>
+                            <label>已获学分</label><span class="text">{{=it.mark}}</span></p>
                     </div>
-                    <a class="punchIn fl {{?it.pundInState==1 || it.pundInState==2 || it.pundInState==3}}punchIned{{?}}"><span class="text">{{?it.checkInSupport}}本班无打卡{{??it.pundInState==2}}今日已打卡{{??}}班级打卡{{?}}</span>
-                {{?it.pundInState==3}}<div class="tips">童鞋，您今日已在5个班级打过卡啦，明天再来吧～</div>{{?}}
-                </a> {{}}}
+                    <a class="punchIn fl {{?!it.canCheckIn}}punchIn{{?}}"><span class="text">{{=it.get.getText()}}</span>
+                {{?it.canNotCheckInReason=='今日打卡已达上限'}}<div class="tips">童鞋，您今日已在5个班级打过卡啦，明天再来吧～</div>{{?}}
+                </a>
                 </script>
             </div>
         </div>
@@ -90,18 +87,20 @@
         </div>
         <div class="fr main">
             <div class="section">
-                {{? it.classType == 'reservation'}}
-                <!---纯直播课未下载ct---->
-                <div class="left liveClass">
-                    <div class="fl">
-                        <i class="icon icon-ctlogo"></i>
-                    </div>
-                    <div class="text">本班全部课程需要使用<a class="inlineText">CCTalk</a>在线直播，请提前下载安装哦！</div>
-                    <a href="" class="btn">打开</a>
-                    <a href="" class="btn">下载</a>
+                <div id="lessonType">
+                    <script type="text/template" charset="utf-8" id="lessonType-T">
+                        <!--直播课-->
+                        {{?it.classType == 'reservation'}} {{?!it.hasCt}}
+                        <div class="left liveClass">
+                            <div class="fl">
+                                <i class="icon icon-ctlogo"></i>
+                            </div>
+                            <div class="text">本班全部课程需要使用<a class="inlineText">CCTalk</a>在线直播，请提前下载安装哦！</div>
+                            <a href="" class="btn">打开</a>
+                            <a href="" class="btn">下载</a>
+                        </div>
                 </div>
-                <!----直播课---->
-                {{??it.classType == 'reservation'}}
+                {{??}}
                 <div class="left task">
                     <div class="titleBar">
                         <div class="fl">学习任务</div>
@@ -119,7 +118,7 @@
                                     <a class="btn-Classroom" href="">进教室</a>
                                 </div>
                             </li>
-                            <li class="i tem">
+                            <li class="item">
                                 <div class="fl info"><i class="icon icon-canOrder"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
                                 <div class="fr">
                                     <a class="btn-order" href="">我要预约</a>
@@ -128,16 +127,16 @@
                         </ul>
                     </div>
                 </div>
-                {{?}}
-                <!-----开班前--->
+                {{?}} {{?}}
+                <!---->
 
-                {{? it.classType == 'mixed'}} {{?it.classStatus == 'notStart'}}
-                <div class="left beforeStart hide">
+                <!--开班前-->
+                {{? it.classType == 'mixed'}} {{? it.classStatus == 'notStart'}}
+                <div class="left beforeStart">
                     <div class="fl">
                         <i class="icon icon-clock"></i>
-
                     </div>
-                    <div class="text">亲爱的ajsdja，距离开课还有<span class="inlineText">10</span>天</div>
+                    <div class="text">亲爱的{{=it.userName}}，距离开课还有<span class="inlineText">10</span>天</div>
                     <p class="subText">在上课之前，先认识一下班级的同学们吧～</p>
                     <div>
                         <a class="btn" href="">找同学</a>
@@ -145,42 +144,38 @@
                     </div>
                 </div>
                 {{?? it.classStatus == 'closed'}}
-                <!---结束--->
-                <div class="left finshInfo hide">
-                    <!--                   <div class="">-->
+                <!--结束-->
+                <div class="left finshInfo">
                     <div class="fl">
-                        <div class="tips">亲爱的ydalida，本班课程已结束啦～</div>
-                        <a class="btn" href="">领取毕业证书</a>
+                        <div class="tips">亲爱的{{=it.userName}}，本班课程已结束啦～</div>
+                        {{? it.isShowDiploma}}<a class="btn" href="{{=it.diplomaUrl}}">领取毕业证书</a>{{?}}
                     </div>
                     <div class="fl me">
-                        <div class="fl"><img src="images/1.jpg" alt=""></div>
+                        <div class="fl"><img src="{{=it.deskmateAvatar}}" alt=""></div>
                         <p>
-                            <label>完成率</label><span class="text">100%</span></p>
+                            <label>完成率</label><span class="text">{{=it.myLessonLearnRate*100+'%'}}</span></p>
                         <p>
-                            <label>已获学分</label><span class="text">132</span></p>
+                            <label>已获学分</label><span class="text">{{=it.myMark}}</span></p>
                         <p>
-                            <label>累计打卡</label><span class="text">2905</span></p>
+                            <label>累计打卡</label><span class="text">{{=it.myTaskCount}}</span></p>
                     </div>
                     <div class="fl deskmate">
-                        <div class="fl"><img src="images/1.jpg" alt=""></div>
+                        <div class="fl"><img src="{{=it.deskmateAvatar}}" alt=""></div>
                         <p>
-                            <label>完成率</label><span class="text">100%</span></p>
+                            <label>完成率</label><span class="text">{{=it.deskmateLessonLearnRate*100+'%'}}</span></p>
                         <p>
-                            <label>已获学分</label><span class="text">132</span></p>
+                            <label>已获学分</label><span class="text">{{=it.deskmateMrak}}</span></p>
                         <p>
-                            <label>累计打卡</label><span class="text">2905</span></p>
+                            <label>累计打卡</label><span class="text">{{=it.deskmateTaskCount}}</span></p>
 
                     </div>
-                    <!--                   </div>-->
                 </div>
-                <!---结束--->
+                <!--结束-->
                 {{?? it.classStatus == 'active'}}
                 <div class="left learningProcess" id="learningProcess">
-                    <!--<script type="text/template" charset="utf-8" id="learningProcess-T">-->
-                    {{if(it){}}
                     <div class="titleBar">学习进度<span class="small">{{=it.myLearnCount}}/{{=it.totalLessonCount}}</span></div>
 
-                    {{if(it.rank){}}
+                    {{?it.rank}}
                     <div class="learningStar">
                         <label class="fl">每日学霸</label>
                         <ul class="list">
@@ -192,47 +187,29 @@
                                 {{}}}
                         </ul>
                     </div>
-                    {{}}}
-
+                    {{?}}
 
                     <div class="clearfix">
                         <div class="processInfo">
                             <div class="processBar">
+                                <div class="showPlanEl"></div>
                                 <div class="plan" style="width:{{=it.planLessonLearnRate*100+'%'}};">
                                     <div class="node"></div>
-                                    <div class="tips" style="{{?it.get.rSurplus()<83}}right:-{{=it.get.rSurplus()}}px;{{?}}{{?it.get.lSurplus()<83}}left:0;right:initial;{{?}}">计划进度{{=it.planLessonLearnRate*100+'%'}},{{=it.get.compare()}}计划进度{{=it.get.calcLessons()}}课{{?}}</div>
+                                    <div class="tips" style="{{?it.get.rSurplus()<83}}right:-{{=it.get.rSurplus()}}px;{{?}}{{?it.get.lSurplus()<83}}left:0;right:initial;{{?}}">计划进度{{=it.planLessonLearnRate*100+'%'}},{{=it.get.compare()}}计划进度{{=it.get.calcLessons()}}课</div>
                                 </div>
 
-                                <div class="me" style="width:{{=it.myLessonLearnRate*100+'%'}};{{? it.myLessonLearnRate<=it.deskmateLessonLearnRate}}z-index:1;{{?}}">
-                                    <div class="node"></div>
-                                    <div class="pic"><img src="{{=it.avatar}}" alt=""></div>
+                                <div class="deskmate" style="width:{{=it.deskmateLessonLearnRate*100+'%'}};">
+                                    <div class="node" {{?!it.hasDeskmate}}style="border-color:#efefef;" {{?}}></div>
+                                    {{?it.myLessonLearnRate==it.deskmateLessonLearnRate && it.myLessonLearnRate != 0}} {{?}}
+                                    <div class="pic {{=it.get.deskmatePic()}}">
+                                        {{?it.hasDeskmate}}
+                                        <img src="{{=it.deskmateAvatar}}" alt=""> {{?}}
+                                    </div>
                                 </div>
 
-                                <div class="deskmate" style="width:{{=it.deskmateLessonLearnRate*100+'%'}};{{? it.myLessonLearnRate<=it.deskmateLessonLearnRate}}z-index:1;{{?}}">
+                                <div class="me" style="width:{{=it.myLessonLearnRate*100+'%'}};{{?it.myLessonLearnRate<=it.deskmateLessonLearnRate}}z-index:1;{{?}}">
                                     <div class="node"></div>
-                                    {{?it.myLessonLearnRate==it.deskmateLessonLearnRate && it.myLessonLearnRate != 0}}
-                                    <style>
-                                        .learningProcess .processInfo .processBar .deskmate .pic {
-                                            width: 38px;
-                                            height: 38px;
-                                            background-position: 0 -1523px;
-                                            right: 0
-                                        }
-                                        
-                                        .deskmate:hover {
-                                            z-index: 2;
-                                        }
-
-                                    </style>
-                                    {{?}}
-                                    <div class="pic 
-                                        {{?!it.hasDeskmate}}
-                                        {{?myLessonLearnRate==0}}
-                                        icon-processNoneRotate
-                                        {{??}}
-                                        icon-processNone
-                                        {{?}}
-                                        {{?}}"><img src="{{=it.deskmateAvatar}}" alt=""></div>
+                                    <div class="pic icon-processMe"><img src="{{=it.avatar}}" alt=""></div>
                                 </div>
 
                             </div>
@@ -243,30 +220,33 @@
                         </div>
                         <div class="classHandle">
                             <a class="btn" href="{{=it.learningUrl}}">{{?it.hasBegin==true}}继续学习{{??}}开始学习{{?}}</a>
-                            <p><a href="">我要请假</a>&nbsp;/&nbsp;<a href="">我要延期</a></p>
+                            <p>{{? it.isShowLeave}}<a href="{{=it.leaveUrl}}">我要请假</a>{{?}}{{? it.isShowDelay}}&nbsp;/&nbsp;<a href="{{=it.delayUrl}}">我要延期</a>{{?}}</p>
                         </div>
                     </div>
-                    {{}}}
-                    <!--</script>-->
                 </div>
                 {{?}} {{?}}
-
-                <div class="right notice">
-                    <div class="titleBar clearfix">
-                        <div class="fl">公告板</div>
-                        <div class="fr small">{{it.isEnsurePass && it.signedPassAgreement}}<a href="{{=it.agreementUrl}}">查看协议</a>{{?}}{{?it.hasBook}}&nbsp;/&nbsp;<a href="{{=it.bookUrl}}">领取赠书{{? it.bookUrlClicked}}<span>1</span>{{?}}</a>{{?}}</div>
-                    </div>
-                    <ul class="list">
-                        <li class="item"><a href="">新生报到</a></li>
-                        <li class="item"><a href="">新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明</a></li>
-                        <li class="item"><a href="">新生报到</a></li>
-                        <li class="item"><a href="">新生熟悉班级的学习必看说明</a></li>
-                    </ul>
+                </script>
                 </div>
+                <div class="right notice" id="notice">
+                    <script type="text/template" charset="utf-8" id="notice-T">
+                        <div class="titleBar clearfix">
+                            <div class="fl">公告板</div>
+                            <div class="fr small">{{?it.isEnsurePass && it.signedPassAgreement}}<a href="{{=it.agreementUrl}}">查看协议</a>{{?}}{{?it.hasBook}}&nbsp;/&nbsp;<a href="{{=it.bookUrl}}">领取赠书{{? it.bookUrlClicked}}<span>1</span>{{?}}</a>{{?}}
+                            </div>
+                        </div>
+                        <ul class="list">
+                            <li class="item"><a href="">新生报到</a></li>
+                            <li class="item"><a href="">新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明</a></li>
+                            <li class="item"><a href="">新生报到</a></li>
+                            <li class="item"><a href="">新生熟悉班级的学习必看说明</a></li>
+                        </ul>
+                        </script>
+                </div>
+                
             </div>
 
 
-            <!---finsh--->
+            <!--finsh-->
             {{? it.classStatus == 'closed'}}
             <div class="section hide">
                 <div class="left finshHandle ">
@@ -337,7 +317,7 @@
                             <it.length;i++){}} <li class="item">
                                 <a href="{{=it.classmateId}}">
                                     <img src="{{=it.avatorUrl}}" alt="">
-                                    <div class="name">{{=it.userName}}</div>
+                                    <div class="name">{{=it[0].userName}}</div>
                                 </a>
                                 </li>
                                 {{}}}
@@ -395,9 +375,11 @@
                 </div>
             </div>
             {{?}}
-            <!---finsh--->
+            <!---finsh-->
             <div class="section">
-                <div class="left task">
+                <div class="left task" id="task">
+                <script type="text/template" charset="utf-8" id="task-T">
+                <div class="slideBtn"></div>
                     <div class="titleBar">
                         <div class="fl">学习任务</div>
                         <div class="fr">
@@ -448,9 +430,16 @@
                                     <a class="btn-order" href="">我要预约</a>
                                 </div>
                             </li>
+                            <li class="item">
+                                <div class="fl info"><i class="icon icon-locked"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
+                                <div class="fr">
+                                    <a class="btn-order" href="">我要预约</a>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                     <div class="moreLessons"><a href="">查看全部课程</a></div>
+                    </script>
                 </div>
                 <div class="right">
                     <div class="titleBar">

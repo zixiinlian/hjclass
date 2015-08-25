@@ -6,14 +6,14 @@
         float: right;
         text-align: right;
         @extend .titleBar;
-        margin-top: -53px; 
-        .list {  
-            @extend .clearfix; 
-            float: left;  
+        margin-top: -53px;
+        .list {
+            @extend .clearfix;
+            float: left;
             margin: 0 3px 0 15px;
             display: inline;
         }
-        .item { 
+        .item {
             position: relative;
             width: 32px;
             height: 32px;
@@ -60,10 +60,28 @@
                 width: 497px;
             }
         }
+        .showPlanEl {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            top: 0;
+        }
         .processBar {
-            &:hover {
-                .plan {
-                    display: block;
+            .me,
+            .deskmate {
+                &:hover {
+                    z-index: 2!important;
+                }
+            }
+            .pic {
+                position: absolute;
+                bottom: 10px;
+                right: -19px;
+                &.icon-processNoneRotate {
+                    left: 0;
+                }
+                &.icon-processOtherRotate {
+                    right: 0;
                 }
             }
             position: relative;
@@ -79,12 +97,6 @@
                 background: #74cd55;
                 .node {
                     border-color: #91d879;
-                }
-                .pic {
-                    @extend .icon-processMe;
-                    &:hover {
-                        z-index: 2;
-                    }
                 }
             }
             .plan {
@@ -103,27 +115,22 @@
                     top: 9px;
                     border-radius: initial;
                     background: none;
-                    right: -4px;
+                    // right: -4px;
                 }
                 .tips {
                     position: absolute;
                     top: 20px;
                     right: -80px;
-                    width: 167px;
+                    white-space: nowrap;
                 }
             }
             .deskmate {
                 border-radius: 4px;
                 position: absolute;
                 height: 100%;
+                // z-index: 1;
                 .node {
                     border-color: #ffaf58;
-                }
-                .pic {
-                    @extend .icon-processOther;
-                    &:hover {
-                        z-index: 2;
-                    }
                 }
             }
             .node {
@@ -136,11 +143,6 @@
                 top: 50%;
                 right: -6px;
                 margin-top: -6px;
-            }
-            .pic {
-                position: absolute;
-                bottom: 10px;
-                right: -19px;
             }
             img {
                 border-radius: 50%;
@@ -188,8 +190,26 @@
     }
 }
 .task {
+    position: relative;
     color: #494949;
     font-size: 14px;
+    &.wider {
+        border: none;
+        width: 884px;
+        @media screen and (min-width: 1200px) {
+            & {
+                width: 998px;
+            }
+        }
+        .info {
+            width: 770px;
+            @media screen and (min-width: 1200px) {
+                & {
+                    width: 880px;
+                }
+            }
+        }
+    }
     .btn-Classroom {
         @include btn(94px, 30px, 14px, #fff, #74cd55, #74cd55);
     }
@@ -213,7 +233,9 @@
     .info {
         width: 420px;
         @media screen and (min-width: 1200px) {
-            width: 530px;
+            & {
+                width: 530px;
+            }
         }
     }
     .upper,
@@ -230,6 +252,17 @@
         text-align: center;
         a {
             display: block;
+        }
+    }
+    .slideBtn {
+        position: absolute;
+        @extend .icon-shrink;
+        top: 50%;
+        margin-top: -19px;
+        right: 0;
+        cursor: pointer;
+        &.icon-open {
+            @extend .icon-open;
         }
     }
 }
