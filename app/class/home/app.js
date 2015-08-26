@@ -9,8 +9,22 @@ __DEBUG__ && console.log($(document).height());
 //
 var classinfo = require('./js/classinfo.js');
 var process = require('./js/process.js');
+var classmate = require('./js/classmateMeeting.js');
 
 $(function () {
+    function resizeIEWindow( minW){
+        if($(window).width() < minW){
+            $("body").addClass("w" + minW);
+        }else{
+            $("body").removeClass("w" + minW);
+        }    
+    }
+    if(navigator.userAgent.indexOf("MSIE") != -1 && praseInt(navigator.userAgent.match(/MSIE\s(\d+)\./i)[1]) < 9){
+        resizeIEWindow(1200);
+        window.onresize = function(){
+            resizeIEWindow(1200);
+        };
+    }
     //className;
     var className = new classinfo.ClassName();
     className.init();
@@ -25,4 +39,7 @@ $(function () {
     processInfo.init();
 
     //task;
+    //同学会
+    var classmateMeeting = new classmate.ClassmateMeetingTab();
+    classmateMeeting.init();
 })

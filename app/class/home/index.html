@@ -137,7 +137,7 @@
                         </ul>
                     </div>
                 </div>
-             <!-----开班前--->
+             <!-- ---开班前- -->
              
              <div class="left beforeStart hide">
                  <div class="fl">
@@ -152,7 +152,7 @@
                      </div>
              </div>
              
-              <!---结束--->
+              <!---结束- -->
                <div class="left finshInfo hide">
 <!--                   <div class="">-->
                        <div class="fl">
@@ -174,7 +174,7 @@
                        </div>
 <!--                   </div>-->
                </div>
-               <!---结束--->
+               <!---结束- -->
                 <div class="left learningProcess" id="learningProcess">
                    <script type="text/template" charset="utf-8" id="learningProcess-T">
                    {{if(it){}}
@@ -235,7 +235,7 @@
             </div>
             
             
-            <!---finsh--->
+            <!---finsh- -->
             <div class="section hide">
                 <div class="left finshHandle ">
                     <div class="titleBar">在这个班级，你还可以：</div>
@@ -359,7 +359,7 @@
                 </div>
             </div>
             
-            <!---finsh--->
+            <!---finsh- -->
             <div class="section">
                 <div class="left task">
                     <div class="titleBar">
@@ -425,8 +425,51 @@
             </div>
 
             <div class="section section-harf">
-                <div class="left classMateMeeting">
+                <div class="left classMateMeeting" id="classmateMeeting">
+                    <script type="text/template" charset="utf-8" id="classmateMeeting-T">
                     <div class="titleBar">
+                        商务英语同学会
+                    </div>
+                    {{  var isHide = it.length ? "" : "hide";
+                        var isShow = it.length ? "hide" : "";
+                    }}
+                    <div class="inner empty {{= isShow}}">
+                        <i class="icon-emptyTalk icon"></i>
+                        <p>这里有点安静</p>
+                        <p>赶快来发言，勾搭学习小伙伴！</p>
+                        <a href="" class="btn">我要发言</a>
+                    </div>
+                    <div class="inner {{= isHide}}">
+                        <ul class="list">
+                            {{ for(var i=0, len = it.length; i < len; i++){ }}
+                            <li class="item">
+                                <div class="fl title">
+                                    {{if(it[i].reviewType!=""){ 
+                                        var reviewTag; 
+                                        if(it[i].reviewType == "置顶"){
+                                            reviewTag = "top";
+                                        }else if(it[i].reviewType == "精华"){
+                                            reviewTag = "excellent";
+                                        }else{
+                                            reviewTag = "";
+                                        }
+
+                                    }}
+                                    <span class="badge {{= reviewTag}}">{{= it[i].reviewType}}</span>
+                                    {{ } }}
+                                    <a href="">{{= it[i].detail}}</a></div>
+                                <div class="fr">
+                                    <i class="icon icon-speak"></i><span class="text">{{= it[i].thumbUp}}</span>
+                                    <i class="icon icon-praise"></i><span class="text">{{= it[i].review}}</span>
+                                </div>
+                            </li>
+                            {{ } }}
+                        </ul>
+                    </div>
+                    <div class="more"><a href="">查看更多</a></div>
+
+                    </script>
+<!--                     <div class="titleBar">
                         商务英语同学会
                     </div>
                     <div class="inner empty ">
@@ -437,10 +480,12 @@
                     </div>
                     <div class="inner hide">
                         <ul class="list">
+
                             <li class="item">
                                 <div class="fl title"><span class="badge top">置顶</span><a href="">上班族的吓唬大比拼上班族的吓唬大比拼上班族的吓唬大比拼上班族的吓唬大比拼上班族的吓唬大比拼</a></div>
                                 <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
                             </li>
+
                             <li class="item">
                                 <div class="fl title"><span class="badge excellent">置顶</span><a href="">上班族的吓唬大比拼</a></div>
                                 <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
@@ -467,8 +512,9 @@
                             </li>
                         </ul>
                         <div class="more"><a href="">查看更多</a></div>
-                    </div>
+                    </div> -->
                 </div>
+
                 <div class="right hotAQ">
                     <div class="titleBar">
                         <span class="tab">热门答疑</span><span class="on tab">待解答</span>
