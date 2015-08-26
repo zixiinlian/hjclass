@@ -75,9 +75,6 @@ module.exports = {
 		}]
 	},
 	plugins: [
-		new webpack.DefinePlugin({
-			__DEBUG__: debug || build_debug,
-		}),
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings: false

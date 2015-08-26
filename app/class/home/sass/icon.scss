@@ -95,9 +95,13 @@
 //}
 .icon-open {
     @include iconSprite(open);
+    &:hover{
+        @include iconSprite(openH);
+    }
 }
 .icon-openH {
     @include iconSprite(openH);
+
 }
 .icon-plus {
     @include iconSprite(plus);
@@ -114,6 +118,9 @@
 .icon-processNone {
     @include iconSprite(processNone);
 }
+.icon-processNoneRotate {
+    @include iconSprite(processNoneRotate);
+}
 .icon-processOther {
     @include iconSprite(processOther);
 }
@@ -122,6 +129,9 @@
 }
 .icon-shrink {
     @include iconSprite(shrink);
+    &:hover{
+       @include iconSprite(shrinkH); 
+    }
 }
 .icon-shrinkH {
     @include iconSprite(shrinkH);

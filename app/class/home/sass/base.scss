@@ -7,6 +7,7 @@ $lgreen:#75be58;
 $grey:#494949;
 //base;
 body {
+    font-family: arial, 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
     font-size: 12px;
     background: #f6f6f6;
 }
@@ -203,7 +204,9 @@ a {
     .title {
         width: 293px;
         @media screen and (min-width: 1200px) {
-            width: 350px;
+            & {
+                width: 350px;
+            }
         }
     }
     .badge {
@@ -250,7 +253,9 @@ a {
         width: 333px;
         height: 26px;
         @media screen and (min-width: 1200px) {
-            width: 390px;
+            & {
+                width: 390px;
+            }
         }
     }
     .down {
@@ -267,10 +272,4 @@ a {
     .main & {
         width: 463px;
     }
-}
-.ms-controller,
-.ms-important,
-[ms-controller],
-[ms-important] {
-    visibility: hidden;
 }
