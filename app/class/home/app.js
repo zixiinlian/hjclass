@@ -9,6 +9,7 @@ var Classinfo = require('./js/classinfo.js');
 var Process = require('./js/process.js');
 var Notice = require('./js/notice.js');
 var Task = require('./js/Task.js');
+var FinshClass = require('./js/FinshClass.js');
 
 
 $(function () {
@@ -32,4 +33,12 @@ $(function () {
     var task = new Task.Task();
     task.init();
 
+
+    //结课操作;
+    var finshHandle = new FinshClass.FinshHandle();
+    finshHandle.init();
+
+    //同学录;
+    var classmatesList = new FinshClass.ClassmatesList();
+    classmatesList.init();
 })

@@ -247,9 +247,10 @@
 
 
             <!--finsh-->
-            {{? it.classStatus == 'closed'}}
-            <div class="section hide">
-                <div class="left finshHandle ">
+            <div class="section">
+                <div class="left finshHandle" id="finshHandle">
+                <script type="text/template" charset="utf-8" id="finshHandle-T">
+                {{? it.classStatus == 'closed'}}
                     <div class="titleBar">在这个班级，你还可以：</div>
                     <div class="inner">
                         <ul class="list">
@@ -307,74 +308,29 @@
                         </ul>
                         <div class="more"><a href=""><i class="icon-plus icon"></i>我要学习更多课程</a></div>
                     </div>
+                {{?}}
+                </script>    
                 </div>
-                <div class="right classMateList">
+                <div class="right classMateList" id="classMatesList">
+                <script type="text/template" charset="utf-8" id="classMatesList-T">
                     <div class="titleBar">
-                        <div class="fl">同学录</div><span class="fr small">换一批</span></div>
+                        <div class="fl">同学录</div><span class="fr small">换一批</span>
+                    </div>
                     <div class="inner">
                         <ul class="list">
-                            {{for(var i=0;i
-                            <it.length;i++){}} <li class="item">
-                                <a href="{{=it.classmateId}}">
-                                    <img src="{{=it.avatorUrl}}" alt="">
-                                    <div class="name">{{=it[0].userName}}</div>
+                            {{for(var i=0;i<it.length;i++){}} 
+                                <li class="item">
+                                <a href="{{=it[i].classmateId}}">
+                                    <img src="{{=it[i].avatorUrl}}" alt="">
+                                    <div class="name">{{=it[i].userName}}</div>
                                 </a>
                                 </li>
-                                {{}}}
-
-                                <li class="item">
-                                    <a href="">
-                                        <img src="images/1.jpg" alt="">
-                                        <div class="name">南瓜灯</div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="">
-                                        <img src="images/1.jpg" alt="">
-                                        <div class="name">南瓜灯</div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="">
-                                        <img src="images/1.jpg" alt="">
-                                        <div class="name">南瓜灯</div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="">
-                                        <img src="images/1.jpg" alt="">
-                                        <div class="name">南瓜灯</div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="">
-                                        <img src="images/1.jpg" alt="">
-                                        <div class="name">南瓜灯</div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="">
-                                        <img src="images/1.jpg" alt="">
-                                        <div class="name">南瓜灯</div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="">
-                                        <img src="images/1.jpg" alt="">
-                                        <div class="name">南瓜灯</div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="">
-                                        <img src="images/1.jpg" alt="">
-                                        <div class="name">南瓜灯</div>
-                                    </a>
-                                </li>
+                            {{}}}
                         </ul>
                     </div>
+                </script>   
                 </div>
             </div>
-            {{?}}
             <!---finsh-->
             <div class="section">
                 <div class="left task" id="task">
