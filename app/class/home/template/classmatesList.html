@@ -1,0 +1,17 @@
+<script type="text/template" charset="utf-8" id="classMatesList-T">
+    <div class="titleBar">
+        <div class="fl">同学录</div><span class="fr small">换一批</span>
+    </div>
+    <div class="inner">
+        <ul class="list">
+            {{for(var i=0;i
+            <it.length;i++){}} <li class="item">
+                <a href="{{=it[i].classmateId}}">
+                    <img src="{{=it[i].avatorUrl}}" alt="">
+                    <div class="name">{{=it[i].userName}}</div>
+                </a>
+                </li>
+                {{}}}
+        </ul>
+    </div>
+</script>

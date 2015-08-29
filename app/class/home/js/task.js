@@ -6,7 +6,7 @@ var Task = function () {}
 Task.prototype = {
     init: function () {
         this.getData();
-        this.reSetWidth();
+        //        this.reSetWidth();
     },
     reSetWidth: function () {
         $('#task .slideBtn').on('click', function () {
@@ -26,14 +26,21 @@ Task.prototype = {
         }
     },
     getData: function () {
-        var data = {
-            get: {
-                // setTaskWidth: function () {
-                //     return $.cookie('isTaskWidther');
-                // }
-            }
-        };
-        renderHandle($('#task'), $('#task-T'), data);
+        var me = this;
+
+
+        ajaxHandle('./template/task.html', '#task', '#task-T', './json/guidOld.json', null, function (con, tmp, data) {
+            var data = {
+                get: {
+                    // setTaskWidth: function () {
+                    //     return $.cookie('isTaskWidther');
+                    // }
+                }
+            };
+
+            renderHandle(con, tmp, data);
+            me.reSetWidth();
+        })
 
     }
 }

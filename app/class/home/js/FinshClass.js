@@ -10,10 +10,17 @@ FinshHandle.prototype = {
         this.getData();
     },
     getData: function () {
-        var data = {
-            classStatus: 'closed'
-        }
-        renderHandle($('#finshHandle'), $('#finshHandle-T'), data);
+
+
+        ajaxHandle('./template/finshHandle.html', '#finshHandle', '#finshHandle-T', './json/guidOld.json', null, function (con, tmp, data) {
+            var data = {
+                classStatus: 'closed'
+            }
+
+
+            renderHandle(con, tmp, data);
+        })
+
     }
 }
 var ClassmatesList = function () {}
@@ -22,35 +29,42 @@ ClassmatesList.prototype = {
         this.getData();
     },
     getData: function () {
-        var data = [{
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '1号'
+
+
+
+
+        ajaxHandle('./template/classMatesList.html', '#classMatesList', '#classMatesList-T', './json/guidOld.json', null, function (con, tmp, data) {
+            var data = [{
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '1号'
 }, {
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '1号'
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '1号'
 }, {
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '1号'
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '1号'
 }, {
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '1号'
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '1号'
 }, {
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '1号'
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '1号'
 }, {
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '1号'
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '1号'
 }, {
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '1号'
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '1号'
 }, {
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '1号'
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '1号'
 }, {
-            avatorUrl: '/app/class/home/images/1.jpg',
-            userName: '9号'
+                avatorUrl: '/app/class/home/images/1.jpg',
+                userName: '9号'
 }];
-        renderHandle($('#classMatesList'), $('#classMatesList-T'), data);
+            renderHandle(con, tmp, data);
+        })
+
     }
 }
 exports.FinshHandle = FinshHandle;

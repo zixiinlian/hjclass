@@ -4,19 +4,25 @@ var renderHandle = handle.renderHandle;
 
 
 
-var Notice = function(){
-    
+var Notice = function () {
+
 }
 
 Notice.prototype = {
-    init:function(){
+    init: function () {
         this.getData();
     },
-    getData:function(){
-        var data={
-            
-        }
-        renderHandle($('#notice'), $('#notice-T'), data);
+    getData: function () {
+
+
+
+
+        ajaxHandle('./template/notice.html', '#notice', '#notice-T', './json/guidOld.json', null, function (con, tmp, data) {
+            var data = {
+
+            }
+            renderHandle(con, tmp, data);
+        })
     }
 }
 

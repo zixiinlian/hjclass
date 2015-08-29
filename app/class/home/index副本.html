@@ -1,0 +1,732 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!--    <script src="http://localhost:8080/webpack-dev-server.js"></script>-->
+    <!--    <link rel="stylesheet" href="/dist/app/class/home/app.css">-->
+    <!--script src="/dist/app/common.js"></script-->
+    <!--    <link rel="stylesheet" href="/.temp/css/app.css">-->
+    <!--    <script src="/vendor/avalon.min.js"></script>-->
+    <script src="/dist/app/class/home/app.js"></script>
+    <link rel="stylesheet" href="/dist/app/class/home/app.css">
+</head>
+
+<body>
+    <!--
+    <div class="popWin">
+    <div class="inner">
+        <div class="close" id="close">&times;</div>
+        <p class="text">您还没有安装CCTalk
+            <br/> 是否要下载并安装？
+        </p>
+        <a href="" class="btn">下载</a>
+    </div>
+</div>
+-->
+    <!--
+    <div class="popWin onlyWindwos">
+        <div class="inner">
+            <p class="text">抱歉，CCTalk客户端暂时仅支持Windows系统。
+            </p>
+            <a href="" class="btn" id="close">关闭</a>
+        </div>
+    </div>
+-->
+    <!--
+    <div class="popWin notice">
+    <div class="inner">
+        <div class="title">同桌通知</div>
+        <div class="close" id="close">&times;</div>
+        <p class="text">您有<span class="orange-text">30</span>条同桌通知</p>
+        <a href="" class="btn btn-hasknow" id="close">知道了</a>
+        <a href="" class="btn">去看看</a>
+        <p class="label-line">
+            <label>
+                <input type="checkbox" class="check">一段时间内不再显示
+            </label>
+        </p>
+    </div>
+</div>
+-->
+    <!--guidNew-->
+    <div id="guidNew">
+        <script type="text/template" charset="utf-8" id="guidNew-T">
+        {{?it }}
+        <style>
+                    html {
+                        overflow: hidden;
+                    }
+
+                </style>
+            {{?it.step==0}}
+            <div class="guid guidNew">
+                <div class="inner guidNew0">
+                    <div class="close" id="close"><i class="icon-closeCicle"></i></div>
+                    <div class="content">
+                        Hi,hwieuhw～
+                        <br> 沪江网校班级首页
+                        <span class="orange-text">全新改版</span>啦！
+                        <br> 邀请你一起体验一下新功能！
+                    </div>
+                    <div class="btn"><span class="text">继续</span><i class="icon icon-arrowr"></i></div>
+                </div>
+            </div>
+            {{??it.step==1}}
+            <div class="guid guidNew">
+                <div class="inner guidNew1">
+                    <div class="close" id="close"><i class="icon-closeCicle"></i></div>
+                    <div class="content">和同桌PK<span class="orange-text">学习进度</span>，还有机会成为学霸哦！</div>
+                    <div class="btn"><span class="text">继续</span><i class="icon icon-arrowr"></i></div>
+                </div>
+            </div>
+            {{??it.step==2}}
+            <div class="guid guidNew">
+                <div class="inner guidNew2">
+                    <div class="close" id="close"><i class="icon-closeCicle"></i></div>
+                    <div class="content">学习任务支持<span class="orange-text">一键听课</span>，还能找到一起学习的伙伴！</div>
+                    <div class="btn"><span class="text">继续</span><i class="icon icon-arrowr"></i></div>
+                </div>
+            </div>
+            {{??it.step==3}}
+            <div class="guid guidNew">
+                <div class="inner guidNew3">
+                    <div class="close" id="close"><i class="icon-closeCicle"></i></div>
+                    <div class="content">看大家都在<span class="orange-text">聊什么问什么</span>，互帮互助进步快，学习路上不孤单！</div>
+                    <div class="btn"><span class="text">继续</span><i class="icon icon-arrowr"></i></div>
+                </div>
+            </div>
+            {{??it.step==4}}
+            <div class="guid guidNew">
+                <div class="inner guidNew0 guidNew4">
+                    <div class="close" id="close"><i class="icon-closeCicle"></i></div>
+                    <div class="content"><span class="f24">新版网校班级首页</span>
+                        <br>更高效，更趣味，更个性</div>
+                    <div class="btn"><span class="text">立即体验</span></div>
+                    <p class="extend"><a class="text">了解更多新版功能</a><i class="icon-arrowrlit"></i></p>
+                </div>
+            </div>
+            {{?}}
+            {{?}}
+        </script>
+    </div>
+    <!--guidNewEnd-->
+
+
+    <!--guidOld-->
+    <div id="guidOld">
+        <script type="text/template" charset="utf-8" id="guidOld-T">
+            {{?it.step==0}}
+            <div class="guid">
+                <style>
+                    html {
+                        overflow: hidden;
+                    }
+
+                </style>
+                <div class="inner">
+                    <div class="close" id="close" id="close"><i class="icon-closeG"></i></div>
+                    <div class="pic">
+                        <img src="/app/class/home/images/1.jpg" width="70" height="70" alt="">
+                    </div>
+                    <div class="content">
+                        Hi,<span class="orange-text">{{=it.userName}}</span>～
+                        <br/>欢迎各位来到沪江网校，我是你的班主任
+                        <span class="orange-text">小新</span>～
+                        <br/>在毕业前将一路陪伴大家学习成长和学习！一起来熟悉一下班级吧！
+                    </div>
+
+                    <div class="btnLine"><a class="btn"><span class="text">现在就去</span><i class="icon-arrowr icon"></i></a></div>
+                </div>
+            </div>
+            {{??it.step==1}}
+            <div class="mark" style="left:{{=it.get.getStep1offsetL()+230}}px;top:70px;">
+                <div class="ripple1 ripple"></div>
+                <div class="ripple2 ripple"></div>
+                <div class="ripple3 ripple"></div>
+            </div>
+
+            <div class="guid">
+                <style>
+                    html {
+                        overflow: hidden;
+                    }
+                    
+                    .punchIn {
+                        position: relative;
+                        z-index: 100;
+                    }
+
+                </style>
+                <div class="step step1">
+                    <div class="inner" style="left:{{=it.get.getStep1offsetL()}}px;">
+                        <div class="line"><i class="icon-guidline1"></i></div>
+                        <div class="close" id="close"><i class="icon-closeStep"></i></div>
+                        <div class="content">
+                            点击<span class="orange-text">班级打卡</span>赚学币，
+                            <br> 学币可以用来买课哦～
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{??it.step==2}}
+            <div class="guid">
+                <style>
+                    html {
+                        overflow: hidden;
+                    }
+                    
+                    .nav {
+                        position: relative;
+                        z-index: 100;
+                    }
+
+                </style>
+                <div class="step step2">
+                    <div class="inner" style="left:{{=it.get.getStep2offsetL()}}px;">
+                        <div class="line"><i class="icon-guidline2"></i></div>
+                        <div class="close" id="close"><i class="icon-closeStep"></i></div>
+                        <div class="content">
+                            学习、复习、交朋友～
+                            <br>点击标签进入相应功能
+                        </div>
+                        <a class="btn">继续</a>
+                    </div>
+                </div>
+            </div>
+
+            {{??it.step==3}}
+
+            <div class="guid guidEnd">
+                <style>
+                    html {
+                        overflow: hidden;
+                    }
+
+                </style>
+                <div class="inner">
+                    <div class="close" id="close" id="close"><i class="icon-closeG"></i></div>
+                    <div class="pic">
+                        <img src="/app/class/home/images/1.jpg" width="70" height="70" alt="">
+                    </div>
+                    <div class="content">
+                        亲爱的,<span class="orange-text">ydzatal</span>童鞋
+                        <br/>一起开启学习之旅吧！
+                    </div>
+                    <div class="btnLine">
+                        <a class="btn greet-btn">和同学打招呼</a>
+                        <a href="" class="btn">先在班级逛逛</a>
+                    </div>
+                </div>
+            </div>
+            {{?}}
+
+            <!--guidOldEnd-->
+        </script>
+
+    </div>
+
+
+
+
+    <div class="classInfo">
+        <div class="wrap">
+            <div class="fl">
+                <h1 id="className">
+                <script type="text/template" charset="utf-8" id="className-T">
+                {{?it}}
+                <span class="className">{{=it.className}}</span>
+                {{?it.hasSheTuan}}
+                <a class="classmatesMeet" href="http://st.hujiang.com/{{=it.sheTuanId}}/"  target="_blank">去同学会<div class="tips">学长学姐带你飞，立即进入同学会</div></a>
+                {{?}}
+                {{?}}
+                </script>
+                    </h1>
+
+                <div class="managers" id="managers">
+                    <script type="text/template" charset="utf-8" id="managers-T">
+                        {{if(it && it.length>0){}} {{?it.length>4}}
+                        <div class="arrow left"><i class="icon-mal icon"></i></div>
+                        <div class="arrow right"><i class="icon-mar icon icon-mawr"></i></div>
+                        {{?}}
+
+                        <ul class="list" id="managers-list" style="width:{{=it.length*66+'px'}};">
+                            {{for(var i=0;i
+                            <it.length;i++){}} <li class="item">
+                                <a href="" target="_blank">
+                                    <img class="pic" src="{{=it[i].pic}}" width="42" height="42" alt="">
+                                    <div class="title">{{=it[i].title}}</div>
+                                </a>
+                                </li>
+                                {{}}}
+                        </ul>
+                        {{}}}
+                    </script>
+                </div>
+            </div>
+            <div class="fr myInfo" id="myInfo">
+                <script type="text/template" charset="utf-8" id="myInfo-T">
+                    <div class="pic fl">
+                        <img src="{{=it.avatar}}" alt="" width="54" height="54" />
+                    </div>
+                    <div class="gain fl">
+                        <p class="xuebi">
+                            <label>学&#12288;&#12288;币</label><span class="text">{{=it.xueBi}}</span></p>
+                        <p class="xuefen">
+                            <label>已获学分</label><span class="text">{{=it.mark}}</span></p>
+                    </div>
+                    <a class="punchIn fl {{?!it.canCheckIn}}punchIn{{?}}"><span class="text">{{=it.get.getText()}}</span>
+                {{?it.canNotCheckInReason=='今日打卡已达上限'}}<div class="tips">童鞋，您今日已在5个班级打过卡啦，明天再来吧～</div>{{?}}
+                </a>
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="wrap">
+        <div class="fl nav">
+            <ul>
+                <li class="item fontOuter"><a><i class="icon icon-home"></i><span class="text">班级首页</span></a></li>
+                <li class="item"><a><i class="icon icon-couseList"></i><span class="text">课程表</span></a></li>
+                <li class="item"><a><i class="icon icon-note"></i><span class="text">笔记</span></a></li>
+                <li class="item"><a><i class="icon icon-anque"></i><span class="text">答疑</span></a></li>
+                <li class="item"><a><i class="icon icon-homework"></i><span class="text">作业</span></a></li>
+                <li class="item"><a><i class="icon icon-ci"></i><span class="text">词场</span></a></li>
+                <li class="item"><a><i class="icon icon-talk"></i><span class="text">讨论</span></a></li>
+                <li class="item"><a><i class="icon icon-data"></i><span class="text">资料</span></a></li>
+                <li class="item"><a><i class="icon icon-classMate"></i><span class="text">同桌</span></a></li>
+                <li class="item fontOuter"><a><i class="icon icon-speak"></i><span class="text">我的发言</span></a></li>
+            </ul>
+        </div>
+        <div class="fr main">
+            <div class="section">
+                <div id="lessonType">
+                    <script type="text/template" charset="utf-8" id="lessonType-T">
+                        <!--直播课-->
+                        {{?it.classType == 'reservation'}} {{?!it.hasCt}}
+                        <div class="left liveClass">
+                            <div class="fl">
+                                <i class="icon icon-ctlogo"></i>
+                            </div>
+                            <div class="text">本班全部课程需要使用<a class="inlineText">CCTalk</a>在线直播，请提前下载安装哦！</div>
+                            <a href="" class="btn">打开</a>
+                            <a href="" class="btn">下载</a>
+                        </div>
+                </div>
+                {{??}}
+                <div class="left task">
+                    <div class="titleBar">
+                        <div class="fl">学习任务</div>
+                        <div class="fr">
+                            <a class="icon-calendar"></a>
+                        </div>
+                    </div>
+                    <div class="upper">
+                        <ul class="list">
+                            <li class="item">
+                                <div class="fl info">
+                                    <i class="icon icon-canLearn"></i><span class="className">流利法语1V8</span><span class="teacher">老师:Aline</span><span class="time">5月10日17:00-18:00</span>
+                                </div>
+                                <div class="fr">
+                                    <a class="btn-Classroom" href="">进教室</a>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="fl info"><i class="icon icon-canOrder"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
+                                <div class="fr">
+                                    <a class="btn-order" href="">我要预约</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {{?}} {{?}}
+                <!---->
+
+                <!--开班前-->
+                {{? it.classType == 'mixed'}} {{? it.classStatus == 'notStart'}}
+                <div class="left beforeStart">
+                    <div class="fl">
+                        <i class="icon icon-clock"></i>
+                    </div>
+                    <div class="text">亲爱的{{=it.userName}}，距离开课还有<span class="inlineText">10</span>天</div>
+                    <p class="subText">在上课之前，先认识一下班级的同学们吧～</p>
+                    <div>
+                        <a class="btn" href="">找同学</a>
+                        <a class="btn" href="">找同桌</a>
+                    </div>
+                </div>
+                {{?? it.classStatus == 'closed'}}
+                <!--结束-->
+                <div class="left finshInfo">
+                    <div class="fl">
+                        <div class="tips">亲爱的{{=it.userName}}，本班课程已结束啦～</div>
+                        {{? it.isShowDiploma}}<a class="btn" href="{{=it.diplomaUrl}}">领取毕业证书</a>{{?}}
+                    </div>
+                    <div class="fl me">
+                        <div class="fl"><img src="{{=it.deskmateAvatar}}" alt=""></div>
+                        <p>
+                            <label>完成率</label><span class="text">{{=it.myLessonLearnRate*100+'%'}}</span></p>
+                        <p>
+                            <label>已获学分</label><span class="text">{{=it.myMark}}</span></p>
+                        <p>
+                            <label>累计打卡</label><span class="text">{{=it.myTaskCount}}</span></p>
+                    </div>
+                    <div class="fl deskmate">
+                        <div class="fl"><img src="{{=it.deskmateAvatar}}" alt=""></div>
+                        <p>
+                            <label>完成率</label><span class="text">{{=it.deskmateLessonLearnRate*100+'%'}}</span></p>
+                        <p>
+                            <label>已获学分</label><span class="text">{{=it.deskmateMrak}}</span></p>
+                        <p>
+                            <label>累计打卡</label><span class="text">{{=it.deskmateTaskCount}}</span></p>
+
+                    </div>
+                </div>
+                <!--结束-->
+                {{?? it.classStatus == 'active'}}
+
+                <div class="left learningProcess" id="learningProcess">
+                    <div class="titleBar">学习进度<span class="small">{{=it.myLearnCount}}/{{=it.totalLessonCount}}</span></div>
+
+                    {{?it.rank}}
+                    <div class="learningStar">
+                        <label class="fl">每日学霸</label>
+                        <ul class="list">
+                            {{for(var j=0;j
+                            <it.rank.length;j++){}} <li class="item">
+                                <a href=""><img src="{{=it.rank[j].pic}}" alt=""></a>
+                                <span class="rank {{?it.rank[j].num==1}}first{{??it.rank[j].num==2}}second{{??it.rank[j].num==3}}third{{?}}">{{=it.rank[j].num}}</span>
+                                </li>
+                                {{}}}
+                        </ul>
+                    </div>
+                    {{?}}
+
+                    <div class="clearfix">
+                        <div class="processInfo">
+                            <div class="processBar">
+                                <div class="showPlanEl"></div>
+                                <div class="plan" style="width:{{=it.planLessonLearnRate*100+'%'}};">
+                                    <div class="node"></div>
+                                    <div class="tips" style="{{?it.get.rSurplus()<83}}right:-{{=it.get.rSurplus()}}px;{{?}}{{?it.get.lSurplus()<83}}left:0;right:initial;{{?}}">计划进度{{=it.planLessonLearnRate*100+'%'}},{{=it.get.compare()}}计划进度{{=it.get.calcLessons()}}课</div>
+                                </div>
+
+                                <div class="deskmate" style="width:{{=it.deskmateLessonLearnRate*100+'%'}};">
+                                    <div class="node" {{?!it.hasDeskmate}}style="border-color:#efefef;" {{?}}></div>
+                                    {{?it.myLessonLearnRate==it.deskmateLessonLearnRate && it.myLessonLearnRate != 0}} {{?}}
+                                    <div class="pic {{=it.get.deskmatePic()}}">
+                                        {{?it.hasDeskmate}}
+                                        <img src="{{=it.deskmateAvatar}}" alt=""> {{?}}
+                                    </div>
+                                </div>
+
+                                <div class="me" style="width:{{=it.myLessonLearnRate*100+'%'}};{{?it.myLessonLearnRate<=it.deskmateLessonLearnRate}}z-index:1;{{?}}">
+                                    <div class="node"></div>
+                                    <div class="pic icon-processMe"><img src="{{=it.avatar}}" alt=""></div>
+                                </div>
+
+                            </div>
+                            <div class="clearfix">
+                                <div class="fl">{{=it.beginDate}}</div>
+                                <div class="fr">{{=it.end}}</div>
+                            </div>
+                        </div>
+                        <div class="classHandle">
+                            <a class="btn" href="{{=it.learningUrl}}">{{?it.hasBegin==true}}继续学习{{??}}开始学习{{?}}</a>
+                            <p>{{? it.isShowLeave}}<a href="{{=it.leaveUrl}}">我要请假</a>{{?}}{{? it.isShowDelay}}&nbsp;/&nbsp;<a href="{{=it.delayUrl}}">我要延期</a>{{?}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{?}} {{?}}
+                </script>
+            </div>
+            <div class="right notice" id="notice">
+                <script type="text/template" charset="utf-8" id="notice-T">
+                    <div class="titleBar clearfix">
+                        <div class="fl">公告板</div>
+                        <div class="fr small">{{?it.isEnsurePass && it.signedPassAgreement}}<a href="{{=it.agreementUrl}}">查看协议</a>{{?}}{{?it.hasBook}}&nbsp;/&nbsp;<a href="{{=it.bookUrl}}">领取赠书{{? it.bookUrlClicked}}<span>1</span>{{?}}</a>{{?}}
+                        </div>
+                    </div>
+                    <ul class="list">
+                        <li class="item"><a href="">新生报到</a></li>
+                        <li class="item"><a href="">新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明</a></li>
+                        <li class="item"><a href="">新生报到</a></li>
+                        <li class="item"><a href="">新生熟悉班级的学习必看说明</a></li>
+                    </ul>
+                </script>
+            </div>
+
+        </div>
+
+
+        <!--finsh-->
+        <div class="section">
+            <div class="left finshHandle" id="finshHandle">
+                <script type="text/template" charset="utf-8" id="finshHandle-T">
+                    {{? it.classStatus == 'closed'}}
+                    <div class="titleBar">在这个班级，你还可以：</div>
+                    <div class="inner">
+                        <ul class="list">
+                            <li class="item">
+                                <a href="">
+                                    <div class="fl">
+                                        <i class="icon-fnote icon"></i>
+                                    </div>
+                                    <div class="text">回顾笔记</div>
+                                    <p class="subText">我的笔记：19</p>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="">
+                                    <div class="fl">
+                                        <i class="icon-fhomework icon"></i>
+                                    </div>
+                                    <div class="text">查看作业</div>
+                                    <p class="subText">我的作业：19/52</p>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="">
+                                    <div class="fl">
+                                        <i class="icon-fci icon"></i>
+                                    </div>
+                                    <div class="text">背单词</div>
+                                    <p class="subText">通关进度：19/36</p>
+                                </a>
+                            </li>
+                            <li class="item down">
+                                <a href="">
+                                    <div class="fl">
+                                        <i class="icon-faq icon"></i>
+                                    </div>
+                                    <div class="text">查看答疑</div>
+                                </a>
+                            </li>
+                            <li class="item down">
+                                <a href="">
+                                    <div class="fl">
+                                        <i class="icon-fdownload icon"></i>
+                                    </div>
+                                    <div class="text">下载资料</div>
+                                </a>
+                            </li>
+                            <li class="item down">
+                                <a href="">
+                                    <div class="fl">
+                                        <i class="icon-fcommit icon"></i>
+                                    </div>
+                                    <div class="text">交流讨论</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="more"><a href=""><i class="icon-plus icon"></i>我要学习更多课程</a></div>
+                    </div>
+                    {{?}}
+                </script>
+            </div>
+            <div class="right classMateList" id="classMatesList">
+                <script type="text/template" charset="utf-8" id="classMatesList-T">
+                    <div class="titleBar">
+                        <div class="fl">同学录</div><span class="fr small">换一批</span>
+                    </div>
+                    <div class="inner">
+                        <ul class="list">
+                            {{for(var i=0;i
+                            <it.length;i++){}} <li class="item">
+                                <a href="{{=it[i].classmateId}}">
+                                    <img src="{{=it[i].avatorUrl}}" alt="">
+                                    <div class="name">{{=it[i].userName}}</div>
+                                </a>
+                                </li>
+                                {{}}}
+                        </ul>
+                    </div>
+                </script>
+            </div>
+        </div>
+
+        <!---finsh-->
+        <div class="section">
+            <div class="left task" id="task">
+                <script type="text/template" charset="utf-8" id="task-T">
+                    <div class="slideBtn"></div>
+                    <div class="titleBar">
+                        <div class="fl">学习任务</div>
+                        <div class="fr">
+                            <a class="icon-calendar"></a>
+                        </div>
+                    </div>
+                    <div class="upper">
+                        <ul class="list">
+                            <li class="item">
+                                <div class="fl info">
+                                    <i class="icon icon-canLearn"></i><span class="className">流利法语1V8</span><span class="teacher">老师:Aline</span><span class="time">5月10日17:00-18:00</span>
+                                </div>
+                                <div class="fr">
+                                    <a class="btn-Classroom" href="">进教室</a>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="fl info"><i class="icon icon-canOrder"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
+                                <div class="fr">
+                                    <a class="btn-order" href="">我要预约</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="down">
+                        <ul class="list">
+
+                            <li class="item">
+                                <div class="fl info"><i class="icon icon-learning"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
+                                <div class="fr">
+                                    <a class="btn-order" href="">我要预约</a>
+                                </div>
+                            </li>
+
+
+
+                            <li class="item">
+                                <div class="fl info"><i class="icon icon-completed"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
+                                <div class="fr">
+                                    <a class="btn-order" href="">我要预约</a>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="fl info"><i class="icon icon-locked"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
+                                <div class="fr">
+                                    <a class="btn-order" href="">我要预约</a>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="fl info"><i class="icon icon-locked"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
+                                <div class="fr">
+                                    <a class="btn-order" href="">我要预约</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="moreLessons"><a href="">查看全部课程</a></div>
+                </script>
+            </div>
+            <div class="right">
+                <div class="titleBar">
+                    <div class="fl">20%的同学已学本课</div>
+                    <div class="fr small"><a href="">详情</a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section section-harf">
+            <div class="left classMateMeeting" id="classmateMeeting">
+                <script type="text/template" charset="utf-8" id="classmateMeeting-T">
+                    <div class="titleBar">
+                        商务英语同学会
+                    </div>
+                    {{?it && !it.length}}
+                    <div class="inner empty">
+                        <i class="icon-emptyTalk icon"></i>
+                        <p>这里有点安静</p>
+                        <p>赶快来发言，勾搭学习小伙伴！</p>
+                        <a href="" class="btn">我要发言</a>
+                    </div>
+                    {{??}}
+                    <div class="inner">
+                        <ul class="list">
+                            {{ for(var i=0, len = it.length; i
+                            < len; i++){ }} <li class="item">
+                                <div class="fl title">
+                                    {{?it[i].topicType == 'Top'}}
+                                    <span class="badge top">置顶</span> {{?? it[i].topicType == 'Best'}}
+                                    <span class="badge excellent">精华</span> {{?}}
+
+                                    <a href="{{=it[i].topicUrl}}">{{= it[i].topicName}}</a></div>
+                                <div class="fr">
+                                    <i class="icon icon-speak"></i><span class="text">{{= it[i].commentCount}}</span>
+                                    <i class="icon icon-praise"></i><span class="text">{{= it[i].likeCount}}</span>
+                                </div>
+                                </li>
+                                {{}}}
+                        </ul>
+                    </div>
+                    <div class="more"><a href="">查看更多</a></div>
+                    {{?}}
+                </script>
+
+            </div>
+
+            <div class="right AQ">
+                <div class="titleBar">
+                    <span class="tab on">热门答疑</span><span class=" tab">待解决</span>
+                </div>
+
+                <div class="tabBox inner">
+                    <div class="pannel hotAQ" data-loaded="true" id="hotAQ">
+                        <script type="text/template" charset="utf-8" id="hotAQ-T">
+                            {{?it && !it.length}}
+                            <div class="inner empty ">
+                                <i class="icon-emptyHomework icon"></i>
+                                <p>这里有点安静</p>
+                                <p>赶快来发言，勾搭学习小伙伴！</p>
+                                <a href="" class="btn">我要发言</a>
+                            </div>
+                            {{??}}
+                            <ul class="list">
+                                {{for(var i=0;i
+                                <it.length;i++){}} <li class="item">
+                                    <div class="upper">
+                                        <div class="fl Que"><a>{{=it[i].questionName}}</a></div>
+                                        <div class="fr text">共{{=it[i].answerCount}}个答案</div>
+                                    </div>
+                                    <div class="down">
+                                        <div class="fl An">最佳答案：{{=it[i].questionAnswer}}</div>
+                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">{{=it[i].usefulCount}}</span></div>
+                                    </div>
+                                    </li>
+                                    {{}}}
+                            </ul>
+                            <div class="more"><a href="">查看更多</a></div>
+                            {{?}}
+                        </script>
+                    </div>
+                    <div class="pannel hide unsolve" data-loaded="false" id="unsolve">
+                        <script type="text/template" charset="utf-8" id="unsolve-T">
+                            {{?it && !it.length}}
+                            <div class="inner empty ">
+                                <i class="icon-emptyHomework icon"></i>
+                                <p>这里有点安静</p>
+                                <p>赶快来发言，勾搭学习小伙伴！</p>
+                                <a href="" class="btn">我要发言</a>
+                            </div>
+                            {{??}}
+                            <ul class="list">
+                                {{for(var i=0;i
+                                <it.length;i++){}} <li class="item">
+                                    <div class="Que"><a>{{=it[i].questionName}}</a></div>
+                                    <span class="publishTime">{{=it[i].publishTime}}</span>
+                                    </li>
+                                    {{}}}
+                            </ul>
+                            <div class="more"><a href="">查看更多</a></div>
+                            {{?}}
+                        </script>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>

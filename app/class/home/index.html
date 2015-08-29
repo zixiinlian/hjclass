@@ -14,6 +14,58 @@
 </head>
 
 <body>
+    <!--
+    <div class="popWin">
+    <div class="inner">
+        <div class="close" id="close">&times;</div>
+        <p class="text">您还没有安装CCTalk
+            <br/> 是否要下载并安装？
+        </p>
+        <a href="" class="btn">下载</a>
+    </div>
+</div>
+-->
+    <!--
+    <div class="popWin onlyWindwos">
+        <div class="inner">
+            <p class="text">抱歉，CCTalk客户端暂时仅支持Windows系统。
+            </p>
+            <a href="" class="btn" id="close">关闭</a>
+        </div>
+    </div>
+-->
+    <!--
+    <div class="popWin notice">
+    <div class="inner">
+        <div class="title">同桌通知</div>
+        <div class="close" id="close">&times;</div>
+        <p class="text">您有<span class="orange-text">30</span>条同桌通知</p>
+        <a href="" class="btn btn-hasknow" id="close">知道了</a>
+        <a href="" class="btn">去看看</a>
+        <p class="label-line">
+            <label>
+                <input type="checkbox" class="check">一段时间内不再显示
+            </label>
+        </p>
+    </div>
+</div>
+-->
+    <!--guidNew-->
+    <div id="guidNew">
+        
+    </div>
+    <!--guidNewEnd-->
+
+
+    <!--guidOld-->
+    <div id="guidOld">
+        
+
+    </div>
+
+
+
+
     <div class="classInfo">
         <div class="wrap">
             <div class="fl">
@@ -27,7 +79,6 @@
                 {{?}}
                 </script>
                     </h1>
-
 
                 <div class="managers" id="managers">
                     <script type="text/template" charset="utf-8" id="managers-T">
@@ -88,523 +139,63 @@
         <div class="fr main">
             <div class="section">
                 <div id="lessonType">
-                    <script type="text/template" charset="utf-8" id="lessonType-T">
-                        <!--直播课-->
-                        {{?it.classType == 'reservation'}} {{?!it.hasCt}}
-                        <div class="left liveClass">
-                            <div class="fl">
-                                <i class="icon icon-ctlogo"></i>
-                            </div>
-                            <div class="text">本班全部课程需要使用<a class="inlineText">CCTalk</a>在线直播，请提前下载安装哦！</div>
-                            <a href="" class="btn">打开</a>
-                            <a href="" class="btn">下载</a>
-                        </div>
-                </div>
-                {{??}}
-                <div class="left task">
-                    <div class="titleBar">
-                        <div class="fl">学习任务</div>
-                        <div class="fr">
-                            <a class="icon-calendar"></a>
-                        </div>
-                    </div>
-                    <div class="upper">
-                        <ul class="list">
-                            <li class="item">
-                                <div class="fl info">
-                                    <i class="icon icon-canLearn"></i><span class="className">流利法语1V8</span><span class="teacher">老师:Aline</span><span class="time">5月10日17:00-18:00</span>
-                                </div>
-                                <div class="fr">
-                                    <a class="btn-Classroom" href="">进教室</a>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="fl info"><i class="icon icon-canOrder"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
-                                <div class="fr">
-                                    <a class="btn-order" href="">我要预约</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                {{?}} {{?}}
-                <!---->
-
-                <!--开班前-->
-                {{? it.classType == 'mixed'}} {{? it.classStatus == 'notStart'}}
-                <div class="left beforeStart">
-                    <div class="fl">
-                        <i class="icon icon-clock"></i>
-                    </div>
-                    <div class="text">亲爱的{{=it.userName}}，距离开课还有<span class="inlineText">10</span>天</div>
-                    <p class="subText">在上课之前，先认识一下班级的同学们吧～</p>
-                    <div>
-                        <a class="btn" href="">找同学</a>
-                        <a class="btn" href="">找同桌</a>
-                    </div>
-                </div>
-                {{?? it.classStatus == 'closed'}}
-                <!--结束-->
-                <div class="left finshInfo">
-                    <div class="fl">
-                        <div class="tips">亲爱的{{=it.userName}}，本班课程已结束啦～</div>
-                        {{? it.isShowDiploma}}<a class="btn" href="{{=it.diplomaUrl}}">领取毕业证书</a>{{?}}
-                    </div>
-                    <div class="fl me">
-                        <div class="fl"><img src="{{=it.deskmateAvatar}}" alt=""></div>
-                        <p>
-                            <label>完成率</label><span class="text">{{=it.myLessonLearnRate*100+'%'}}</span></p>
-                        <p>
-                            <label>已获学分</label><span class="text">{{=it.myMark}}</span></p>
-                        <p>
-                            <label>累计打卡</label><span class="text">{{=it.myTaskCount}}</span></p>
-                    </div>
-                    <div class="fl deskmate">
-                        <div class="fl"><img src="{{=it.deskmateAvatar}}" alt=""></div>
-                        <p>
-                            <label>完成率</label><span class="text">{{=it.deskmateLessonLearnRate*100+'%'}}</span></p>
-                        <p>
-                            <label>已获学分</label><span class="text">{{=it.deskmateMrak}}</span></p>
-                        <p>
-                            <label>累计打卡</label><span class="text">{{=it.deskmateTaskCount}}</span></p>
-
-                    </div>
-                </div>
-                <!--结束-->
-                {{?? it.classStatus == 'active'}}
-
-                <div class="left learningProcess" id="learningProcess">
-                    <div class="titleBar">学习进度<span class="small">{{=it.myLearnCount}}/{{=it.totalLessonCount}}</span></div>
-
-                    {{?it.rank}}
-                    <div class="learningStar">
-                        <label class="fl">每日学霸</label>
-                        <ul class="list">
-                            {{for(var j=0;j
-                            <it.rank.length;j++){}} <li class="item">
-                                <a href=""><img src="{{=it.rank[j].pic}}" alt=""></a>
-                                <span class="rank {{?it.rank[j].num==1}}first{{??it.rank[j].num==2}}second{{??it.rank[j].num==3}}third{{?}}">{{=it.rank[j].num}}</span>
-                                </li>
-                                {{}}}
-                        </ul>
-                    </div>
-                    {{?}}
-
-                    <div class="clearfix">
-                        <div class="processInfo">
-                            <div class="processBar">
-                                <div class="showPlanEl"></div>
-                                <div class="plan" style="width:{{=it.planLessonLearnRate*100+'%'}};">
-                                    <div class="node"></div>
-                                    <div class="tips" style="{{?it.get.rSurplus()<83}}right:-{{=it.get.rSurplus()}}px;{{?}}{{?it.get.lSurplus()<83}}left:0;right:initial;{{?}}">计划进度{{=it.planLessonLearnRate*100+'%'}},{{=it.get.compare()}}计划进度{{=it.get.calcLessons()}}课</div>
-                                </div>
-
-                                <div class="deskmate" style="width:{{=it.deskmateLessonLearnRate*100+'%'}};">
-                                    <div class="node" {{?!it.hasDeskmate}}style="border-color:#efefef;" {{?}}></div>
-                                    {{?it.myLessonLearnRate==it.deskmateLessonLearnRate && it.myLessonLearnRate != 0}} {{?}}
-                                    <div class="pic {{=it.get.deskmatePic()}}">
-                                        {{?it.hasDeskmate}}
-                                        <img src="{{=it.deskmateAvatar}}" alt=""> {{?}}
-                                    </div>
-                                </div>
-
-                                <div class="me" style="width:{{=it.myLessonLearnRate*100+'%'}};{{?it.myLessonLearnRate<=it.deskmateLessonLearnRate}}z-index:1;{{?}}">
-                                    <div class="node"></div>
-                                    <div class="pic icon-processMe"><img src="{{=it.avatar}}" alt=""></div>
-                                </div>
-
-                            </div>
-                            <div class="clearfix">
-                                <div class="fl">{{=it.beginDate}}</div>
-                                <div class="fr">{{=it.end}}</div>
-                            </div>
-                        </div>
-                        <div class="classHandle">
-                            <a class="btn" href="{{=it.learningUrl}}">{{?it.hasBegin==true}}继续学习{{??}}开始学习{{?}}</a>
-                            <p>{{? it.isShowLeave}}<a href="{{=it.leaveUrl}}">我要请假</a>{{?}}{{? it.isShowDelay}}&nbsp;/&nbsp;<a href="{{=it.delayUrl}}">我要延期</a>{{?}}</p>
-                        </div>
-                    </div>
-                </div>
-                {{?}} {{?}}
-                </script>
-                </div>
-                <div class="right notice" id="notice">
-                    <script type="text/template" charset="utf-8" id="notice-T">
-                        <div class="titleBar clearfix">
-                            <div class="fl">公告板</div>
-                            <div class="fr small">{{?it.isEnsurePass && it.signedPassAgreement}}<a href="{{=it.agreementUrl}}">查看协议</a>{{?}}{{?it.hasBook}}&nbsp;/&nbsp;<a href="{{=it.bookUrl}}">领取赠书{{? it.bookUrlClicked}}<span>1</span>{{?}}</a>{{?}}
-                            </div>
-                        </div>
-                        <ul class="list">
-                            <li class="item"><a href="">新生报到</a></li>
-                            <li class="item"><a href="">新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明新生熟悉班级的学习必看说明</a></li>
-                            <li class="item"><a href="">新生报到</a></li>
-                            <li class="item"><a href="">新生熟悉班级的学习必看说明</a></li>
-                        </ul>
-                        </script>
-                </div>
+                    
+            </div>
+            <div class="right notice" id="notice">
                 
             </div>
 
+        </div>
 
-            <!--finsh-->
-            <div class="section">
-                <div class="left finshHandle" id="finshHandle">
-                <script type="text/template" charset="utf-8" id="finshHandle-T">
-                {{? it.classStatus == 'closed'}}
-                    <div class="titleBar">在这个班级，你还可以：</div>
-                    <div class="inner">
-                        <ul class="list">
-                            <li class="item">
-                                <a href="">
-                                    <div class="fl">
-                                        <i class="icon-fnote icon"></i>
-                                    </div>
-                                    <div class="text">回顾笔记</div>
-                                    <p class="subText">我的笔记：19</p>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <div class="fl">
-                                        <i class="icon-fhomework icon"></i>
-                                    </div>
-                                    <div class="text">查看作业</div>
-                                    <p class="subText">我的作业：19/52</p>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="">
-                                    <div class="fl">
-                                        <i class="icon-fci icon"></i>
-                                    </div>
-                                    <div class="text">背单词</div>
-                                    <p class="subText">通关进度：19/36</p>
-                                </a>
-                            </li>
-                            <li class="item down">
-                                <a href="">
-                                    <div class="fl">
-                                        <i class="icon-faq icon"></i>
-                                    </div>
-                                    <div class="text">查看答疑</div>
-                                </a>
-                            </li>
-                            <li class="item down">
-                                <a href="">
-                                    <div class="fl">
-                                        <i class="icon-fdownload icon"></i>
-                                    </div>
-                                    <div class="text">下载资料</div>
-                                </a>
-                            </li>
-                            <li class="item down">
-                                <a href="">
-                                    <div class="fl">
-                                        <i class="icon-fcommit icon"></i>
-                                    </div>
-                                    <div class="text">交流讨论</div>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="more"><a href=""><i class="icon-plus icon"></i>我要学习更多课程</a></div>
-                    </div>
-                {{?}}
-                </script>    
-                </div>
-                <div class="right classMateList" id="classMatesList">
-                <script type="text/template" charset="utf-8" id="classMatesList-T">
-                    <div class="titleBar">
-                        <div class="fl">同学录</div><span class="fr small">换一批</span>
-                    </div>
-                    <div class="inner">
-                        <ul class="list">
-                            {{for(var i=0;i<it.length;i++){}} 
-                                <li class="item">
-                                <a href="{{=it[i].classmateId}}">
-                                    <img src="{{=it[i].avatorUrl}}" alt="">
-                                    <div class="name">{{=it[i].userName}}</div>
-                                </a>
-                                </li>
-                            {{}}}
-                        </ul>
-                    </div>
-                </script>   
-                </div>
+
+        <!--finsh-->
+        <div class="section">
+            <div class="left finshHandle" id="finshHandle">
+                
             </div>
-
-            <!---finsh-->
-            <div class="section">
-                <div class="left task" id="task">
-                <script type="text/template" charset="utf-8" id="task-T">
-                <div class="slideBtn"></div>
-                    <div class="titleBar">
-                        <div class="fl">学习任务</div>
-                        <div class="fr">
-                            <a class="icon-calendar"></a>
-                        </div>
-                    </div>
-                    <div class="upper">
-                        <ul class="list">
-                            <li class="item">
-                                <div class="fl info">
-                                    <i class="icon icon-canLearn"></i><span class="className">流利法语1V8</span><span class="teacher">老师:Aline</span><span class="time">5月10日17:00-18:00</span>
-                                </div>
-                                <div class="fr">
-                                    <a class="btn-Classroom" href="">进教室</a>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="fl info"><i class="icon icon-canOrder"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
-                                <div class="fr">
-                                    <a class="btn-order" href="">我要预约</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="down">
-                        <ul class="list">
-
-                            <li class="item">
-                                <div class="fl info"><i class="icon icon-learning"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
-                                <div class="fr">
-                                    <a class="btn-order" href="">我要预约</a>
-                                </div>
-                            </li>
-
-
-
-                            <li class="item">
-                                <div class="fl info"><i class="icon icon-completed"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
-                                <div class="fr">
-                                    <a class="btn-order" href="">我要预约</a>
-                                </div>
-                            </li>
-
-                            <li class="item">
-                                <div class="fl info"><i class="icon icon-locked"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
-                                <div class="fr">
-                                    <a class="btn-order" href="">我要预约</a>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="fl info"><i class="icon icon-locked"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
-                                <div class="fr">
-                                    <a class="btn-order" href="">我要预约</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="moreLessons"><a href="">查看全部课程</a></div>
-                    </script>
-                </div>
-                <div class="right">
-                    <div class="titleBar">
-                        <div class="fl">20%的同学已学本课</div>
-                        <div class="fr small"><a href="">详情</a></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section section-harf">
-                <div class="left classMateMeeting" id="classmateMeeting">
-                    <script type="text/template" charset="utf-8" id="classmateMeeting-T">
-                    <div class="titleBar">
-                        商务英语同学会
-                    </div>
-                    {{  var isHide = it.length ? "" : "hide";
-                        var isShow = it.length ? "hide" : "";
-                    }}
-                    <div class="inner empty {{= isShow}}">
-                        <i class="icon-emptyTalk icon"></i>
-                        <p>这里有点安静</p>
-                        <p>赶快来发言，勾搭学习小伙伴！</p>
-                        <a href="" class="btn">我要发言</a>
-                    </div>
-                    <div class="inner {{= isHide}}">
-                        <ul class="list">
-                            {{ for(var i=0, len = it.length; i < len; i++){ }}
-                            <li class="item">
-                                <div class="fl title">
-                                    {{if(it[i].reviewType!=""){ 
-                                        var reviewTag; 
-                                        if(it[i].reviewType == "置顶"){
-                                            reviewTag = "top";
-                                        }else if(it[i].reviewType == "精华"){
-                                            reviewTag = "excellent";
-                                        }else{
-                                            reviewTag = "";
-                                        }
-
-                                    }}
-                                    <span class="badge {{= reviewTag}}">{{= it[i].reviewType}}</span>
-                                    {{ } }}
-                                    <a href="">{{= it[i].detail}}</a></div>
-                                <div class="fr">
-                                    <i class="icon icon-speak"></i><span class="text">{{= it[i].thumbUp}}</span>
-                                    <i class="icon icon-praise"></i><span class="text">{{= it[i].review}}</span>
-                                </div>
-                            </li>
-                            {{ } }}
-                        </ul>
-                    </div>
-                    <div class="more"><a href="">查看更多</a></div>
-
-                    </script>
-<!--                     <div class="titleBar">
-                        商务英语同学会
-                    </div>
-                    <div class="inner empty ">
-                        <i class="icon-emptyTalk icon"></i>
-                        <p>这里有点安静</p>
-                        <p>赶快来发言，勾搭学习小伙伴！</p>
-                        <a href="" class="btn">我要发言</a>
-                    </div>
-                    <div class="inner hide">
-                        <ul class="list">
-
-                            <li class="item">
-                                <div class="fl title"><span class="badge top">置顶</span><a href="">上班族的吓唬大比拼上班族的吓唬大比拼上班族的吓唬大比拼上班族的吓唬大比拼上班族的吓唬大比拼</a></div>
-                                <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
-                            </li>
-
-                            <li class="item">
-                                <div class="fl title"><span class="badge excellent">置顶</span><a href="">上班族的吓唬大比拼</a></div>
-                                <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
-                            </li>
-                            <li class="item">
-                                <div class="fl title"><span class="badge excellent">置顶</span><a href="">上班族的吓唬大比拼</a></div>
-                                <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
-                            </li>
-                            <li class="item">
-                                <div class="fl title"><span class="badge excellent">置顶</span><a href="">上班族的吓唬大比拼</a></div>
-                                <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
-                            </li>
-                            <li class="item">
-                                <div class="fl title"><span class="badge excellent">置顶</span><a href="">上班族的吓唬大比拼</a></div>
-                                <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
-                            </li>
-                            <li class="item">
-                                <div class="fl title"><span class="badge excellent">置顶</span><a href="">上班族的吓唬大比拼</a></div>
-                                <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
-                            </li>
-                            <li class="item">
-                                <div class="fl title"><a href="">上班族的吓唬大比拼</a></div>
-                                <div class="fr"><i class="icon icon-speak"></i><span class="text">128</span><i class="icon icon-praise"></i><span class="text">111</span></div>
-                            </li>
-                        </ul>
-                        <div class="more"><a href="">查看更多</a></div>
-                    </div> -->
-                </div>
-
-                <div class="right hotAQ">
-                    <div class="titleBar">
-                        <span class="tab">热门答疑</span><span class="on tab">待解答</span>
-                    </div>
-                    <div class="inner empty ">
-                        <i class="icon-emptyHomework icon"></i>
-                        <p>这里有点安静</p>
-                        <p>赶快来发言，勾搭学习小伙伴！</p>
-                        <a href="" class="btn">我要发言</a>
-                    </div>
-                    <div class="tabBox inner hide">
-                        <div class="pannel">
-                            <ul class="list">
-                                <li class="item">
-                                    <div class="upper">
-                                        <div class="fl Que"><a>上班族的夏天来啦！暑假学习计划大比拼</a></div>
-                                        <div class="fr text">共3个答案</div>
-                                    </div>
-                                    <div class="down">
-                                        <div class="fl An">最佳答案：同学，你好～口语课大胆说，不要担心不要担心不要担心不要担心不要担心不要担心不要担心</div>
-                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">111</span></div>
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="upper">
-                                        <div class="fl Que"><a>上班族的夏天来啦！暑假学习计划大比拼</a></div>
-                                        <div class="fr text">共3个答案</div>
-                                    </div>
-                                    <div class="down">
-                                        <div class="fl An">最佳答案：同学，你好～口语课大胆说，不要担心不要担心不要担心不要担心不要担心不要担心不要担心</div>
-                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">111</span></div>
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="upper">
-                                        <div class="fl Que"><a>上班族的夏天来啦！暑假学习计划大比拼</a></div>
-                                        <div class="fr text">共3个答案</div>
-                                    </div>
-                                    <div class="down">
-                                        <div class="fl An">最佳答案：同学，你好～口语课大胆说，不要担心不要担心不要担心不要担心不要担心不要担心不要担心</div>
-                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">111</span></div>
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="upper">
-                                        <div class="fl Que"><a>上班族的夏天来啦！暑假学习计划大比拼</a></div>
-                                        <div class="fr text">共3个答案</div>
-                                    </div>
-                                    <div class="down">
-                                        <div class="fl An">最佳答案：同学，你好～口语课大胆说，不要担心不要担心不要担心不要担心不要担心不要担心不要担心</div>
-                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">111</span></div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="more"><a href="">查看更多</a></div>
-                        </div>
-                        <div class="pannel hide">
-                            <ul class="list">
-                                <li class="item">
-                                    <div class="upper">
-                                        <div class="fl Que"><a>上班族的夏天来啦！暑假学习计划大比拼</a></div>
-                                        <div class="fr text">共3个答案</div>
-                                    </div>
-                                    <div class="down">
-                                        <div class="fl An">最佳答案：同学，你好～口语课大胆说，不要担心不要担心不要担心不要担心不要担心不要担心不要担心</div>
-                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">111</span></div>
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="upper">
-                                        <div class="fl Que"><a>上班族的夏天来啦！暑假学习计划大比拼</a></div>
-                                        <div class="fr text">共3个答案</div>
-                                    </div>
-                                    <div class="down">
-                                        <div class="fl An">最佳答案：同学，你好～口语课大胆说，不要担心不要担心不要担心不要担心不要担心不要担心不要担心</div>
-                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">111</span></div>
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="upper">
-                                        <div class="fl Que"><a>上班族的夏天来啦！暑假学习计划大比拼</a></div>
-                                        <div class="fr text">共3个答案</div>
-                                    </div>
-                                    <div class="down">
-                                        <div class="fl An">最佳答案：同学，你好～口语课大胆说，不要担心不要担心不要担心不要担心不要担心不要担心不要担心</div>
-                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">111</span></div>
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="upper">
-                                        <div class="fl Que"><a>上班族的夏天来啦！暑假学习计划大比拼</a></div>
-                                        <div class="fr text">共3个答案</div>
-                                    </div>
-                                    <div class="down">
-                                        <div class="fl An">最佳答案：同学，你好～口语课大胆说，不要担心不要担心不要担心不要担心不要担心不要担心不要担心</div>
-                                        <div class="fr"><i class="icon icon-praise"></i><span class="text">111</span></div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="more"><a href="">查看更多</a></div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="right classMateList" id="classMatesList">
+                
             </div>
         </div>
+
+        <!---finsh-->
+        <div class="section">
+            <div class="left task" id="task">
+                
+            </div>
+            <div class="right">
+                <div class="titleBar">
+                    <div class="fl">20%的同学已学本课</div>
+                    <div class="fr small"><a href="">详情</a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section section-harf">
+            <div class="left classMateMeeting" id="classmateMeeting">
+                
+
+            </div>
+
+            <div class="right AQ">
+                <div class="titleBar">
+                    <span class="tab on">热门答疑</span><span class=" tab">待解决</span>
+                </div>
+
+                <div class="tabBox inner">
+                    <div class="pannel hotAQ" data-loaded="true" id="hotAQ">
+                        
+                    </div>
+                    <div class="pannel hide unsolve" data-loaded="false" id="unsolve">
+                        
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
     </div>
 
 </body>

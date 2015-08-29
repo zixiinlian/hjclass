@@ -11,7 +11,7 @@ ManagerTab.prototype = {
         this.clickFn();
     },
     getData: function () {
-        ajaxHandle();
+        //        ajaxHandle();
         var data = [{
             title: '班主任',
             pic: '/app/class/home/images/1.jpg'
@@ -31,7 +31,7 @@ ManagerTab.prototype = {
             title: '校长',
             pic: '/app/class/home/images/1.jpg'
         }];
-        renderHandle($('#managers'), $('#managers-T'), data);
+        renderHandle('#managers', $('#managers-T').html(), data);
     },
     clickFn: function () {
         var me = this;
@@ -96,10 +96,11 @@ MyInfo.prototype = {
     },
     getData: function () {
         var me = this;
-        ajaxHandle();
+        //        ajaxHandle();
 
         //test;
         var data = {
+            checkInSupport: '班级打卡',
             get: {
                 getText: function () {
                     if (!data.checkInSupport) {
@@ -116,7 +117,7 @@ MyInfo.prototype = {
                 }
             }
         }
-        renderHandle($('#myInfo'), $('#myInfo-T'), data);
+        renderHandle('#myInfo', $('#myInfo-T').html(), data);
     }
 }
 
@@ -130,13 +131,14 @@ ClassName.prototype = {
         this.getData();
     },
     getData: function () {
-        ajaxHandle();
+        //        ajaxHandle();
         //test;
         var data = {
             className: '英语四级'
         };
-        renderHandle($('#className'), $('#className-T'), data)
-            //test
+        renderHandle('#className', $('#className-T').html(), data)
+
+        //test
 
     }
 }

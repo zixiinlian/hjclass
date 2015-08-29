@@ -72,7 +72,7 @@ module.exports = {
             },
             {
                 test: /[.]css$/,
-                loader: ExtractTextPlugin.extract("style", "css!autoprefixer")
+                loader: ExtractTextPlugin.extract('style', 'css!autoprefixer')
             }
 //                  , {
 //                test: path.resolve(path.join(__dirname, 'vendor'), 'jquery-1.8.3.min.js'),
