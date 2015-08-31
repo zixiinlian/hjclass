@@ -62,12 +62,6 @@ GuidOld.prototype = {
     init: function () {
         this.getData();
     },
-    getTmp: function () {
-        var me = this;
-        $('#guidOld').load('./template/guidOld.html', function () {
-            me.getData();
-        })
-    },
     getData: function () {
         ajaxHandle('./template/guidOld.html', '#guidOld', '#guidOld-T', './json/guidOld.json', null, function (con, tmp, data) {
             data.get = {

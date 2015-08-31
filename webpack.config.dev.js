@@ -71,8 +71,8 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /[.]css$/,
-                loader: ExtractTextPlugin.extract('style', 'css!autoprefixer')
+                test: /[.]scss$/,
+                loader: ExtractTextPlugin.extract('style', 'scss!autoprefixer')
             }
 //                  , {
 //                test: path.resolve(path.join(__dirname, 'vendor'), 'jquery-1.8.3.min.js'),

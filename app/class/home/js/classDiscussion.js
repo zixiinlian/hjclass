@@ -65,13 +65,9 @@ ClassDiscussion.prototype = {
 
         }];
 
-
-
             renderHandle(con, tmp, data);
 
         })
-
-
     }
 }
 

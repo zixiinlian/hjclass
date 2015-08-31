@@ -47,10 +47,10 @@ Process.prototype = {
                 classStatus: 'active',
                 myLearnCount: 10,
                 totalLessonCount: 100,
-                planLessonLearnRate: 1,
+                planLessonLearnRate: .9,
                 myLessonLearnRate: 0.6,
                 avatar: '/app/class/home/images/1.jpg',
-                deskmateLessonLearnRate: 0.6,
+                deskmateLessonLearnRate: 0.61,
                 hasDeskmate: true,
                 deskmateAvatar: '/app/class/home/images/1.jpg',
                 beginDate: '2015.1.1',
@@ -101,6 +101,12 @@ Process.prototype = {
             };
 
             renderHandle(con, tmp, data);
+
+            $('#learningProcess .showPlanEl').hover(function () {
+                $(this).next().show();
+            }, function () {
+                $(this).next().hide();
+            })
         })
 
         //test;

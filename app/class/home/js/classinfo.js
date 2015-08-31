@@ -78,17 +78,7 @@ ManagerTab.prototype = {
 }
 
 
-var MyInfo = function () {
-    //    this.mod = $('.myInfo');
-    //    this.text = {
-    //        can: '班级打卡',
-    //        has: '今日已打卡'
-    //    };
-    //    this.btn = $('.myInfo .punchIn');
-    //    this.xuefen = $('.myInfo .xuefen');
-    //    this.xuebi = $('.myInfo .xuebi');
-    //    this.text = $('.myInfo .text');
-}
+var MyInfo = function () {}
 
 MyInfo.prototype = {
     init: function () {
@@ -96,11 +86,13 @@ MyInfo.prototype = {
     },
     getData: function () {
         var me = this;
-        //        ajaxHandle();
 
         //test;
         var data = {
             checkInSupport: '班级打卡',
+            canCheckIn: true,
+            xueBi: 100,
+            mark: 200,
             get: {
                 getText: function () {
                     if (!data.checkInSupport) {
@@ -134,7 +126,8 @@ ClassName.prototype = {
         //        ajaxHandle();
         //test;
         var data = {
-            className: '英语四级'
+            className: '英语四级',
+            hasSheTuan: true
         };
         renderHandle('#className', $('#className-T').html(), data)
 

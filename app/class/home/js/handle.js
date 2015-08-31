@@ -20,20 +20,6 @@ var ajaxHandle = function (tempUrl, con, tmp, handleUrl, dataInfo, callback) {
         console.log(data1);
         console.log(data2)
     });
-
-
-    //    $.ajax({
-    //        type: "get",
-    //        url: handleUrl,
-    //        data: dataInfo,
-    //        async: true
-    //    }).done(function (data) {
-    //        data = $.type(data) == 'string' ? $.parseJSON(data) : data;
-    //        data = data.AjaxResponse;
-    //        if (data) {
-    //            callback && callback(con, tmp, data);
-    //        }
-    //    });
 }
 
 

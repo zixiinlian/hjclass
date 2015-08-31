@@ -52,14 +52,14 @@
 -->
     <!--guidNew-->
     <div id="guidNew">
-        
+
     </div>
     <!--guidNewEnd-->
 
 
     <!--guidOld-->
     <div id="guidOld">
-        
+
 
     </div>
 
@@ -112,7 +112,7 @@
                         <p class="xuefen">
                             <label>已获学分</label><span class="text">{{=it.mark}}</span></p>
                     </div>
-                    <a class="punchIn fl {{?!it.canCheckIn}}punchIn{{?}}"><span class="text">{{=it.get.getText()}}</span>
+                    <a class="punchIn fl {{?!it.canCheckIn}}punchIned{{?}}"><span class="text">{{=it.get.getText()}}</span>
                 {{?it.canNotCheckInReason=='今日打卡已达上限'}}<div class="tips">童鞋，您今日已在5个班级打过卡啦，明天再来吧～</div>{{?}}
                 </a>
                 </script>
@@ -139,63 +139,63 @@
         <div class="fr main">
             <div class="section">
                 <div id="lessonType">
-                    
-            </div>
-            <div class="right notice" id="notice">
-                
-            </div>
 
-        </div>
-
-
-        <!--finsh-->
-        <div class="section">
-            <div class="left finshHandle" id="finshHandle">
-                
-            </div>
-            <div class="right classMateList" id="classMatesList">
-                
-            </div>
-        </div>
-
-        <!---finsh-->
-        <div class="section">
-            <div class="left task" id="task">
-                
-            </div>
-            <div class="right">
-                <div class="titleBar">
-                    <div class="fl">20%的同学已学本课</div>
-                    <div class="fr small"><a href="">详情</a></div>
                 </div>
-            </div>
-        </div>
+                <div class="right notice" id="notice">
 
-        <div class="section section-harf">
-            <div class="left classMateMeeting" id="classmateMeeting">
-                
-
-            </div>
-
-            <div class="right AQ">
-                <div class="titleBar">
-                    <span class="tab on">热门答疑</span><span class=" tab">待解决</span>
                 </div>
 
-                <div class="tabBox inner">
-                    <div class="pannel hotAQ" data-loaded="true" id="hotAQ">
-                        
-                    </div>
-                    <div class="pannel hide unsolve" data-loaded="false" id="unsolve">
-                        
+            </div>
+
+
+            <!--finsh-->
+            <div class="section">
+                <div class="left finshHandle" id="finshHandle">
+
+                </div>
+                <div class="right classMateList" id="classMatesList">
+
+                </div>
+            </div>
+
+            <!---finsh-->
+            <div class="section">
+                <div class="left task" id="task">
+
+                </div>
+                <div class="right">
+                    <div class="titleBar">
+                        <div class="fl">20%的同学已学本课</div>
+                        <div class="fr small"><a href="">详情</a></div>
                     </div>
                 </div>
-
-
             </div>
 
+            <div class="section section-harf">
+                <div class="left classMateMeeting" id="classmateMeeting">
+
+
+                </div>
+
+                <div class="right AQ">
+                    <div class="titleBar">
+                        <span class="tab on">热门答疑</span><span class=" tab">待解决</span>
+                    </div>
+
+                    <div class="tabBox inner">
+                        <div class="pannel hotAQ" data-loaded="true" id="hotAQ">
+
+                        </div>
+                        <div class="pannel hide unsolve" data-loaded="false" id="unsolve">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
         </div>
-    </div>
     </div>
 
 </body>

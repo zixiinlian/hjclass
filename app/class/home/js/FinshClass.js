@@ -63,6 +63,10 @@ ClassmatesList.prototype = {
                 userName: '9号'
 }];
             renderHandle(con, tmp, data);
+            $('#classMatesList').on('click', '#refresh', function () {
+                renderHandle(con, tmp, data);
+            })
+
         })
 
     }
