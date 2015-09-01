@@ -186,6 +186,22 @@
             color: #494949;
         }
     }
+    .getBook {
+        position: relative;
+        .text {
+            position: relative;
+            z-index: 1;
+        }
+    }
+    .dot {
+        position: absolute;
+        background: #ff4f4f;
+        width: 8px;
+        border-radius: 50%;
+        height: 8px;
+        top: -3px;
+        right: -3px;
+    }
 }
 .task {
     position: relative;
