@@ -25,8 +25,6 @@ function getEntry() {
 			return;
 		}
 		entry[key] = [
-			'webpack/hot/dev-server',
-			'webpack-dev-server/client?http://localhost:8080',
 			'.' + value
 		];
 	});
@@ -47,32 +45,24 @@ module.exports = {
 	entry: getEntry(),
 	context: __dirname,
 	output: {
-		path: path.join(__dirname, '/dist/app/'),
-		publicPath: '/dist/',
-		filename: '[name]/app-[chunkhash].js'
+		path: path.join(__dirname, '/dist'),
+		publicPath: 'assets/',
+		filename: '[name]app-[hash].js'
 	},
-	devtool: 'source-map',
 	resolve: {
 		root: path.join(__dirname, '/app/'),
 		extensions: ['', '.js', '.json', '.coffee'],
 		alias: {
-            jquery : './vendor/jquery.min.js'
+            // jquery : './vendor/jquery.min.js'
         }
 	},
 	module: {
-		loaders: [{
-			test: /\.coffee$/,
-			loader: 'coffee'
-		}, {
-			test: /\.(png|jpg)$/,
-			loader: 'url-loader?limit=1000'
-		}, {
-			test: /[/]images[/]/,
-			loader: 'file?name=[path][name]-[hash].[ext]'
-		}, {
-			test: /[.]css$/,
-			loader: ExtractTextPlugin.extract("style", "css!autoprefixer")
-		}]
+		loaders: [
+			{test: /\.coffee$/, loader: 'coffee'}, 
+			{test: /\.(png|jpg)$/, loader: 'url-loader?limit=1000'}, 
+			{test: /[/]images[/]/, loader: 'file?name=[path][name]-[hash].[ext]'}, 
+			{test: /[.]css$/, loader: ExtractTextPlugin.extract("style", "css!autoprefixer") }
+		]
 	},
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin({
@@ -81,12 +71,12 @@ module.exports = {
 			}
 		}),
 		new webpack.HotModuleReplacementPlugin(),
-		new ExtractTextPlugin('[name]/app-[hash].css', {
+		new ExtractTextPlugin('[name]app-[hash].css', {
 			allChunks: true
 		}),
 		new AssetsPlugin(),
 		new webpack.ProvidePlugin({
-			$: path.join(__dirname, '/vendor/jquery.min.js')
+			// $: path.join(__dirname, '/vendor/jquery.min.js')
 		})
 	]
 }
