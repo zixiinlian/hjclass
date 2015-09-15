@@ -1,0 +1,33 @@
+<script type="text/template" charset="utf-8" id="classmateMeeting-T">
+    <div class="titleBar">
+        商务英语同学会
+    </div>
+    {{?it && !it.length}}
+    <div class="inner empty">
+        <i class="icon-emptyTalk icon"></i>
+        <p>这里有点安静</p>
+        <p>赶快来发言，勾搭学习小伙伴！</p>
+        <a href="" class="btn">我要发言</a>
+    </div>
+    {{??}}
+    <div class="inner">
+        <ul class="list">
+            {{ for(var i=0, len = it.length; i
+            < len; i++){ }} <li class="item">
+                <div class="fl title">
+                    {{?it[i].topicType == 'Top'}}
+                    <span class="badge top">置顶</span> {{?? it[i].topicType == 'Best'}}
+                    <span class="badge excellent">精华</span> {{?}}
+
+                    <a href="{{=it[i].topicUrl}}">{{= it[i].topicName}}</a></div>
+                <div class="fr">
+                    <i class="icon icon-speak"></i><span class="text">{{= it[i].commentCount}}</span>
+                    <i class="icon icon-praise"></i><span class="text">{{= it[i].likeCount}}</span>
+                </div>
+                </li>
+                {{}}}
+        </ul>
+    </div>
+    <div class="more"><a href="">查看更多</a></div>
+    {{?}}
+</script>

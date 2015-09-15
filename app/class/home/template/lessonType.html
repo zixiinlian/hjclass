@@ -1,0 +1,140 @@
+<script type="text/template" charset="utf-8" id="lessonType-T">
+    <!--直播课-->
+    {{?it.classType == 'reservation'}} {{?!it.hasCt}}
+    <div class="left liveClass">
+        <div class="fl">
+            <i class="icon icon-ctlogo"></i>
+        </div>
+        <div class="text">本班全部课程需要使用<a class="inlineText">CCTalk</a>在线直播，请提前下载安装哦！</div>
+        <a href="" class="btn">打开</a>
+        <a href="" class="btn">下载</a>
+    </div>
+    </div>
+    {{??}}
+    <div class="left task">
+        <div class="titleBar">
+            <div class="fl">学习任务</div>
+            <div class="fr">
+                <a class="icon-calendar"></a>
+            </div>
+        </div>
+        <div class="upper">
+            <ul class="list">
+                <li class="item">
+                    <div class="fl info">
+                        <i class="icon icon-canLearn"></i><span class="className">流利法语1V8</span><span class="teacher">老师:Aline</span><span class="time">5月10日17:00-18:00</span>
+                    </div>
+                    <div class="fr">
+                        <a class="btn-Classroom" href="">进教室</a>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="fl info"><i class="icon icon-canOrder"></i>您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课您还有可以预约的直播课</div>
+                    <div class="fr">
+                        <a class="btn-order" href="">我要预约</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    {{?}} {{?}}
+    <!---->
+
+    <!--开班前-->
+    {{? it.classType == 'mixed'}} {{? it.classStatus == 'notStart'}}
+    <div class="left beforeStart">
+        <div class="fl">
+            <i class="icon icon-clock"></i>
+        </div>
+        <div class="text">亲爱的{{=it.userName}}，距离开课还有<span class="inlineText">10</span>天</div>
+        <p class="subText">在上课之前，先认识一下班级的同学们吧～</p>
+        <div>
+            <a class="btn" href="">找同学</a>
+            <a class="btn" href="">找同桌</a>
+        </div>
+    </div>
+    {{?? it.classStatus == 'closed'}}
+    <!--结束-->
+    <div class="left finshInfo">
+        <div class="fl">
+            <div class="tips">亲爱的{{=it.userName}}，本班课程已结束啦～</div>
+            {{? it.isShowDiploma}}<a class="btn" href="{{=it.diplomaUrl}}">领取毕业证书</a>{{?}}
+        </div>
+        <div class="fl me">
+            <div class="fl"><img src="{{=it.deskmateAvatar}}" alt=""></div>
+            <p>
+                <label>完成率</label><span class="text">{{=it.myLessonLearnRate*100+'%'}}</span></p>
+            <p>
+                <label>已获学分</label><span class="text">{{=it.myMark}}</span></p>
+            <p>
+                <label>累计打卡</label><span class="text">{{=it.myTaskCount}}</span></p>
+        </div>
+        <div class="fl deskmate">
+            <div class="fl"><img src="{{=it.deskmateAvatar}}" alt=""></div>
+            <p>
+                <label>完成率</label><span class="text">{{=it.deskmateLessonLearnRate*100+'%'}}</span></p>
+            <p>
+                <label>已获学分</label><span class="text">{{=it.deskmateMrak}}</span></p>
+            <p>
+                <label>累计打卡</label><span class="text">{{=it.deskmateTaskCount}}</span></p>
+
+        </div>
+    </div>
+    <!--结束-->
+    {{?? it.classStatus == 'active'}}
+
+    <div class="left learningProcess" id="learningProcess">
+        <div class="titleBar">学习进度<span class="small">{{=it.myLearnCount}}/{{=it.totalLessonCount}}</span></div>
+
+        {{?it.rank}}
+        <div class="learningStar">
+            <label class="fl">每日学霸</label>
+            <ul class="list">
+                {{for(var j=0;j
+                <it.rank.length;j++){}} <li class="item">
+                    <a href=""><img src="{{=it.rank[j].pic}}" alt=""></a>
+                    <span class="rank {{?it.rank[j].num==1}}first{{??it.rank[j].num==2}}second{{??it.rank[j].num==3}}third{{?}}">{{=it.rank[j].num}}</span>
+                    </li>
+                    {{}}}
+            </ul>
+        </div>
+        {{?}}
+
+        <div class="clearfix">
+            <div class="processInfo">
+                <div class="processBar">
+                    <div class="showPlanEl"></div>
+                    <div class="plan" style="width:{{=it.planLessonLearnRate*100+'%'}};">
+                        <div class="node"></div>
+                        <div class="tips" style="{{?it.get.rSurplus()<83}}right:-{{=it.get.rSurplus()}}px;{{?}}{{?it.get.lSurplus()<83}}left:0;right:initial;{{?}}">计划进度{{=it.planLessonLearnRate*100+'%'}},{{=it.get.compare()}}计划进度{{=it.get.calcLessons()}}课</div>
+                    </div>
+
+                    <div class="deskmate" style="width:{{=it.deskmateLessonLearnRate*100+'%'}};">
+                        <div class="node" {{?!it.hasDeskmate}}style="border-color:#efefef;" {{?}}></div>
+                        {{?it.myLessonLearnRate==it.deskmateLessonLearnRate && it.myLessonLearnRate != 0}} {{?}}
+                        <div class="pic {{=it.get.deskmatePic()}}">
+                            {{?it.hasDeskmate}}
+                            <img src="{{=it.deskmateAvatar}}" alt=""> {{?}}
+                        </div>
+                    </div>
+
+                    <div class="me" style="width:{{=it.myLessonLearnRate*100+'%'}};{{?it.myLessonLearnRate<=it.deskmateLessonLearnRate}}z-index:1;{{?}}">
+                        <div class="node"></div>
+                        <div class="pic icon-processMe"><img src="{{=it.avatar}}" alt=""></div>
+                    </div>
+
+                </div>
+                <div class="clearfix">
+                    <div class="fl">{{=it.beginDate}}</div>
+                    <div class="fr">{{=it.end}}</div>
+                </div>
+            </div>
+            <div class="classHandle">
+                <a class="btn" href="{{=it.learningUrl}}">{{?it.hasBegin==true}}继续学习{{??}}开始学习{{?}}</a>
+                <p>{{? it.isShowLeave}}<a href="{{=it.leaveUrl}}">我要请假</a>{{?}}{{? it.isShowDelay}}&nbsp;/&nbsp;<a href="{{=it.delayUrl}}">我要延期</a>{{?}}</p>
+            </div>
+        </div>
+    </div>
+    {{?}} {{?}}
+</script>

@@ -26,6 +26,7 @@ function getEntry() {
         }
         entry[key] = [
             './vendor/jquery-1.8.3.min.js',
+            './vendor/jquery.cookie.js',
 			'.' + value
 		];
     });
@@ -60,14 +61,25 @@ module.exports = {
     },
     module: {
         loaders: [
-        { test: /\.coffee$/, loader: 'coffee'},
-        { test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: 'babel-loader'},
-        { test: /[.]css$/, loader: ExtractTextPlugin.extract("style", "css!autoprefixer") }
+            {
+                test: /\.coffee$/,
+                loader: 'coffee'
+            },
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader'
+            },
+            {
+                test: /[.]scss$/,
+                loader: ExtractTextPlugin.extract('style', 'scss!autoprefixer')
+            }
 //                  , {
 //                test: path.resolve(path.join(__dirname, 'vendor'), 'jquery-1.8.3.min.js'),
 //                loader: 'expose?jQuery'
 //            }
-    ]},
+    ]
+    },
     plugins: [
 		new webpack.DefinePlugin({
             __DEBUG__: debug,

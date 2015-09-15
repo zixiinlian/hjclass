@@ -5,14 +5,21 @@
 $green:#5dae42;
 $lgreen:#75be58;
 $grey:#494949;
+$orange:#ff992b;
+.orange {
+    color: #ff992b;
+}
 //base;
 body {
+    font-family: arial, 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
     font-size: 12px;
     background: #f6f6f6;
+    //    -webkit-font-smoothing: antialiased;
 }
 a {
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
     //    font-size: inherit;
 }
 .fl {
@@ -68,6 +75,7 @@ a {
     border: 1px solid $bor;
     font-size: $font;
     border-radius: 3px;
+    cursor: pointer;
 }
 .main {
     width: 944px;
@@ -156,11 +164,11 @@ a {
         }
     }
     .titleBar {
-        overflow: hidden;
         font-size: 16px;
         color: #494949;
         height: 53px;
-        line-height: 58px;
+        line-height: 53px;
+        padding-top: 5px;
         @extend .clearfix;
         .small {
             font-size: 12px;
@@ -203,7 +211,9 @@ a {
     .title {
         width: 293px;
         @media screen and (min-width: 1200px) {
-            width: 350px;
+            & {
+                width: 350px;
+            }
         }
     }
     .badge {
@@ -223,25 +233,37 @@ a {
         }
     }
 }
-.hotAQ {
+.AQ {
     height: inherit;
     background: #fff;
     font-size: 14px;
     line-height: 26px;
+    color: #494949;
+    .empty {
+        margin-top: 54px!important;
+    }
     .item {
         border-bottom: 1px solid #f8f8f8;
         @extend .clearfix;
         padding: 15px 0;
     }
-    .upper {
-        color: #494949;
+    .tab {
+        margin-right: 50px;
+        padding: 6px 0;
+        cursor: pointer;
     }
+    .on {
+        color: #5fb740;
+        border-bottom: #74cd55 solid 4px;
+    }
+}
+.hotAQ {
     .text {
         color: #999;
         font-size: 12px;
     }
     .icon {
-        vertical-align: -2px;
+        vertical-align: -3px;
         margin-right: 3px;
     }
     .Que,
@@ -250,27 +272,36 @@ a {
         width: 333px;
         height: 26px;
         @media screen and (min-width: 1200px) {
-            width: 390px;
+            & {
+                width: 390px;
+            }
         }
     }
     .down {
         color: #999;
     }
-    .tab {
-        margin-right: 50px;
-        padding: 6px 0;
-    }
-    .on {
-        color: #5fb740;
-        border-bottom: #74cd55 solid 4px;
-    }
     .main & {
         width: 463px;
     }
 }
-.ms-controller,
-.ms-important,
-[ms-controller],
-[ms-important] {
-    visibility: hidden;
+.unsolve {
+    .item {
+        position: relative;
+    }
+    .Que {
+        height: 53px;
+        overflow: hidden;
+    }
+    .publishTime {
+        background: #fff;
+        position: absolute;
+        right: 0;
+        bottom: 16px;
+        font-size: 12px;
+        color: #999;
+    }
+    .more {
+        position: relative;
+        z-index: 1;
+    }
 }

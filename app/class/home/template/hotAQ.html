@@ -1,0 +1,26 @@
+<script type="text/template" charset="utf-8" id="hotAQ-T">
+    {{?it && !it.length}}
+    <div class="inner empty ">
+        <i class="icon-emptyHomework icon"></i>
+        <p>这里有点安静</p>
+        <p>赶快来发言，勾搭学习小伙伴！</p>
+        <a href="" class="btn">我要发言</a>
+    </div>
+    {{??}}
+    <ul class="list">
+        {{for(var i=0;i
+        <it.length;i++){}} <li class="item">
+            <div class="upper">
+                <div class="fl Que"><a>{{=it[i].questionName}}</a></div>
+                <div class="fr text">共{{=it[i].answerCount}}个答案</div>
+            </div>
+            <div class="down">
+                <div class="fl An">最佳答案：{{=it[i].questionAnswer}}</div>
+                <div class="fr"><i class="icon icon-praise"></i><span class="text">{{=it[i].usefulCount}}</span></div>
+            </div>
+            </li>
+            {{}}}
+    </ul>
+    <div class="more"><a href="">查看更多</a></div>
+    {{?}}
+</script>

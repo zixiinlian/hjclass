@@ -1,0 +1,157 @@
+.w1200{
+	/*base start*/
+	.wrap {
+	    width: 1200px;
+	}
+	.main{
+		.section.section-harf .right {
+        	width: 459px;
+    	}
+        & {
+            width: 1058px;
+            .left {
+                width: 647px;
+            }
+        }
+    }
+    .classMateMeeting .title {
+        width: 350px;
+    }
+    .hotAQ .An {
+        width: 390px;
+    }
+    /*base end*/
+
+    /*nav start*/
+    .nav .item {
+	    .icon {
+	        width: 20px;
+	        margin: 0 10px 0 17px;
+	    }
+	    & {
+	        border-left: 4px solid #fff;
+	        width: 118px;
+	        text-align: left;
+	        .text {
+	            display: inline;
+	        }
+	        &.fontOuter:hover {
+	            padding: 0;
+	            width: 118px;
+	            line-height: 56px;
+	            height: 56px;
+	        }
+	        &:hover {
+	            background: #fff;
+	            border-color: #74cd55;
+	            color: #5fb740;
+	            .icon {
+	                display: inline-block;
+	            }
+	        }
+	    }
+    }
+    /*nav end*/
+
+    /*index start*/
+	.learningProcess .processInfo{
+		width: 497px;
+	}
+	.task .info {
+        width: 530px;
+    }
+    .finshInfo .tips{
+    	width: auto;
+    }
+    .finshHandle {
+    	.icon {
+       		margin-right: 8px;
+    	}
+    	.subText {
+    	    font-size: 14px;
+    	}
+    }
+    .liveClass .icon {
+        margin: 10px 30px 0 40px;
+    }
+    /*index end*/	
+}
+
+@media screen and(min-width: 1200px){
+	/*base start*/
+/*	.wrap {
+	    width: 1200px;
+	}
+	.main{
+		.section.section-harf .right {
+        	width: 459px;
+    	}
+        & {
+            width: 1058px;
+            .left {
+                width: 647px;
+            }
+        }
+    }
+    .classMateMeeting .title {
+        width: 350px;
+    }
+    .hotAQ .An {
+        width: 390px;
+    }*/
+    /*base end*/
+
+    /*nav start*/
+/*    .nav .item {
+	    .icon {
+	        width: 20px;
+	        margin: 0 10px 0 17px;
+	    }
+	    & {
+	        border-left: 4px solid #fff;
+	        width: 118px;
+	        text-align: left;
+	        .text {
+	            display: inline;
+	        }
+	        &.fontOuter:hover {
+	            padding: 0;
+	            width: 118px;
+	            line-height: 56px;
+	            height: 56px;
+	        }
+	        &:hover {
+	            background: #fff;
+	            border-color: #74cd55;
+	            color: #5fb740;
+	            .icon {
+	                display: inline-block;
+	            }
+	        }
+	    }
+    }*/
+    /*nav end*/
+
+    /*index start*/
+/*	.learningProcess .processInfo{
+		width: 497px;
+	}
+	.task .info {
+        width: 530px;
+    }
+    .finshInfo .tips{
+    	width: auto;
+    }
+    .finshHandle {
+    	.icon {
+       		margin-right: 8px;
+    	}
+    	.subText {
+    	    font-size: 14px;
+    	}
+    }
+    .liveClass .icon {
+        margin: 10px 30px 0 40px;
+    }*/
+    /*index end*/
+}

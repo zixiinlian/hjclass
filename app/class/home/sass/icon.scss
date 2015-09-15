@@ -95,6 +95,9 @@
 //}
 .icon-open {
     @include iconSprite(open);
+    &:hover {
+        @include iconSprite(openH);
+    }
 }
 .icon-openH {
     @include iconSprite(openH);
@@ -114,6 +117,9 @@
 .icon-processNone {
     @include iconSprite(processNone);
 }
+.icon-processNoneRotate {
+    @include iconSprite(processNoneRotate);
+}
 .icon-processOther {
     @include iconSprite(processOther);
 }
@@ -122,6 +128,9 @@
 }
 .icon-shrink {
     @include iconSprite(shrink);
+    &:hover {
+        @include iconSprite(shrinkH);
+    }
 }
 .icon-shrinkH {
     @include iconSprite(shrinkH);
@@ -173,4 +182,25 @@
 }
 .icon-ctlogo {
     @include iconSprite(ctlogo);
+}
+.icon-closeG {
+    @include iconSprite(closeG);
+}
+.icon-arrowr {
+    @include iconSprite(arrowr);
+}
+.icon-closeStep {
+    @include iconSprite(closeStep);
+}
+.icon-guidline1 {
+    @include iconSprite(guidline1);
+}
+.icon-guidline2 {
+    @include iconSprite(guidline2);
+}
+.icon-closeCicle {
+    @include iconSprite(closeCicle);
+}
+.icon-arrowrlit {
+    @include iconSprite(arrowrlit);
 }

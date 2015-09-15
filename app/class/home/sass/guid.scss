@@ -1,0 +1,256 @@
+.guid {
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #000;
+    filter: alpha(opacity=30);
+    background: rgba(0, 0, 0, .3);
+    .inner {
+        width: 532px;
+        height: 332px;
+        background: url(/app/class/home/images/guidOld.png) 0 0 no-repeat;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -266px;
+        margin-top: -166px;
+        box-shadow: 0 0 20px -2px #f9d062;
+        border-radius: 8px;
+        @at-root .guid .step1 .inner {
+            left: 990px;
+            top: 180px;
+            margin: initial;
+        }
+        @at-root .guid .step2 .inner {
+            left: 224px;
+            top: 230px;
+            margin: initial;
+        }
+    }
+    .close {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        cursor: pointer;
+    }
+    .pic {
+        width: 70px;
+        height: 70px;
+        margin: 25px auto;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        overflow: hidden;
+    }
+    .btn {
+        width: 180px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        color: #fff;
+        background: #fc6b5c;
+        border-radius: 25px;
+        display: inline-block;
+        font-size: 18px;
+        margin: 10px auto;
+        cursor: pointer;
+        .icon {
+            margin-left: 5px;
+        }
+        .text {
+            margin-left: 20px;
+            vertical-align: middle;
+        }
+        @at-root .guidEnd .btn {
+            display: inline-block;
+        }
+        &.greet-btn {
+            margin-right: 20px;
+        }
+        @at-root .step2 .btn {
+            width: 140px;
+            height: 40px;
+            line-height: 40px;
+        }
+    }
+    .content {
+        margin: 30px 45px 0;
+        color: #666;
+        font-size: 16px;
+        line-height: 30px;
+        @at-root .guidEnd .content {
+            text-align: center;
+            margin: 50px 45px 20px;
+        }
+        @at-root .step1 .content {
+            margin: 40px 0 0 45px;
+        }
+        @at-root .step2 .content {
+            margin: 40px 0 0;
+        }
+    }
+    .orange-text {
+        color: $orange;
+        @at-root .step1 .orange-text {
+            font-size: 20px;
+            margin: 0 5px;
+        }
+    }
+    .btnLine {
+        text-align: center;
+    }
+    @at-root .step1 .line {
+        width: 111px;
+        height: 75px;
+        position: absolute;
+        bottom: 100%;
+        left: 96px;
+    }
+    @at-root .step2 .line {
+        width: 56px;
+        height: 80px;
+        position: absolute;
+        bottom: 118px;
+        right: 100%;
+    }
+}
+.step {
+    //    position: absolute;
+    @at-root .step1 .inner {
+        background: url(/app/class/home/images/guidOld1.png) 0 0 no-repeat;
+        width: 267px;
+        height: 139px;
+    }
+    @at-root .step2 .inner {
+        background: url(/app/class/home/images/guidOld2.png) 0 0 no-repeat;
+        width: 336px;
+        height: 180px;
+        text-align: center;
+    }
+}
+.mark {
+    position: absolute;
+    left: 500px;
+    top: 100px;
+    z-index: 101;
+    .ripple {
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        animation: ripple 3s linear infinite;
+        background: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+    }
+    .ripple1 {
+        animation-delay: 0;
+    }
+    .ripple2 {
+        animation-delay: -1s;
+    }
+    .ripple3 {
+        animation-delay: -2s;
+    }
+}
+@keyframes ripple {
+    0% {
+        transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1);
+        opacity: 1;
+    }
+    //        25% {
+    //        transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+    //        opacity: .75;
+    //    }
+    //    50% {
+    //        transform: translate3d(-50%, -50%, 0) scale3d(2, 2, 1);
+    //        opacity: .5;
+    //    }
+    //    75% {
+    //        transform: translate3d(-50%, -50%, 0) scale3d(3, 3, 1);
+    //        opacity: .25;
+    //    }
+    100% {
+        transform: translate3d(-50%, -50%, 0) scale3d(4, 4, 1);
+        opacity: 0;
+    }
+}
+.guidNew {
+    .inner {
+        text-align: center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        color: #666;
+        box-shadow: none;
+        &.guidNew0 {
+            width: 443px;
+            height: 418px;
+            margin-left: -222px;
+            margin-top: -209px;
+            background: url(/app/class/home/images/guidNew0.png) 0 0 no-repeat;
+            line-height: 32px;
+            font-size: 16px;
+            .content {
+                margin: 160px auto 20px;
+            }
+            .close {
+                top: 15px;
+                right: 70px;
+            }
+        }
+        .orange-text {
+            font-size: 22px;
+            margin: 0 5px;
+        }
+        .btn {
+            width: 180px;
+            background: #fc6b5c;
+            border-radius: 25px;
+            height: 50px;
+            line-height: 50px;
+            color: #fff;
+        }
+        &.guidNew1,
+        &.guidNew2,
+        &.guidNew3 {
+            width: 553px;
+            height: 367px;
+            margin-left: -276px;
+            margin-top: -183px;
+            .close {
+                right: -14px;
+                top: -14px;
+            }
+            .content {
+                margin: 240px 0 10px;
+            }
+        }
+        &.guidNew4 {
+            .extend {
+                color: #999;
+                font-size: 14px;
+            }
+            .text {
+                margin-left: 0;
+                vertical-align: middle;
+                margin-right: 3px;
+            }
+        }
+        .f24 {
+            font-size: 24px
+        }
+        &.guidNew1 {
+            background: url(/app/class/home/images/guidNew1.png) 0 0 no-repeat;
+        }
+        &.guidNew2 {
+            background: url(/app/class/home/images/guidNew2.png) 0 0 no-repeat;
+        }
+        &.guidNew3 {
+            background: url(/app/class/home/images/guidNew3.png) 0 0 no-repeat;
+        }
+    }
+}

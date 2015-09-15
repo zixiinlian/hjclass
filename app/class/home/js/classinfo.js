@@ -11,7 +11,7 @@ ManagerTab.prototype = {
         this.clickFn();
     },
     getData: function () {
-        ajaxHandle();
+        //        ajaxHandle();
         var data = [{
             title: '班主任',
             pic: '/app/class/home/images/1.jpg'
@@ -31,7 +31,7 @@ ManagerTab.prototype = {
             title: '校长',
             pic: '/app/class/home/images/1.jpg'
         }];
-        renderHandle($('#managers'), $('#managers-T'), data);
+        renderHandle('#managers', $('#managers-T').html(), data);
     },
     clickFn: function () {
         var me = this;
@@ -78,17 +78,7 @@ ManagerTab.prototype = {
 }
 
 
-var MyInfo = function () {
-    this.mod = $('.myInfo');
-    this.text = {
-        can: '班级打卡',
-        has: '今日已打卡'
-    };
-    this.btn = $('.myInfo .punchIn');
-    this.xuefen = $('.myInfo .xuefen');
-    this.xuebi = $('.myInfo .xuebi');
-    this.text = $('.myInfo .text');
-}
+var MyInfo = function () {}
 
 MyInfo.prototype = {
     init: function () {
@@ -96,16 +86,30 @@ MyInfo.prototype = {
     },
     getData: function () {
         var me = this;
-        ajaxHandle();
 
         //test;
         var data = {
-            xuebi: 100,
-            xuefen: 200,
-            pundInState: 3, //1本版无打卡;2今日已打卡;3已打满五个班;4可以打卡;
-            pic: '/app/class/home/images/1.jpg'
+            checkInSupport: '班级打卡',
+            canCheckIn: true,
+            xueBi: 100,
+            mark: 200,
+            get: {
+                getText: function () {
+                    if (!data.checkInSupport) {
+                        return '本班无打卡';
+                    } else {
+                        if (data.canCheckIn) {
+                            return '班级打卡';
+                        } else if (data.canNotCheckInReason == '已经打过卡') {
+                            return '已打卡';
+                        } else if (data.canNotCheckInReason == '今日打卡已达上限') {
+                            return '班级打卡';
+                        }
+                    }
+                }
+            }
         }
-        renderHandle($('#myInfo'), $('#myInfo-T'), data);
+        renderHandle('#myInfo', $('#myInfo-T').html(), data);
     }
 }
 
@@ -119,15 +123,15 @@ ClassName.prototype = {
         this.getData();
     },
     getData: function () {
-        ajaxHandle();
-
+        //        ajaxHandle();
         //test;
-        data = {
-            className: '阿里肯定会 i 了无比纹路部分 i 礼物饿吧',
-            hasClassMate: true
+        var data = {
+            className: '英语四级',
+            hasSheTuan: true
         };
-        renderHandle($('#className'), $('#className-T'), data)
-            //test
+        renderHandle('#className', $('#className-T').html(), data)
+
+        //test
 
     }
 }

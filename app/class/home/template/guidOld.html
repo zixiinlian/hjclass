@@ -1,0 +1,108 @@
+<script type="text/template" charset="utf-8" id="guidOld-T">
+    {{?it}} {{?it.step==0}}
+    <div class="guid">
+        <style>
+            html {
+                overflow: hidden;
+            }
+
+        </style>
+        <div class="inner">
+            <div class="close" id="close" id="close"><i class="icon-closeG"></i></div>
+            <div class="pic">
+                <img src="/app/class/home/images/1.jpg" width="70" height="70" alt="">
+            </div>
+            <div class="content">
+                Hi,<span class="orange-text">{{=it.userName}}</span>～
+                <br/>欢迎各位来到沪江网校，我是你的班主任
+                <span class="orange-text">小新</span>～
+                <br/>在毕业前将一路陪伴大家学习成长和学习！一起来熟悉一下班级吧！
+            </div>
+
+            <div class="btnLine"><a class="btn"><span class="text">现在就去</span><i class="icon-arrowr icon"></i></a></div>
+        </div>
+    </div>
+    {{??it.step==1}}
+    <div class="mark" style="left:{{=it.get.getStep1offsetL()+230}}px;top:70px;">
+        <div class="ripple1 ripple"></div>
+        <div class="ripple2 ripple"></div>
+        <div class="ripple3 ripple"></div>
+    </div>
+
+    <div class="guid">
+        <style>
+            html {
+                overflow: hidden;
+            }
+            
+            .punchIn {
+                position: relative;
+                z-index: 100;
+            }
+
+        </style>
+        <div class="step step1">
+            <div class="inner" style="left:{{=it.get.getStep1offsetL()}}px;">
+                <div class="line"><i class="icon-guidline1"></i></div>
+                <div class="close" id="close"><i class="icon-closeStep"></i></div>
+                <div class="content">
+                    点击<span class="orange-text">班级打卡</span>赚学币，
+                    <br> 学币可以用来买课哦～
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{??it.step==2}}
+    <div class="guid">
+        <style>
+            html {
+                overflow: hidden;
+            }
+            
+            .nav {
+                position: relative;
+                z-index: 100;
+            }
+
+        </style>
+        <div class="step step2">
+            <div class="inner" style="left:{{=it.get.getStep2offsetL()}}px;">
+                <div class="line"><i class="icon-guidline2"></i></div>
+                <div class="close" id="close"><i class="icon-closeStep"></i></div>
+                <div class="content">
+                    学习、复习、交朋友～
+                    <br>点击标签进入相应功能
+                </div>
+                <a class="btn">继续</a>
+            </div>
+        </div>
+    </div>
+
+    {{??it.step==3}}
+
+    <div class="guid guidEnd">
+        <style>
+            html {
+                overflow: hidden;
+            }
+
+        </style>
+        <div class="inner">
+            <div class="close" id="close" id="close"><i class="icon-closeG"></i></div>
+            <div class="pic">
+                <img src="/app/class/home/images/1.jpg" width="70" height="70" alt="">
+            </div>
+            <div class="content">
+                亲爱的,<span class="orange-text">ydzatal</span>童鞋
+                <br/>一起开启学习之旅吧！
+            </div>
+            <div class="btnLine">
+                <a class="btn greet-btn">和同学打招呼</a>
+                <a href="" class="btn">先在班级逛逛</a>
+            </div>
+        </div>
+    </div>
+    {{?}} {{?}}
+    <!--guidOldEnd-->
+</script>
